@@ -22,7 +22,7 @@ def run_bot():
     load_dotenv(os.path.join(_here, '..', '.env'))
 
     from bot import main
-    main()
+    main(as_thread=True)
 
 
 def run_web():

@@ -356,7 +356,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(msg, reply_markup=get_menu(context))
 
 
-def main():
+def main(as_thread=False):
     if not TOKEN:
         print("ERROR: TELEGRAM_BOT_TOKEN not found!")
         sys.exit(1)
@@ -364,8 +364,12 @@ def main():
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-    print("Bot is running! Press Ctrl+C to stop.")
-    app.run_polling(drop_pending_updates=True)
+    print("Bot is running!")
+    # When running in a thread — disable signal handlers (they only work in main thread)
+    if as_thread:
+        app.run_polling(drop_pending_updates=True, stop_signals=())
+    else:
+        app.run_polling(drop_pending_updates=True)
 
 
 if __name__ == "__main__":
