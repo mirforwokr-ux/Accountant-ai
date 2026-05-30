@@ -50,19 +50,24 @@ def search_knowledge_base(query, n_results=3):
         return ""
 
 
-def ask_buxgalter(user_message):
+def ask_buxgalter(user_message, history=None):
     context = search_knowledge_base(user_message)
 
     user_content = user_message
     if context:
         user_content = f"База знаний: {context}\n\nВопрос: {user_message}"
 
+    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+
+    # Add conversation history (last 10 messages to stay within token limits)
+    if history:
+        messages.extend(history[-10:])
+
+    messages.append({"role": "user", "content": user_content})
+
     response = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": user_content},
-        ],
+        messages=messages,
         max_tokens=1024,
         temperature=0.3,
     )

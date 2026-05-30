@@ -320,7 +320,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         pass
 
     try:
-        answer = ask_buxgalter(query)
+        history = context.user_data.setdefault("history", [])
+        answer = ask_buxgalter(query, history=history)
+
+        # Save to history
+        history.append({"role": "user", "content": query})
+        history.append({"role": "assistant", "content": answer})
+        # Keep only last 20 messages (10 exchanges)
+        if len(history) > 20:
+            context.user_data["history"] = history[-20:]
+
         await update.message.reply_text(answer, reply_markup=get_menu(context))
     except Exception as e:
         logger.error(f"Error: {e}")
