@@ -12,7 +12,11 @@ sys.path.insert(0, _here)
 
 
 def run_bot():
-    """Run Telegram bot in a separate thread."""
+    """Run Telegram bot in a separate thread with its own event loop."""
+    # Create new event loop for this thread
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+
     from dotenv import load_dotenv
     load_dotenv(os.path.join(_here, '.env'))
     load_dotenv(os.path.join(_here, '..', '.env'))
@@ -31,7 +35,8 @@ def run_web():
 if __name__ == "__main__":
     # Seed DB first
     print("Seeding knowledge base...")
-    exec(open(os.path.join(_here, 'seed.py')).read())
+    import subprocess
+    subprocess.run([sys.executable, os.path.join(_here, 'seed.py')], check=False)
 
     # Start bot in background thread
     print("Starting Telegram bot...")
