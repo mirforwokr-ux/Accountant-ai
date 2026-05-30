@@ -8,7 +8,7 @@ if sys.platform == "win32":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
-from telegram import Update, ReplyKeyboardMarkup
+from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from dotenv import load_dotenv
 
@@ -23,6 +23,7 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=lo
 logger = logging.getLogger(__name__)
 
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+WEBAPP_URL = os.getenv("WEBAPP_URL", "")
 
 # ── Menus ──────────────────────────────────────────────────────────────────
 LANG_MENU = ReplyKeyboardMarkup(
@@ -186,10 +187,27 @@ def calc_usn(revenue):
 # ── Handlers ───────────────────────────────────────────────────────────────
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data.clear()
-    await update.message.reply_text(
-        "Выберите язык / Tilni tanlang:",
-        reply_markup=LANG_MENU,
-    )
+    # Show Mini App button if URL is configured
+    if WEBAPP_URL:
+        keyboard = InlineKeyboardMarkup([[
+            InlineKeyboardButton(
+                "🖥 Открыть панель управления",
+                web_app=WebAppInfo(url=WEBAPP_URL)
+            )
+        ]])
+        await update.message.reply_text(
+            "Выберите язык / Tilni tanlang:",
+            reply_markup=LANG_MENU,
+        )
+        await update.message.reply_text(
+            "Или откройте полную панель:",
+            reply_markup=keyboard,
+        )
+    else:
+        await update.message.reply_text(
+            "Выберите язык / Tilni tanlang:",
+            reply_markup=LANG_MENU,
+        )
 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
