@@ -1,469 +1,2172 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>Buxgalter AI</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Accountant Uzbekistan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: var(--tg-theme-bg-color, #ffffff);
-    --bg2: var(--tg-theme-secondary-bg-color, #f5f5f5);
-    --text: var(--tg-theme-text-color, #111111);
-    --hint: var(--tg-theme-hint-color, #888888);
-    --btn: var(--tg-theme-button-color, #2481cc);
-    --btn-text: var(--tg-theme-button-text-color, #ffffff);
-    --accent: #2481cc;
-    --green: #22c55e;
-    --red: #ef4444;
-    --border: #e5e5e5;
-    --radius: 12px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+/* ============================================================
+   AI Accountant Uzbekistan — Design tokens & base
+   Deep premium purple · indigo / royal-blue accents
+   ============================================================ */
 
-  /* NAV */
-  .nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg); border-top: 1px solid var(--border); z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
-  .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 8px 4px 6px; cursor: pointer; font-size: 10px; color: var(--hint); gap: 3px; border: none; background: none; }
-  .nav-btn.active { color: var(--accent); }
-  .nav-icon { font-size: 22px; }
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&display=swap');
 
-  /* PAGES */
-  .page { display: none; padding: 16px 16px 80px; }
-  .page.active { display: block; }
+:root {
+  /* Brand */
+  --violet-900: #2A1259;
+  --violet-800: #3A1B73;
+  --violet-700: #4C1D95;
+  --violet-600: #5B21B6;
+  --violet-500: #6D28D9;
+  --violet-400: #7C3AED;
+  --violet-300: #9061F0;
+  --violet-100: #EDE6FB;
+  --violet-50:  #F5F1FD;
 
-  /* CARDS */
-  .card { background: var(--bg2); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; }
-  .card-row { display: flex; align-items: center; gap: 10px; }
-  .card-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-  .card-info { flex: 1; min-width: 0; }
-  .card-name { font-weight: 700; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .card-sub { font-size: 12px; color: var(--hint); margin-top: 2px; }
-  .card-actions { display: flex; gap: 6px; }
+  --accent: var(--violet-500);
+  --accent-strong: var(--violet-700);
+  --indigo: #4F46E5;
+  --royal: #2563EB;
 
-  /* BADGES */
-  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
-  .badge-blue { background: #dbeafe; color: #1d4ed8; }
-  .badge-green { background: #dcfce7; color: #15803d; }
-  .badge-yellow { background: #fef9c3; color: #a16207; }
-  .badge-red { background: #fee2e2; color: #b91c1c; }
+  /* Neutrals */
+  --ink:      #1A1426;
+  --ink-soft: #4A4458;
+  --muted:    #847E92;
+  --faint:    #ABA6B6;
+  --line:     #ECE9F1;
+  --line-soft:#F2F0F6;
 
-  /* BUTTONS */
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 18px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: opacity .15s; }
-  .btn:active { opacity: .75; }
-  .btn-primary { background: var(--btn); color: var(--btn-text); width: 100%; }
-  .btn-ghost { background: var(--bg2); color: var(--text); }
-  .btn-danger { background: #fee2e2; color: var(--red); }
-  .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 8px; }
-  .btn-icon { width: 32px; height: 32px; padding: 0; border-radius: 8px; }
+  /* Surfaces */
+  --bg:        #F6F5F9;
+  --surface:   #FFFFFF;
+  --sidebar:   #FCFBFE;
+  --rail:      #FAF9FD;
 
-  /* FORM */
-  .form-group { margin-bottom: 12px; }
-  .form-label { font-size: 12px; font-weight: 600; color: var(--hint); margin-bottom: 4px; display: block; }
-  .form-input { width: 100%; padding: 11px 14px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px; outline: none; }
-  .form-input:focus { border-color: var(--accent); }
-  .form-select { width: 100%; padding: 11px 14px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px; outline: none; appearance: none; }
+  /* Status */
+  --green:   #1F9D6B;
+  --green-bg:#E4F6EE;
+  --amber:   #C2820C;
+  --amber-bg:#FBF1DC;
+  --red:     #DC4A4A;
+  --red-bg:  #FBE9E9;
+  --blue-bg: #E8EEFE;
 
-  /* MODAL */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 200; display: none; align-items: flex-end; }
-  .modal-overlay.open { display: flex; }
-  .modal { background: var(--bg); border-radius: 20px 20px 0 0; padding: 20px 16px 32px; width: 100%; max-height: 90vh; overflow-y: auto; }
-  .modal-title { font-size: 17px; font-weight: 700; margin-bottom: 16px; }
+  /* Radius */
+  --r-xs: 8px;
+  --r-sm: 11px;
+  --r-md: 14px;
+  --r-lg: 18px;
+  --r-xl: 22px;
+  --r-pill: 999px;
 
-  /* SECTION */
-  .section-title { font-size: 13px; font-weight: 700; color: var(--hint); margin: 16px 0 8px; text-transform: uppercase; letter-spacing: .5px; }
+  /* Shadow */
+  --sh-xs: 0 1px 2px rgba(26,20,38,.05);
+  --sh-sm: 0 1px 3px rgba(26,20,38,.06), 0 1px 2px rgba(26,20,38,.04);
+  --sh-md: 0 4px 16px -4px rgba(26,20,38,.10), 0 2px 6px -2px rgba(26,20,38,.06);
+  --sh-lg: 0 18px 48px -12px rgba(45,20,90,.18), 0 6px 16px -6px rgba(26,20,38,.08);
+  --sh-glow: 0 10px 30px -8px rgba(109,40,217,.35);
 
-  /* CALC */
-  .calc-result { background: var(--bg2); border-radius: var(--radius); padding: 14px; margin-top: 12px; display: none; }
-  .calc-result.show { display: block; }
-  .calc-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
-  .calc-row:last-child { border-bottom: none; font-weight: 700; font-size: 15px; }
-  .calc-val { font-weight: 600; }
+  --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
 
-  /* ACTIVE INDICATOR */
-  .active-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea { font-family: inherit; }
+::selection { background: var(--violet-100); color: var(--violet-700); }
 
-  /* HEADER */
-  .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-  .header-title { font-size: 20px; font-weight: 800; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #DDD8E6; border-radius: 99px; border: 3px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-thumb:hover { background: #C8C2D6; background-clip: content-box; }
+::-webkit-scrollbar-track { background: transparent; }
 
-  /* SUBSCRIPTION */
-  .sub-card { background: linear-gradient(135deg, #1d4ed8, #2563eb); color: white; border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
-  .sub-plan { font-size: 20px; font-weight: 800; }
-  .sub-desc { font-size: 13px; opacity: .85; margin-top: 2px; }
-  .progress-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,.3); margin-top: 10px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 3px; background: white; }
+/* ---- App shell ---- */
+.app {
+  display: grid;
+  grid-template-columns: 268px 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
 
-  /* EMPTY */
-  .empty { text-align: center; padding: 40px 20px; color: var(--hint); }
-  .empty-icon { font-size: 48px; margin-bottom: 12px; }
-  .empty-text { font-size: 15px; }
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.sidebar {
+  background: var(--sidebar);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+.sb-top { padding: 20px 16px 4px; }
+.brand {
+  display: flex; align-items: center; gap: 11px;
+  padding: 6px 8px 4px;
+}
+.brand-mark {
+  width: 38px; height: 38px; border-radius: 11px;
+  background: linear-gradient(150deg, var(--violet-400), var(--violet-700) 70%);
+  display: grid; place-items: center; color: #fff;
+  box-shadow: var(--sh-glow);
+  flex-shrink: 0;
+}
+.brand-name { font-size: 14.5px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; white-space: nowrap; }
+.brand-sub { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 1px; letter-spacing: .01em; }
+
+.sb-scroll { flex: 1; overflow-y: auto; padding: 8px 12px 12px; }
+.nav-group { display: flex; flex-direction: column; gap: 2px; }
+.nav-item {
+  display: flex; align-items: center; gap: 11px;
+  padding: 9px 11px; border-radius: var(--r-sm);
+  font-size: 13.5px; font-weight: 600; color: var(--ink-soft);
+  text-align: left; width: 100%;
+  transition: background .14s, color .14s;
+  position: relative;
+}
+.nav-item svg { color: var(--faint); transition: color .14s; flex-shrink: 0; }
+.nav-item:hover { background: var(--line-soft); color: var(--ink); }
+.nav-item:hover svg { color: var(--ink-soft); }
+.nav-item.active { background: var(--violet-100); color: var(--violet-700); }
+.nav-item.active svg { color: var(--violet-500); }
+.nav-item .pill-count {
+  margin-left: auto; font-size: 11px; font-weight: 700;
+  background: var(--surface); color: var(--muted);
+  padding: 1px 7px; border-radius: 99px; border: 1px solid var(--line);
+}
+.nav-item.primary {
+  background: var(--ink); color: #fff; margin: 6px 0;
+  box-shadow: var(--sh-sm);
+}
+.nav-item.primary svg { color: #fff; }
+.nav-item.primary:hover { background: #2D2640; }
+
+.sb-label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--faint);
+  padding: 0 11px; margin: 18px 0 7px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.chat-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 7px 11px; border-radius: var(--r-sm);
+  font-size: 12.5px; font-weight: 500; color: var(--ink-soft);
+  width: 100%; text-align: left;
+  transition: background .14s;
+  white-space: nowrap; overflow: hidden;
+}
+.chat-item .dot { width: 5px; height: 5px; border-radius: 99px; background: var(--violet-300); flex-shrink: 0; }
+.chat-item span { overflow: hidden; text-overflow: ellipsis; }
+.chat-item:hover { background: var(--line-soft); color: var(--ink); }
+.chat-item.active { background: var(--violet-50); color: var(--violet-700); }
+.view-all {
+  font-size: 12px; font-weight: 600; color: var(--violet-500);
+  padding: 8px 11px; border-radius: var(--r-sm); width: 100%; text-align: left;
+  display: flex; align-items: center; gap: 6px;
+}
+.view-all:hover { background: var(--violet-50); }
+
+.sb-bottom { padding: 10px 12px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 2px; }
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.main { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.header {
+  height: 64px; flex-shrink: 0;
+  display: flex; align-items: center; gap: 16px;
+  padding: 0 22px;
+  background: rgba(252,251,254,.82);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+  z-index: 20;
+}
+.header-zone { flex: 1 1 0; display: flex; align-items: center; min-width: 0; }
+.header-zone.left { justify-content: flex-start; }
+.header-zone.center { flex: 0 1 368px; justify-content: center; }
+.header-zone.right { justify-content: flex-end; }
+
+/* ---- currency ticker ---- */
+.fx {
+  display: flex; align-items: center; gap: 1px;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-pill); padding: 4px 8px 4px 9px;
+  box-shadow: var(--sh-xs); height: 40px; flex-shrink: 0; max-width: 100%;
+}
+.fx-label { display: flex; align-items: center; gap: 5px; padding-right: 6px; border-right: 1px solid var(--line-soft); margin-right: 1px; }
+.fx-label svg { color: var(--violet-400); flex-shrink: 0; }
+.fx-item { display: flex; align-items: center; gap: 4px; padding: 4px 5px; border-radius: var(--r-pill); white-space: nowrap; }
+.fx-item:hover { background: var(--line-soft); }
+.fx-ccy { font-size: 10.5px; font-weight: 800; color: var(--ink); letter-spacing: .01em; }
+.fx-val { font-size: 11px; font-weight: 600; color: var(--ink-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.fx-delta { display: inline-flex; align-items: center; font-size: 9px; font-weight: 700; white-space: nowrap; }
+.fx-delta.up { color: var(--green); }
+.fx-delta.down { color: var(--red); }
+.fx-delta svg { width: 11px; height: 11px; }
+
+.search {
+  width: 100%; position: relative;
+  display: flex; align-items: center; gap: 10px;
+  height: 42px; padding: 0 14px;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  box-shadow: var(--sh-xs);
+  transition: border .15s, box-shadow .15s;
+}
+.search:focus-within { border-color: var(--violet-300); box-shadow: 0 0 0 4px var(--violet-50); }
+.search input { flex: 1; border: none; outline: none; background: none; font-size: 13.5px; color: var(--ink); }
+.search input::placeholder { color: var(--faint); }
+.search .kbd {
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 6px; padding: 2px 6px; background: var(--rail);
+}
+.header-spacer { flex: 1; }
+.h-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-shrink: 0; }
+.icon-btn {
+  width: 40px; height: 40px; border-radius: var(--r-sm);
+  display: grid; place-items: center; color: var(--ink-soft);
+  position: relative; transition: background .14s, color .14s;
+}
+.icon-btn:hover { background: var(--line-soft); color: var(--ink); }
+.icon-btn .badge {
+  position: absolute; top: 7px; right: 7px;
+  min-width: 16px; height: 16px; padding: 0 4px;
+  background: var(--red); color: #fff; font-size: 9.5px; font-weight: 700;
+  border-radius: 99px; display: grid; place-items: center;
+  border: 2px solid var(--sidebar);
+}
+.lang-btn {
+  display: flex; align-items: center; gap: 7px;
+  height: 40px; padding: 0 12px; border-radius: var(--r-sm);
+  font-size: 12.5px; font-weight: 600; color: var(--ink-soft);
+  transition: background .14s;
+}
+.lang-btn:hover { background: var(--line-soft); }
+.profile-btn {
+  display: flex; align-items: center; gap: 9px;
+  height: 44px; padding: 3px 8px 3px 3px; border-radius: var(--r-pill);
+  transition: background .14s; margin-left: 2px;
+}
+.profile-btn:hover { background: var(--line-soft); }
+.avatar {
+  width: 38px; height: 38px; border-radius: 99px; flex-shrink: 0;
+  background: linear-gradient(140deg, var(--violet-400), var(--indigo));
+  color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 13px;
+  box-shadow: var(--sh-xs);
+}
+.profile-meta { text-align: left; line-height: 1.15; white-space: nowrap; }
+.profile-meta .pn { font-size: 12.5px; font-weight: 700; }
+.profile-meta .pr { font-size: 11px; color: var(--muted); font-weight: 500; }
+
+/* ---- dropdown ---- */
+.menu {
+  position: absolute; right: 0; top: calc(100% + 8px);
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-md); box-shadow: var(--sh-lg);
+  min-width: 230px; padding: 6px; z-index: 60;
+  animation: pop .14s ease;
+}
+@keyframes pop { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: none; } }
+.menu-head { padding: 11px 12px 10px; display: flex; align-items: center; gap: 11px; border-bottom: 1px solid var(--line-soft); margin-bottom: 5px; }
+.menu-item {
+  display: flex; align-items: center; gap: 11px;
+  padding: 9px 11px; border-radius: var(--r-xs); width: 100%; text-align: left;
+  font-size: 13px; font-weight: 600; color: var(--ink-soft);
+}
+.menu-item svg { color: var(--faint); }
+.menu-item:hover { background: var(--line-soft); color: var(--ink); }
+.menu-item.danger { color: var(--red); }
+.menu-item.danger svg { color: var(--red); }
+.menu-sep { height: 1px; background: var(--line-soft); margin: 5px 0; }
+.lang-row { display: flex; align-items: center; justify-content: space-between; }
+.lang-row .check { color: var(--violet-500); }
+
+/* ============================================================
+   CONTENT / VIEWS
+   ============================================================ */
+.content { flex: 1; overflow-y: auto; scroll-behavior: smooth; }
+.wrap { max-width: 1024px; margin: 0 auto; padding: 40px 40px 80px; }
+
+/* fade for view switch (transform-only so DOM-capture stays visible) */
+.view { animation: viewin .32s cubic-bezier(.22,.61,.36,1); }
+@keyframes viewin { from { transform: translateY(10px); } to { transform: none; } }
+
+/* ---- Hero ---- */
+.hero { text-align: center; padding: 26px 0 24px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12px; font-weight: 600; color: var(--violet-700);
+  background: var(--violet-50); border: 1px solid var(--violet-100);
+  padding: 5px 13px 5px 9px; border-radius: 99px; margin-bottom: 20px;
+}
+.hero-badge .ring { width: 7px; height: 7px; border-radius: 99px; background: var(--green); box-shadow: 0 0 0 3px var(--green-bg); }
+.hero h1 {
+  font-size: 38px; font-weight: 800; letter-spacing: -.035em; line-height: 1.08;
+  margin: 0 0 14px;
+}
+.hero h1 .grad {
+  background: linear-gradient(100deg, var(--violet-500), var(--indigo) 60%, var(--royal));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero p { font-size: 16px; color: var(--ink-soft); max-width: 560px; margin: 0 auto; line-height: 1.55; font-weight: 500; }
+
+/* ---- Composer ---- */
+.composer {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-xl); box-shadow: var(--sh-lg);
+  padding: 6px; margin: 28px auto 0; max-width: 760px;
+  transition: border .15s, box-shadow .15s;
+}
+.composer:focus-within { border-color: var(--violet-300); box-shadow: var(--sh-lg), 0 0 0 4px var(--violet-50); }
+.composer-field {
+  padding: 14px 16px 6px; width: 100%; border: none; outline: none; resize: none;
+  font-size: 15px; line-height: 1.5; color: var(--ink); background: none;
+  min-height: 56px; max-height: 200px;
+}
+.composer-field::placeholder { color: var(--faint); }
+.composer-bar { display: flex; align-items: center; gap: 4px; padding: 6px 8px 8px; }
+.tool-btn {
+  display: flex; align-items: center; gap: 7px;
+  height: 36px; padding: 0 11px; border-radius: var(--r-sm);
+  font-size: 12.5px; font-weight: 600; color: var(--ink-soft);
+  transition: background .14s, color .14s;
+}
+.tool-btn svg { color: var(--muted); }
+.tool-btn:hover { background: var(--line-soft); color: var(--ink); }
+.tool-btn:hover svg { color: var(--ink-soft); }
+.tool-icon { width: 36px; height: 36px; border-radius: var(--r-sm); display: grid; place-items: center; color: var(--muted); transition: background .14s, color .14s; }
+.tool-icon:hover { background: var(--line-soft); color: var(--ink); }
+.send-btn {
+  width: 40px; height: 40px; border-radius: var(--r-md); margin-left: auto;
+  background: linear-gradient(150deg, var(--violet-400), var(--violet-700));
+  color: #fff; display: grid; place-items: center;
+  box-shadow: var(--sh-glow); transition: transform .12s, opacity .15s;
+}
+.send-btn:hover { transform: translateY(-1px); }
+.send-btn:disabled { opacity: .4; box-shadow: none; cursor: default; transform: none; }
+
+/* attach menu */
+.attach-menu {
+  position: absolute; bottom: calc(100% + 8px); left: 0;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-md); box-shadow: var(--sh-lg); padding: 6px; min-width: 210px; z-index: 40;
+  animation: pop .14s ease;
+}
+
+/* ---- Suggested quick actions ---- */
+.suggestions { display: flex; flex-wrap: wrap; gap: 9px; justify-content: center; max-width: 720px; margin: 20px auto 0; }
+.chip {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 14px; border-radius: var(--r-pill);
+  background: var(--surface); border: 1px solid var(--line);
+  font-size: 12.5px; font-weight: 600; color: var(--ink-soft);
+  box-shadow: var(--sh-xs); transition: border .14s, color .14s, transform .12s, box-shadow .14s;
+}
+.chip svg { color: var(--violet-400); }
+.chip:hover { border-color: var(--violet-300); color: var(--violet-700); transform: translateY(-1px); box-shadow: var(--sh-sm); }
+
+/* ---- Section heading ---- */
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin: 0 0 16px; }
+.sec-title { font-size: 16px; font-weight: 700; letter-spacing: -.02em; }
+.sec-title .sub { font-size: 12.5px; font-weight: 500; color: var(--muted); margin-top: 2px; }
+.sec-link { font-size: 12.5px; font-weight: 600; color: var(--violet-500); display: flex; align-items: center; gap: 5px; }
+.sec-link:hover { gap: 8px; }
+.block { margin-top: 46px; }
+
+/* ---- Quick access cards ---- */
+.qa-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.qa-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+  padding: 18px; text-align: left; box-shadow: var(--sh-xs);
+  transition: border .15s, box-shadow .15s, transform .12s;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.qa-card:hover { border-color: var(--violet-200, #DDD0F5); box-shadow: var(--sh-md); transform: translateY(-2px); }
+.qa-ic {
+  width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center;
+}
+.qa-card h4 { font-size: 14px; font-weight: 700; margin: 0; letter-spacing: -.01em; }
+.qa-card p { font-size: 12.5px; color: var(--muted); margin: 3px 0 0; line-height: 1.45; font-weight: 500; }
+.qa-foot { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--violet-500); margin-top: auto; }
+
+/* tints */
+.tint-violet { background: var(--violet-50); color: var(--violet-600); }
+.tint-indigo { background: #ECEBFC; color: var(--indigo); }
+.tint-blue   { background: var(--blue-bg); color: var(--royal); }
+.tint-green  { background: var(--green-bg); color: var(--green); }
+.tint-amber  { background: var(--amber-bg); color: var(--amber); }
+.tint-rose   { background: #FCE9F3; color: #C13D8B; }
+
+/* ---- Companies ---- */
+.co-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.co-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+  padding: 18px; box-shadow: var(--sh-xs); transition: border .15s, box-shadow .15s, transform .12s;
+  display: flex; flex-direction: column;
+}
+.co-card:hover { border-color: #DDD0F5; box-shadow: var(--sh-md); transform: translateY(-2px); }
+.co-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+.co-logo {
+  width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+  display: grid; place-items: center; font-weight: 800; font-size: 16px; color: #fff;
+}
+.co-name { font-size: 14px; font-weight: 700; letter-spacing: -.01em; line-height: 1.2; }
+.co-tin { font-size: 11.5px; color: var(--muted); font-weight: 600; margin-top: 3px; font-variant-numeric: tabular-nums; }
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px;
+}
+.badge .bd { width: 6px; height: 6px; border-radius: 99px; }
+.badge.ok { background: var(--green-bg); color: var(--green); }
+.badge.ok .bd { background: var(--green); }
+.badge.due { background: var(--amber-bg); color: var(--amber); }
+.badge.due .bd { background: var(--amber); }
+.co-meta { display: flex; align-items: center; justify-content: space-between; padding: 13px 0; border-top: 1px solid var(--line-soft); margin-top: auto; }
+.co-meta .lbl { font-size: 11px; color: var(--faint); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.co-meta .val { font-size: 12.5px; color: var(--ink-soft); font-weight: 600; margin-top: 3px; }
+.co-btn {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  height: 38px; border-radius: var(--r-sm); width: 100%;
+  background: var(--violet-50); color: var(--violet-700); font-size: 12.5px; font-weight: 700;
+  transition: background .14s;
+}
+.co-btn:hover { background: var(--violet-100); }
+
+/* ---- two-col layout (companies + calendar) ---- */
+.split { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
+
+/* ---- Tax calendar widget ---- */
+.cal {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+  box-shadow: var(--sh-sm); overflow: hidden; position: sticky; top: 0;
+}
+.cal-head {
+  padding: 16px 18px; display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(160deg, var(--violet-700), var(--violet-500));
+  color: #fff;
+}
+.cal-head h4 { font-size: 13.5px; font-weight: 700; margin: 0; }
+.cal-head .mo { font-size: 11.5px; opacity: .85; font-weight: 600; margin-top: 2px; }
+.cal-list { padding: 8px; }
+.cal-item { display: flex; align-items: center; gap: 13px; padding: 11px 11px; border-radius: var(--r-sm); transition: background .14s; }
+.cal-item:hover { background: var(--line-soft); }
+.cal-date {
+  width: 44px; height: 46px; border-radius: 11px; flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border: 1px solid var(--line);
+}
+.cal-date .d { font-size: 16px; font-weight: 800; line-height: 1; letter-spacing: -.02em; }
+.cal-date .m { font-size: 9.5px; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-top: 2px; letter-spacing: .05em; }
+.cal-date.urgent { background: var(--red-bg); border-color: transparent; }
+.cal-date.urgent .d { color: var(--red); }
+.cal-info { flex: 1; min-width: 0; }
+.cal-info .t { font-size: 13px; font-weight: 700; letter-spacing: -.01em; }
+.cal-info .s { font-size: 11.5px; color: var(--muted); font-weight: 500; margin-top: 2px; }
+.cal-foot { padding: 12px 14px; border-top: 1px solid var(--line-soft); }
+.cal-foot button { width: 100%; height: 38px; border-radius: var(--r-sm); font-size: 12.5px; font-weight: 700; color: var(--violet-700); background: var(--violet-50); }
+.cal-foot button:hover { background: var(--violet-100); }
+
+/* ============================================================
+   CONVERSATION VIEW
+   ============================================================ */
+.chat-wrap { max-width: 800px; margin: 0 auto; padding: 32px 40px 24px; }
+.msg { display: flex; gap: 14px; margin-bottom: 30px; animation: viewin .3s ease; }
+.msg-av { width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0; display: grid; place-items: center; font-weight: 700; font-size: 12px; }
+.msg-av.user { background: linear-gradient(140deg, var(--violet-400), var(--indigo)); color: #fff; }
+.msg-av.ai { background: linear-gradient(150deg, var(--violet-500), var(--violet-800)); color: #fff; box-shadow: var(--sh-glow); }
+.msg-body { flex: 1; min-width: 0; padding-top: 4px; }
+.msg-name { font-size: 12.5px; font-weight: 700; margin-bottom: 6px; color: var(--ink); }
+.msg-text { font-size: 14.5px; line-height: 1.65; color: var(--ink-soft); }
+.msg-text p { margin: 0 0 12px; }
+.msg-text strong { color: var(--ink); font-weight: 700; }
+.msg-text ul { margin: 0 0 12px; padding-left: 18px; }
+.msg-text li { margin-bottom: 6px; }
+.msg-text .cite {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11.5px; font-weight: 600; color: var(--violet-600);
+  background: var(--violet-50); border: 1px solid var(--violet-100);
+  padding: 2px 8px; border-radius: 99px; margin: 0 2px; vertical-align: middle;
+}
+.ai-callout {
+  background: var(--violet-50); border: 1px solid var(--violet-100); border-radius: var(--r-md);
+  padding: 14px 16px; margin: 4px 0 14px; display: flex; gap: 12px;
+}
+.ai-callout .co-ic { color: var(--violet-500); flex-shrink: 0; margin-top: 1px; }
+.ai-callout .t { font-size: 13px; line-height: 1.5; color: var(--ink-soft); }
+.ai-callout .t b { color: var(--violet-700); }
+.msg-actions { display: flex; gap: 4px; margin-top: 14px; }
+.msg-actions button { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; color: var(--faint); transition: background .14s, color .14s; }
+.msg-actions button:hover { background: var(--line-soft); color: var(--ink-soft); }
+
+.typing { display: flex; gap: 4px; padding-top: 8px; }
+.typing span { width: 7px; height: 7px; border-radius: 99px; background: var(--violet-300); animation: bounce 1.2s infinite ease; }
+.typing span:nth-child(2) { animation-delay: .15s; }
+.typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes bounce { 0%, 60%, 100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-5px); opacity: 1; } }
+
+.chat-footer { padding: 12px 40px 22px; background: linear-gradient(transparent, var(--bg) 30%); }
+.chat-footer .composer { margin-top: 0; }
+.chat-disclaimer { text-align: center; font-size: 11px; color: var(--faint); margin-top: 10px; font-weight: 500; }
+
+/* ============================================================
+   GENERIC PLACEHOLDER VIEW
+   ============================================================ */
+.ph { text-align: center; padding: 90px 20px; max-width: 460px; margin: 0 auto; }
+.ph-ic { width: 64px; height: 64px; border-radius: 18px; margin: 0 auto 22px; display: grid; place-items: center; background: var(--violet-50); color: var(--violet-500); box-shadow: var(--sh-sm); }
+.ph h2 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; margin: 0 0 10px; }
+.ph p { font-size: 14px; color: var(--muted); line-height: 1.6; font-weight: 500; margin: 0 0 22px; }
+.ph button { height: 42px; padding: 0 22px; border-radius: var(--r-md); background: var(--ink); color: #fff; font-size: 13px; font-weight: 700; box-shadow: var(--sh-sm); }
+.ph button:hover { background: #2D2640; }
+
+/* page header for sub-views */
+.page-head { margin-bottom: 28px; }
+.page-head h1 { font-size: 27px; font-weight: 800; letter-spacing: -.03em; margin: 0 0 7px; }
+.page-head p { font-size: 14.5px; color: var(--muted); font-weight: 500; margin: 0; }
+
+/* stat row */
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 34px; }
+.stat {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+  padding: 16px 18px; box-shadow: var(--sh-xs);
+}
+.stat .sl { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--muted); }
+.stat .sl svg { color: var(--violet-400); }
+.stat .sv { font-size: 27px; font-weight: 800; letter-spacing: -.03em; margin-top: 10px; font-variant-numeric: tabular-nums; }
+.stat .sd { font-size: 11.5px; font-weight: 600; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+.stat .sd.up { color: var(--green); }
+
+.fade-overlay { position: fixed; inset: 0; z-index: 50; }
+
+/* ============================================================
+   CALENDAR VIEW
+   ============================================================ */
+.cal-page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 18px; }
+.cal-page-head h1 { font-size: 27px; font-weight: 800; letter-spacing: -.03em; margin: 0 0 7px; }
+.cal-page-head p { font-size: 14px; color: var(--muted); font-weight: 500; margin: 0; }
+.cal-toolbar { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.cal-today-btn { height: 40px; padding: 0 16px; border-radius: var(--r-sm); border: 1px solid var(--line); background: var(--surface); font-size: 13px; font-weight: 700; color: var(--ink-soft); box-shadow: var(--sh-xs); }
+.cal-today-btn:hover { background: var(--line-soft); }
+.cal-month-nav { display: flex; align-items: center; gap: 4px; }
+.cal-month-nav span { font-size: 14px; font-weight: 800; letter-spacing: -.02em; min-width: 124px; text-align: center; }
+.cal-month-nav button { width: 34px; height: 34px; border-radius: var(--r-sm); display: grid; place-items: center; color: var(--ink-soft); }
+.cal-month-nav button:hover { background: var(--line-soft); }
+.cal-new-btn { height: 40px; padding: 0 16px; border-radius: var(--r-sm); background: var(--ink); color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 7px; box-shadow: var(--sh-sm); }
+.cal-new-btn:hover { background: #2D2640; }
+
+.cal-legend { display: flex; align-items: center; gap: 18px; margin-bottom: 16px; }
+.cal-legend .leg { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--muted); }
+.leg-dot { width: 9px; height: 9px; border-radius: 3px; }
+.leg-dot.ev-filing { background: var(--violet-500); }
+.leg-dot.ev-meeting { background: var(--royal); }
+.leg-dot.ev-note { background: var(--amber); }
+
+.cal-layout { display: grid; grid-template-columns: 1fr 332px; gap: 22px; align-items: start; }
+
+.cal-grid-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--sh-sm); overflow: hidden; }
+.cal-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); border-bottom: 1px solid var(--line); }
+.cal-wd { padding: 12px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--faint); }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+.cal-cell {
+  min-height: 104px; border-right: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft);
+  padding: 8px 8px 6px; text-align: left; display: flex; flex-direction: column; gap: 5px;
+  transition: background .12s; position: relative; align-items: stretch;
+}
+.cal-cell:nth-child(7n) { border-right: none; }
+.cal-cell.empty { background: #FBFAFD; }
+.cal-cell:not(.empty):hover { background: var(--violet-50); }
+.cal-cell.selected { background: var(--violet-50); box-shadow: inset 0 0 0 2px var(--violet-400); }
+.cal-daynum { font-size: 13px; font-weight: 700; color: var(--ink-soft); width: 26px; height: 26px; display: grid; place-items: center; border-radius: 99px; }
+.cal-cell.today .cal-daynum { background: var(--violet-500); color: #fff; box-shadow: var(--sh-glow); }
+.cal-cell-evs { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.cal-ev {
+  font-size: 10.5px; font-weight: 600; padding: 2px 6px; border-radius: 5px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.35;
+}
+.cal-ev b { font-weight: 800; margin-right: 4px; }
+.cal-ev.ev-filing { background: var(--violet-100); color: var(--violet-700); }
+.cal-ev.ev-meeting { background: var(--blue-bg); color: var(--royal); }
+.cal-ev.ev-note { background: var(--amber-bg); color: var(--amber); }
+
+/* side panels */
+.cal-side { display: flex; flex-direction: column; gap: 16px; }
+.cal-panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--sh-sm); overflow: hidden; }
+.cal-panel-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 12px; border-bottom: 1px solid var(--line-soft); }
+.cal-panel-title { font-size: 13.5px; font-weight: 800; letter-spacing: -.01em; }
+.cal-panel-date { font-size: 12px; font-weight: 700; color: var(--violet-500); }
+.cal-pill { font-size: 11px; font-weight: 700; background: var(--violet-50); color: var(--violet-600); padding: 2px 9px; border-radius: 99px; }
+.cal-panel-body { padding: 8px; display: flex; flex-direction: column; gap: 2px; }
+.cal-empty { padding: 18px; text-align: center; color: var(--faint); font-size: 18px; }
+
+.agenda-item { display: flex; align-items: center; gap: 11px; padding: 10px 10px; border-radius: var(--r-sm); width: 100%; text-align: left; transition: background .12s; }
+button.agenda-item:hover { background: var(--line-soft); }
+.agenda-ic { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; flex-shrink: 0; }
+.agenda-ic.ev-filing { background: var(--violet-100); color: var(--violet-600); }
+.agenda-ic.ev-meeting { background: var(--blue-bg); color: var(--royal); }
+.agenda-ic.ev-note { background: var(--amber-bg); color: var(--amber); }
+.agenda-t { display: block; font-size: 12.5px; font-weight: 700; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.agenda-s { display: block; font-size: 11px; font-weight: 500; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.agenda-time { font-size: 11px; font-weight: 700; color: var(--ink-soft); flex-shrink: 0; white-space: nowrap; }
+.meet-date { width: 34px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; }
+.meet-date b { font-size: 15px; font-weight: 800; line-height: 1; color: var(--ink); letter-spacing: -.02em; }
+.meet-date span { font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-top: 2px; letter-spacing: .05em; }
+
+.note-add { display: flex; gap: 6px; padding: 4px 4px 8px; }
+.note-add input { flex: 1; height: 36px; border: 1px solid var(--line); border-radius: var(--r-sm); padding: 0 11px; font-size: 12.5px; outline: none; background: var(--rail); }
+.note-add input:focus { border-color: var(--violet-300); background: #fff; }
+.note-add button { width: 36px; height: 36px; border-radius: var(--r-sm); background: var(--violet-500); color: #fff; display: grid; place-items: center; flex-shrink: 0; }
+.note-add button:hover { background: var(--violet-600); }
+.note-chip { display: flex; align-items: flex-start; gap: 10px; padding: 10px 11px; border-radius: var(--r-sm); font-size: 12.5px; font-weight: 600; color: var(--ink-soft); line-height: 1.4; margin: 2px 0; }
+.note-chip .note-bar { width: 3px; align-self: stretch; border-radius: 99px; flex-shrink: 0; }
+.note-chip.tint-violet { background: var(--violet-50); } .note-chip.tint-violet .note-bar { background: var(--violet-400); }
+.note-chip.tint-blue { background: var(--blue-bg); } .note-chip.tint-blue .note-bar { background: var(--royal); }
+.note-chip.tint-amber { background: var(--amber-bg); } .note-chip.tint-amber .note-bar { background: var(--amber); }
+.note-chip.tint-green { background: var(--green-bg); } .note-chip.tint-green .note-bar { background: var(--green); }
+
+/* ============================================================
+   LEARNING CENTER
+   ============================================================ */
+.learn-featured {
+  display: grid; grid-template-columns: 1fr 260px; gap: 0; margin-bottom: 30px;
+  border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--sh-lg);
+  background: linear-gradient(135deg, var(--violet-700), var(--violet-500) 65%, var(--indigo));
+}
+.lf-left { padding: 28px 30px; color: #fff; }
+.lf-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700; background: rgba(255,255,255,.16); padding: 5px 12px 5px 10px; border-radius: 99px; backdrop-filter: blur(4px); }
+.lf-left h3 { font-size: 24px; font-weight: 800; letter-spacing: -.025em; margin: 16px 0 8px; line-height: 1.15; }
+.lf-left p { font-size: 14px; font-weight: 500; opacity: .9; margin: 0 0 18px; line-height: 1.5; max-width: 460px; }
+.lf-meta { display: flex; gap: 18px; margin-bottom: 18px; }
+.lf-meta span { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; opacity: .92; }
+.lf-prog { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; max-width: 420px; }
+.lf-bar { flex: 1; height: 7px; border-radius: 99px; background: rgba(255,255,255,.22); overflow: hidden; }
+.lf-bar span { display: block; height: 100%; border-radius: 99px; background: #fff; }
+.lf-pct { font-size: 12px; font-weight: 700; white-space: nowrap; }
+.lf-btn { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 22px; border-radius: var(--r-md); background: #fff; color: var(--violet-700); font-size: 13.5px; font-weight: 700; box-shadow: var(--sh-sm); transition: transform .12s; }
+.lf-btn:hover { transform: translateY(-1px); }
+.lf-art { position: relative; display: grid; place-items: center; overflow: hidden; }
+.lf-art::before, .lf-art::after { content: ''; position: absolute; border-radius: 99px; border: 1.5px solid rgba(255,255,255,.18); }
+.lf-art::before { width: 230px; height: 230px; }
+.lf-art::after { width: 150px; height: 150px; }
+.lf-art-ic { position: relative; width: 88px; height: 88px; border-radius: 26px; background: rgba(255,255,255,.18); display: grid; place-items: center; color: #fff; backdrop-filter: blur(6px); box-shadow: 0 10px 30px -8px rgba(0,0,0,.3); }
+
+.learn-tabs { display: flex; gap: 6px; margin-bottom: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-pill); padding: 4px; width: fit-content; box-shadow: var(--sh-xs); }
+.learn-tab { height: 34px; padding: 0 16px; border-radius: var(--r-pill); font-size: 12.5px; font-weight: 600; color: var(--ink-soft); transition: background .14s, color .14s; }
+.learn-tab:hover { color: var(--ink); }
+.learn-tab.active { background: var(--violet-500); color: #fff; box-shadow: var(--sh-xs); }
+
+.learn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.course-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 18px; box-shadow: var(--sh-xs); transition: border .15s, box-shadow .15s, transform .12s; display: flex; flex-direction: column; }
+.course-card:hover { border-color: #DDD0F5; box-shadow: var(--sh-md); transform: translateY(-2px); }
+.course-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+.course-lvl { font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 99px; }
+.course-lvl.lvl-beginner { background: var(--green-bg); color: var(--green); }
+.course-lvl.lvl-intermediate { background: var(--blue-bg); color: var(--royal); }
+.course-lvl.lvl-advanced { background: var(--violet-100); color: var(--violet-700); }
+.course-done { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 99px; background: var(--green-bg); color: var(--green); }
+.course-card h4 { font-size: 14.5px; font-weight: 700; letter-spacing: -.01em; margin: 0 0 6px; line-height: 1.25; }
+.course-card p { font-size: 12.5px; color: var(--muted); font-weight: 500; line-height: 1.45; margin: 0 0 14px; }
+.course-meta { display: flex; gap: 14px; margin-bottom: 14px; margin-top: auto; }
+.course-meta span { display: flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; color: var(--ink-soft); }
+.course-meta svg { color: var(--violet-400); }
+.course-bar { height: 5px; border-radius: 99px; background: var(--line-soft); overflow: hidden; margin-bottom: 14px; }
+.course-bar span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--violet-500), var(--indigo)); }
+.course-btn { display: flex; align-items: center; justify-content: center; gap: 7px; height: 38px; border-radius: var(--r-sm); width: 100%; background: var(--violet-50); color: var(--violet-700); font-size: 12.5px; font-weight: 700; transition: background .14s; }
+.course-btn:hover { background: var(--violet-100); }
+.course-btn.ghost { background: var(--line-soft); color: var(--ink-soft); }
+.course-btn.ghost:hover { background: #E9E6F0; }
 </style>
 </head>
 <body>
+<div id="root"></div>
 
-<!-- ══ PAGES ══════════════════════════════════════════════════════ -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 
-<!-- COMPANIES -->
-<div class="page active" id="page-companies">
-  <div class="header">
-    <div class="header-title">🏢 Компании</div>
-    <button class="btn btn-ghost btn-sm" onclick="openAddModal()">+ Добавить</button>
-  </div>
-  <div id="companies-list"></div>
-</div>
-
-<!-- CALCULATORS -->
-<div class="page" id="page-calc">
-  <div class="header"><div class="header-title">🧮 Калькуляторы</div></div>
-
-  <div class="section-title">НДС (QQS)</div>
-  <div class="card">
-    <div class="form-group">
-      <label class="form-label">Тип расчёта</label>
-      <select class="form-select" id="nds-type">
-        <option value="on">Начислить НДС на сумму</option>
-        <option value="off">Выделить НДС из суммы</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Сумма (сум)</label>
-      <input class="form-input" type="number" id="nds-amount" placeholder="10 000 000">
-    </div>
-    <button class="btn btn-primary" onclick="calcNDS()">Рассчитать</button>
-    <div class="calc-result" id="nds-result"></div>
-  </div>
-
-  <div class="section-title">Зарплата</div>
-  <div class="card">
-    <div class="form-group">
-      <label class="form-label">Начисленная зарплата gross (сум)</label>
-      <input class="form-input" type="number" id="sal-amount" placeholder="5 000 000">
-    </div>
-    <button class="btn btn-primary" onclick="calcSalary()">Рассчитать</button>
-    <div class="calc-result" id="sal-result"></div>
-  </div>
-
-  <div class="section-title">Налог на прибыль / УСН</div>
-  <div class="card">
-    <div class="form-group">
-      <label class="form-label">Система налогообложения</label>
-      <select class="form-select" id="tax-system">
-        <option value="usn">УСН — 4% от выручки</option>
-        <option value="profit">Налог на прибыль — 15%</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Выручка (сум)</label>
-      <input class="form-input" type="number" id="tax-revenue" placeholder="500 000 000">
-    </div>
-    <div id="expenses-row" style="display:none" class="form-group">
-      <label class="form-label">Расходы (сум)</label>
-      <input class="form-input" type="number" id="tax-expenses" placeholder="350 000 000">
-    </div>
-    <button class="btn btn-primary" onclick="calcTax()">Рассчитать</button>
-    <div class="calc-result" id="tax-result"></div>
-  </div>
-</div>
-
-<!-- PROFILE -->
-<div class="page" id="page-profile">
-  <div class="header"><div class="header-title">👤 Профиль</div></div>
-
-  <div class="sub-card">
-    <div class="sub-plan">🆓 Бесплатный</div>
-    <div class="sub-desc">Осталось запросов в этом месяце</div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
-      <span style="font-size:22px;font-weight:800" id="requests-left">10</span>
-      <span style="font-size:13px;opacity:.8">из 10</span>
-    </div>
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:100%"></div></div>
-  </div>
-
-  <div class="section-title">Тарифы</div>
-  <div class="card" style="margin-bottom:8px">
-    <div class="card-row">
-      <div class="card-icon" style="background:#f0fdf4">🥈</div>
-      <div class="card-info">
-        <div class="card-name">Базовый</div>
-        <div class="card-sub">100 запросов/месяц · Все калькуляторы</div>
-      </div>
-      <div style="font-weight:700;font-size:15px;color:var(--accent)">50K</div>
-    </div>
-  </div>
-  <div class="card" style="margin-bottom:8px">
-    <div class="card-row">
-      <div class="card-icon" style="background:#eff6ff">🥇</div>
-      <div class="card-info">
-        <div class="card-name">Профи</div>
-        <div class="card-sub">Безлимит · Шаблоны документов</div>
-      </div>
-      <div style="font-weight:700;font-size:15px;color:var(--accent)">100K</div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-row">
-      <div class="card-icon" style="background:#faf5ff">🏢</div>
-      <div class="card-info">
-        <div class="card-name">Бизнес</div>
-        <div class="card-sub">До 10 компаний · API доступ</div>
-      </div>
-      <div style="font-weight:700;font-size:15px;color:var(--accent)">300K</div>
-    </div>
-  </div>
-  <button class="btn btn-primary" style="margin-top:8px" onclick="Telegram.WebApp.showAlert('Оплата скоро будет доступна через Payme и Click!')">Подключить тариф</button>
-
-  <div class="section-title">Язык</div>
-  <div class="card">
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-ghost" style="flex:1" id="btn-ru" onclick="setLang('ru')">🇷🇺 Русский</button>
-      <button class="btn btn-ghost" style="flex:1" id="btn-uz" onclick="setLang('uz')">🇺🇿 O'zbek</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══ BOTTOM NAV ══════════════════════════════════════════════ -->
-<nav class="nav">
-  <button class="nav-btn active" id="nav-companies" onclick="showPage('companies')">
-    <span class="nav-icon">🏢</span>Компании
-  </button>
-  <button class="nav-btn" id="nav-calc" onclick="showPage('calc')">
-    <span class="nav-icon">🧮</span>Расчёты
-  </button>
-  <button class="nav-btn" id="nav-profile" onclick="showPage('profile')">
-    <span class="nav-icon">👤</span>Профиль
-  </button>
-</nav>
-
-<!-- ══ ADD COMPANY MODAL ══════════════════════════════════════ -->
-<div class="modal-overlay" id="add-modal" onclick="closeAddModal(event)">
-  <div class="modal">
-    <div class="modal-title">Добавить компанию</div>
-    <div class="form-group">
-      <label class="form-label">Название</label>
-      <input class="form-input" id="f-name" placeholder="Alif Trade ООО">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Тип</label>
-      <select class="form-select" id="f-type">
-        <option>ООО</option>
-        <option>ИП (ЯТТШ)</option>
-        <option>АО</option>
-        <option>Частное лицо</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Система налогообложения</label>
-      <select class="form-select" id="f-tax">
-        <option>УСН 4%</option>
-        <option>ОСНО + НДС</option>
-        <option>Фиксированный налог</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Примерный оборот</label>
-      <select class="form-select" id="f-turnover">
-        <option>до 100 млн сум</option>
-        <option>100–500 млн сум</option>
-        <option>500 млн – 1 млрд сум</option>
-        <option>свыше 1 млрд сум</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">ИНН (необязательно)</label>
-      <input class="form-input" id="f-inn" placeholder="123456789" type="number">
-    </div>
-    <button class="btn btn-primary" onclick="saveCompany()">Сохранить</button>
-    <button class="btn btn-ghost" style="margin-top:8px;width:100%" onclick="closeAddModal()">Отмена</button>
-  </div>
-</div>
-
+<!-- ════ CONFIG ════ -->
 <script>
-const tg = window.Telegram.WebApp;
-tg.expand();
-tg.ready();
+const API_BASE = 'https://accountant-ai-production-b952.up.railway.app';
+let USER_ID = localStorage.getItem('aiacc_uid');
+if (!USER_ID) { USER_ID = 'web_' + Math.random().toString(36).slice(2,11); localStorage.setItem('aiacc_uid', USER_ID); }
+</script>
 
-const userId = String(tg.initDataUnsafe?.user?.id || 'demo');
-const API = '';  // same origin
+<!-- ════ ICONS ════ -->
+<script type="text/babel">
+/* Lucide-style inline SVG icons — stroke 1.75, 24 viewBox */
+const Icon = ({ n, s = 18, sw = 1.75, style }) => {
+  const P = ICON_PATHS[n] || ICON_PATHS.dot;
+  return (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"
+      style={style}>
+      {P}
+    </svg>
+  );
+};
 
-let state = { companies: [], active: null, lang: 'ru', requests_left: 10 };
+const ICON_PATHS = {
+  dot: <circle cx="12" cy="12" r="2" />,
+  dashboard: <><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></>,
+  plus: <><path d="M12 5v14"/><path d="M5 12h14"/></>,
+  building: <><path d="M3 21h18"/><path d="M5 21V5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v16"/><path d="M16 8h2a2 2 0 0 1 2 2v11"/><path d="M9 7h2M9 11h2M9 15h2"/></>,
+  doc: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></>,
+  book: <><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></>,
+  cap: <><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.5 3 6 3s6-2 6-3v-5"/></>,
+  calendar: <><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></>,
+  note: <><path d="M15.5 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5z"/><path d="M15 3v6h6"/><path d="M8 13h6M8 17h4"/></>,
+  settings: <><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></>,
+  help: <><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></>,
+  search: <><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></>,
+  globe: <><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 0 20 15.3 15.3 0 0 1 0-20z"/></>,
+  bell: <><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></>,
+  mic: <><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1M12 18v4"/></>,
+  send: <><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></>,
+  paperclip: <path d="M21.44 11.05 12.25 20.24a5 5 0 0 1-7.07-7.07l9.19-9.19a3 3 0 1 1 4.24 4.24l-9.2 9.19a1 1 0 0 1-1.41-1.41l8.49-8.49"/>,
+  sheet: <><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></>,
+  pdf: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h1.5a1.5 1.5 0 0 0 0-3H9v6"/><path d="M14 18v-6h2"/></>,
+  chevdown: <path d="m6 9 6 6 6-6"/>,
+  chevright: <path d="m9 6 6 6-6 6"/>,
+  arrowright: <><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></>,
+  scale: <><path d="M12 3v18M5 7h14"/><path d="M5 7l-2.5 6a3 3 0 0 0 5 0L5 7zM19 7l-2.5 6a3 3 0 0 0 5 0L19 7z"/><path d="M7 21h10"/></>,
+  calc: <><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h4"/></>,
+  ship: <><path d="M12 10.2 2 14l1.5 5.5a3 3 0 0 0 2.9 2.2h11.2a3 3 0 0 0 2.9-2.2L22 14 12 10.2z"/><path d="M12 10.2V3l5 3"/></>,
+  chart: <><path d="M3 3v18h18"/><path d="m7 14 3-3 3 3 4-5"/></>,
+  shield: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></>,
+  sparkle: <><path d="M12 3l1.6 4.8a2 2 0 0 0 1.3 1.3L20 11l-4.8 1.6a2 2 0 0 0-1.3 1.3L12 19l-1.6-4.8a2 2 0 0 0-1.3-1.3L4 11l4.8-1.6a2 2 0 0 0 1.3-1.3L12 3z"/></>,
+  user: <><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></>,
+  card: <><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></>,
+  crown: <><path d="m3 7 4 4 5-7 5 7 4-4-1.5 12H4.5L3 7z"/></>,
+  logout: <><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></>,
+  check: <path d="M20 6 9 17l-5-5"/>,
+  copy: <><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></>,
+  thumbup: <><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88z"/></>,
+  refresh: <><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></>,
+  clock: <><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></>,
+  bolt: <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>,
+  folder: <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2z"/>,
+  flask: <><path d="M9 3h6M10 3v6.5L5.5 18a2 2 0 0 0 1.8 3h9.4a2 2 0 0 0 1.8-3L14 9.5V3"/><path d="M7 14h10"/></>,
+  trend: <><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></>,
+  trophy: <><path d="M6 9a6 6 0 0 0 12 0V4H6z"/><path d="M6 4H4a2 2 0 0 0 2 4M18 4h2a2 2 0 0 1-2 4M9 18h6M10 22h4M12 15v3"/></>,
+  zap: <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>,
+};
 
-// ── Load user data ─────────────────────────────────────────────
-async function loadUser() {
-  try {
-    const r = await fetch(`${API}/api/user/${userId}`);
-    state = await r.json();
-  } catch(e) {
-    console.log('Offline mode');
-  }
-  renderCompanies();
-  renderProfile();
+Object.assign(window, { Icon });
+</script>
+<script type="text/babel">
+/* ============================================================
+   i18n — EN / RU / UZ
+   t(key) reads window.__LANG (set by <App> on every render)
+   ============================================================ */
+function t(key) {
+  const L = window.__LANG || 'EN';
+  const d = STR[L] || STR.EN;
+  return (key in d) ? d[key] : (key in STR.EN ? STR.EN[key] : key);
 }
 
-// ── Navigation ─────────────────────────────────────────────────
-function showPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  document.getElementById('nav-' + name).classList.add('active');
+const STR = {
+  EN: {
+    brand_sub: 'Uzbekistan',
+    nav_dashboard: 'Dashboard', nav_newchat: 'New Chat', nav_companies: 'My Companies',
+    nav_docs: 'Document Review', nav_kb: 'Knowledge Base', nav_learn: 'Learning Center',
+    nav_calendar: 'Calendar', nav_notes: 'Notes',
+    recent_chats: 'Recent Chats', view_all_chats: 'View All Chats',
+    settings: 'Settings', support: 'Support',
+    chat1: 'VAT on Imports from China', chat2: 'Supply Agreement Review',
+    chat3: 'Dividend Tax Calculation', chat4: 'Export to Kazakhstan',
+    chat5: 'Quarterly VAT Report', chat6: 'Employee Labor Contract',
+    search_ph: 'Search legislation, companies, documents, regulations, or previous conversations…',
+    cbu_rate: 'CBU rate', notifications: 'Notifications', mark_read: 'Mark all read',
+    n1t: 'New tax legislation update', n1s: 'VAT rules for digital services revised',
+    n2t: 'Upcoming reporting deadline', n2s: 'Quarterly VAT Report due in 3 days',
+    n3t: 'Document analysis completed', n3s: 'Supply Agreement — 2 risks flagged',
+    n4t: 'AI recommendation available', n4s: 'Optimize dividend tax for Q2',
+    role: 'Chief Accountant',
+    m_profile: 'Profile', m_account: 'Account Settings', m_subscription: 'Subscription', m_logout: 'Log Out',
+    hero_badge: 'Powered by Uzbekistan tax & legal intelligence',
+    hero_a: 'Your AI copilot for ', hero_grad: 'accounting & tax', hero_b: 'in Uzbekistan',
+    hero_p: 'Intelligent assistance for accounting, taxation, compliance, and business regulations in the Republic of Uzbekistan.',
+    composer_ph: 'Ask a question about accounting, taxation, payroll, compliance, legislation, or business operations…',
+    attach: 'Attach', a1: 'Attach File', a2: 'Upload Contract', a3: 'Upload Excel File', a4: 'Upload PDF',
+    disclaimer: 'AI Accountant can make mistakes. Verify critical figures and consult a licensed advisor for binding decisions.',
+    you: 'You', ai_name: 'AI Accountant',
+    s1: 'Review a contract for legal and tax risks', s2: 'Calculate VAT on imports',
+    s3: 'Prepare export documentation', s4: 'Find a law or regulation',
+    s5: 'Review financial reports', s6: 'Explain recent legislative changes',
+    quick_access: 'Quick access', quick_access_sub: 'Jump straight into your most-used workflows',
+    qa1h: 'Contract Review', qa1p: 'Spot legal & tax risks in any agreement', qa1c: 'Upload contract',
+    qa2h: 'Financial Report Analysis', qa2p: 'Read balance sheets & P&L instantly', qa2c: 'Analyze report',
+    qa3h: 'Legislation Search', qa3p: 'Search Uzbekistan tax & business law', qa3c: 'Search law',
+    qa4h: 'Company Management', qa4p: 'Manage entities, TINs & filings', qa4c: 'Open companies',
+    qa5h: 'Accountant Learning Center', qa5p: 'Courses, guides & onboarding', qa5c: 'Start learning',
+    qa6h: 'Tax Calendar', qa6p: 'Never miss a reporting deadline', qa6c: 'View calendar',
+    my_companies: 'My companies', entities_sub: '3 entities under management', view_all: 'View all',
+    status_ok: 'Active', status_due: 'Filing due', open_workspace: 'Open workspace', open: 'Open',
+    last_activity: 'Last activity', act1: '2 hours ago', act2: 'Yesterday', act3: '4 days ago',
+    tax_calendar: 'Tax calendar', upcoming_deadlines: 'Upcoming deadlines', month_year: 'June 2026',
+    d1t: 'VAT Reporting', d1s: 'Monthly · all entities',
+    d2t: 'Corporate Income Tax', d2s: 'Q2 advance payment',
+    d3t: 'Payroll Reporting', d3s: 'INPS & social tax',
+    d4t: 'Electronic Invoices', d4s: 'Reconciliation due',
+    open_full_calendar: 'Open full calendar',
+    companies_sub: 'Entities, tax IDs and compliance status under your management.',
+    add_company: 'Add company',
+    st_entities: 'Entities', st_all_active: 'All active', st_compliant: 'Compliant', st_filing_due: '1 filing due',
+    st_documents: 'Documents', st_this_week: '12 this week', st_vat: 'VAT recoverable', st_quarter: 'UZS · this quarter',
+    vat_label: 'VAT', vat_registered: 'Registered', vat_simplified: 'Simplified',
+    form1: 'LLC · General regime', form2: 'LLC · Exporter', form3: 'LLC · Turnover tax',
+    ph_docs_h: 'Document Review', ph_docs_p: 'Upload a contract, invoice or financial report and let AI Accountant analyze it for legal and tax risks in seconds.', ph_docs_c: 'Upload a document',
+    ph_kb_h: 'Knowledge Base', ph_kb_p: 'Search Uzbekistan tax law, accounting standards and regulatory guidance — all cross-referenced and always current.', ph_kb_c: 'Search the knowledge base',
+    ph_learn_h: 'Learning Center', ph_learn_p: 'Structured courses and onboarding for accountants — from VAT fundamentals to advanced cross-border taxation.', ph_learn_c: 'Browse courses',
+    ph_notes_h: 'Notes', ph_notes_p: 'Capture observations, draft memos and pin AI answers for later — organized per company and engagement.', ph_notes_c: 'Create a note',
+    ph_settings_h: 'Settings', ph_settings_p: 'Manage your workspace, team access, integrations and billing preferences.', ph_settings_c: 'Open settings',
+    ph_support_h: 'Support', ph_support_p: 'Reach our specialists, browse help articles, or chat with the AI assistant for instant answers.', ph_support_c: 'Contact support',
+    /* learning center */
+    learn_title: 'Learning Center', learn_sub: 'Master AI Accountant — guided courses on operating the platform end-to-end.',
+    learn_stat_courses: 'Courses', learn_stat_completed: 'Completed', learn_stat_progress: 'In progress', learn_stat_hours: 'Learning time',
+    learn_continue: 'Continue learning', learn_resume: 'Resume', learn_start: 'Start course', learn_review: 'Review',
+    learn_cat_all: 'All courses', learn_cat_onboarding: 'Onboarding', learn_cat_core: 'Core features', learn_cat_advanced: 'Advanced',
+    learn_lessons: 'lessons', learn_min: 'min', learn_complete: 'complete',
+    lvl_beginner: 'Beginner', lvl_intermediate: 'Intermediate', lvl_advanced: 'Advanced',
+    learn_path_title: 'Your onboarding path', learn_path_sub: 'Finish these 3 courses to get certified on AI Accountant',
+    /* calendar view */
+    cal_title: 'Calendar', cal_sub: 'Deadlines, notes and team standups across all your entities.',
+    cal_today: 'Today', cal_new_event: 'New event', cal_filing: 'Tax filing', cal_meeting: 'Standup', cal_note: 'Note',
+    cal_agenda: 'Agenda', cal_notes_panel: 'Notes', cal_standups: 'Standups & meetings',
+    cal_mon: 'Mon', cal_tue: 'Tue', cal_wed: 'Wed', cal_thu: 'Thu', cal_fri: 'Fri', cal_sat: 'Sat', cal_sun: 'Sun',
+    cal_add_note: 'Add note', cal_all_day: 'All day',
+    months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+  },
+
+  RU: {
+    brand_sub: 'Узбекистан',
+    nav_dashboard: 'Главная', nav_newchat: 'Новый чат', nav_companies: 'Мои компании',
+    nav_docs: 'Проверка документов', nav_kb: 'База знаний', nav_learn: 'Обучение',
+    nav_calendar: 'Календарь', nav_notes: 'Заметки',
+    recent_chats: 'Недавние чаты', view_all_chats: 'Все чаты',
+    settings: 'Настройки', support: 'Поддержка',
+    chat1: 'НДС на импорт из Китая', chat2: 'Проверка договора поставки',
+    chat3: 'Расчёт налога на дивиденды', chat4: 'Экспорт в Казахстан',
+    chat5: 'Квартальный отчёт по НДС', chat6: 'Трудовой договор сотрудника',
+    search_ph: 'Поиск по законодательству, компаниям, документам, нормам или прошлым чатам…',
+    cbu_rate: 'Курс ЦБ', notifications: 'Уведомления', mark_read: 'Прочитать все',
+    n1t: 'Обновление налогового закона', n1s: 'Пересмотрены правила НДС для цифровых услуг',
+    n2t: 'Приближается срок отчётности', n2s: 'Квартальный отчёт по НДС через 3 дня',
+    n3t: 'Анализ документа завершён', n3s: 'Договор поставки — выявлено 2 риска',
+    n4t: 'Доступна рекомендация ИИ', n4s: 'Оптимизация налога на дивиденды за 2 кв.',
+    role: 'Главный бухгалтер',
+    m_profile: 'Профиль', m_account: 'Настройки аккаунта', m_subscription: 'Подписка', m_logout: 'Выйти',
+    hero_badge: 'Работает на налоговом и правовом интеллекте Узбекистана',
+    hero_a: 'Ваш ИИ-помощник по ', hero_grad: 'бухгалтерии и налогам', hero_b: 'в Узбекистане',
+    hero_p: 'Интеллектуальная помощь по бухгалтерскому учёту, налогообложению, комплаенсу и деловому регулированию в Республике Узбекистан.',
+    composer_ph: 'Задайте вопрос по бухгалтерии, налогам, зарплате, комплаенсу, законодательству или бизнес-процессам…',
+    attach: 'Прикрепить', a1: 'Прикрепить файл', a2: 'Загрузить договор', a3: 'Загрузить Excel', a4: 'Загрузить PDF',
+    disclaimer: 'ИИ-Бухгалтер может ошибаться. Проверяйте важные цифры и консультируйтесь с лицензированным специалистом по обязательным решениям.',
+    you: 'Вы', ai_name: 'ИИ-Бухгалтер',
+    s1: 'Проверить договор на правовые и налоговые риски', s2: 'Рассчитать НДС на импорт',
+    s3: 'Подготовить экспортные документы', s4: 'Найти закон или норму',
+    s5: 'Проанализировать финансовую отчётность', s6: 'Объяснить недавние изменения в законах',
+    quick_access: 'Быстрый доступ', quick_access_sub: 'Сразу переходите к частым задачам',
+    qa1h: 'Проверка договоров', qa1p: 'Находите правовые и налоговые риски в любом договоре', qa1c: 'Загрузить договор',
+    qa2h: 'Анализ финотчётности', qa2p: 'Мгновенно читайте баланс и ОПУ', qa2c: 'Анализировать отчёт',
+    qa3h: 'Поиск по законам', qa3p: 'Налоговое и деловое право Узбекистана', qa3c: 'Найти закон',
+    qa4h: 'Управление компаниями', qa4p: 'Компании, ИНН и отчётность', qa4c: 'Открыть компании',
+    qa5h: 'Центр обучения', qa5p: 'Курсы, руководства и адаптация', qa5c: 'Начать обучение',
+    qa6h: 'Налоговый календарь', qa6p: 'Не пропускайте сроки отчётности', qa6c: 'Открыть календарь',
+    my_companies: 'Мои компании', entities_sub: '3 юр. лица под управлением', view_all: 'Все',
+    status_ok: 'Активна', status_due: 'Срок отчёта', open_workspace: 'Открыть рабочее место', open: 'Открыть',
+    last_activity: 'Последняя активность', act1: '2 часа назад', act2: 'Вчера', act3: '4 дня назад',
+    tax_calendar: 'Налоговый календарь', upcoming_deadlines: 'Ближайшие сроки', month_year: 'Июнь 2026',
+    d1t: 'Отчёт по НДС', d1s: 'Ежемесячно · все юр. лица',
+    d2t: 'Налог на прибыль', d2s: 'Аванс за 2 квартал',
+    d3t: 'Зарплатная отчётность', d3s: 'ИНПС и соцналог',
+    d4t: 'Электронные счета-фактуры', d4s: 'Срок сверки',
+    open_full_calendar: 'Открыть полный календарь',
+    companies_sub: 'Юр. лица, ИНН и статус комплаенса под вашим управлением.',
+    add_company: 'Добавить компанию',
+    st_entities: 'Юр. лица', st_all_active: 'Все активны', st_compliant: 'Комплаенс', st_filing_due: '1 отчёт к сдаче',
+    st_documents: 'Документы', st_this_week: '12 за неделю', st_vat: 'НДС к возврату', st_quarter: 'сум · за квартал',
+    vat_label: 'НДС', vat_registered: 'Плательщик', vat_simplified: 'Упрощёнка',
+    form1: 'ООО · Общий режим', form2: 'ООО · Экспортёр', form3: 'ООО · Налог с оборота',
+    ph_docs_h: 'Проверка документов', ph_docs_p: 'Загрузите договор, счёт или отчёт — ИИ-Бухгалтер проверит его на правовые и налоговые риски за секунды.', ph_docs_c: 'Загрузить документ',
+    ph_kb_h: 'База знаний', ph_kb_p: 'Поиск по налоговому праву, стандартам учёта и разъяснениям Узбекистана — всё связано и всегда актуально.', ph_kb_c: 'Искать в базе знаний',
+    ph_learn_h: 'Центр обучения', ph_learn_p: 'Структурированные курсы и адаптация для бухгалтеров — от основ НДС до сложного трансграничного налогообложения.', ph_learn_c: 'Смотреть курсы',
+    ph_notes_h: 'Заметки', ph_notes_p: 'Фиксируйте наблюдения, черновики и сохраняйте ответы ИИ — по компаниям и проектам.', ph_notes_c: 'Создать заметку',
+    ph_settings_h: 'Настройки', ph_settings_p: 'Управляйте рабочим пространством, доступом команды, интеграциями и оплатой.', ph_settings_c: 'Открыть настройки',
+    ph_support_h: 'Поддержка', ph_support_p: 'Свяжитесь со специалистами, читайте справку или спросите ИИ-ассистента.', ph_support_c: 'Связаться с поддержкой',
+    learn_title: 'Центр обучения', learn_sub: 'Освойте ИИ-Бухгалтер — пошаговые курсы по работе с платформой от начала до конца.',
+    learn_stat_courses: 'Курсы', learn_stat_completed: 'Завершено', learn_stat_progress: 'В процессе', learn_stat_hours: 'Время обучения',
+    learn_continue: 'Продолжить обучение', learn_resume: 'Продолжить', learn_start: 'Начать курс', learn_review: 'Повторить',
+    learn_cat_all: 'Все курсы', learn_cat_onboarding: 'Адаптация', learn_cat_core: 'Основные функции', learn_cat_advanced: 'Продвинутый',
+    learn_lessons: 'уроков', learn_min: 'мин', learn_complete: 'пройдено',
+    lvl_beginner: 'Начальный', lvl_intermediate: 'Средний', lvl_advanced: 'Продвинутый',
+    learn_path_title: 'Ваш путь адаптации', learn_path_sub: 'Пройдите эти 3 курса, чтобы получить сертификат по ИИ-Бухгалтеру',
+    cal_title: 'Календарь', cal_sub: 'Сроки, заметки и планёрки по всем вашим юр. лицам.',
+    cal_today: 'Сегодня', cal_new_event: 'Новое событие', cal_filing: 'Отчётность', cal_meeting: 'Планёрка', cal_note: 'Заметка',
+    cal_agenda: 'Повестка', cal_notes_panel: 'Заметки', cal_standups: 'Планёрки и встречи',
+    cal_mon: 'Пн', cal_tue: 'Вт', cal_wed: 'Ср', cal_thu: 'Чт', cal_fri: 'Пт', cal_sat: 'Сб', cal_sun: 'Вс',
+    cal_add_note: 'Добавить заметку', cal_all_day: 'Весь день',
+    months: ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
+  },
+
+  UZ: {
+    brand_sub: 'Oʻzbekiston',
+    nav_dashboard: 'Boshqaruv paneli', nav_newchat: 'Yangi chat', nav_companies: 'Mening kompaniyalarim',
+    nav_docs: 'Hujjatlarni tekshirish', nav_kb: 'Bilimlar bazasi', nav_learn: 'Oʻquv markazi',
+    nav_calendar: 'Kalendar', nav_notes: 'Eslatmalar',
+    recent_chats: 'Soʻnggi chatlar', view_all_chats: 'Barcha chatlar',
+    settings: 'Sozlamalar', support: 'Yordam',
+    chat1: 'Xitoydan importga QQS', chat2: 'Yetkazib berish shartnomasi tahlili',
+    chat3: 'Dividend soligʻini hisoblash', chat4: 'Qozogʻistonga eksport',
+    chat5: 'Choraklik QQS hisoboti', chat6: 'Xodim mehnat shartnomasi',
+    search_ph: 'Qonunchilik, kompaniyalar, hujjatlar, normalar yoki avvalgi chatlardan qidirish…',
+    cbu_rate: 'MB kursi', notifications: 'Bildirishnomalar', mark_read: 'Barchasini oʻqildi',
+    n1t: 'Yangi soliq qonuni yangilanishi', n1s: 'Raqamli xizmatlar uchun QQS qoidalari qayta koʻrildi',
+    n2t: 'Hisobot muddati yaqinlashmoqda', n2s: 'Choraklik QQS hisoboti 3 kundan keyin',
+    n3t: 'Hujjat tahlili yakunlandi', n3s: 'Yetkazib berish shartnomasi — 2 xavf aniqlandi',
+    n4t: 'AI tavsiyasi mavjud', n4s: '2-chorak uchun dividend soligʻini optimallashtirish',
+    role: 'Bosh hisobchi',
+    m_profile: 'Profil', m_account: 'Hisob sozlamalari', m_subscription: 'Obuna', m_logout: 'Chiqish',
+    hero_badge: 'Oʻzbekiston soliq va huquqiy intellekti asosida',
+    hero_a: 'Buxgalteriya va soliqlar boʻyicha ', hero_grad: 'AI yordamchingiz', hero_b: 'Oʻzbekistonda',
+    hero_p: 'Oʻzbekiston Respublikasida buxgalteriya, soliqqa tortish, muvofiqlik va biznes tartibga solish boʻyicha aqlli yordam.',
+    composer_ph: 'Buxgalteriya, soliqlar, ish haqi, muvofiqlik, qonunchilik yoki biznes jarayonlari boʻyicha savol bering…',
+    attach: 'Biriktirish', a1: 'Fayl biriktirish', a2: 'Shartnoma yuklash', a3: 'Excel yuklash', a4: 'PDF yuklash',
+    disclaimer: 'AI-Buxgalter xato qilishi mumkin. Muhim raqamlarni tekshiring va majburiy qarorlar uchun litsenziyali mutaxassis bilan maslahatlashing.',
+    you: 'Siz', ai_name: 'AI-Buxgalter',
+    s1: 'Shartnomani huquqiy va soliq xavflariga tekshirish', s2: 'Importga QQS hisoblash',
+    s3: 'Eksport hujjatlarini tayyorlash', s4: 'Qonun yoki normani topish',
+    s5: 'Moliyaviy hisobotlarni tahlil qilish', s6: 'Soʻnggi qonun oʻzgarishlarini tushuntirish',
+    quick_access: 'Tezkor kirish', quick_access_sub: 'Eng koʻp ishlatiladigan vazifalarga oʻting',
+    qa1h: 'Shartnoma tahlili', qa1p: 'Har qanday shartnomadagi huquqiy va soliq xavflari', qa1c: 'Shartnoma yuklash',
+    qa2h: 'Moliyaviy hisobot tahlili', qa2p: 'Balans va foyda-zararni darhol oʻqing', qa2c: 'Hisobotni tahlil qilish',
+    qa3h: 'Qonunchilik qidiruvi', qa3p: 'Oʻzbekiston soliq va biznes huquqi', qa3c: 'Qonun qidirish',
+    qa4h: 'Kompaniyalarni boshqarish', qa4p: 'Kompaniyalar, STIR va hisobotlar', qa4c: 'Kompaniyalarni ochish',
+    qa5h: 'Buxgalter oʻquv markazi', qa5p: 'Kurslar, qoʻllanmalar va moslashuv', qa5c: 'Oʻqishni boshlash',
+    qa6h: 'Soliq kalendari', qa6p: 'Hisobot muddatlarini oʻtkazib yubormang', qa6c: 'Kalendarni koʻrish',
+    my_companies: 'Mening kompaniyalarim', entities_sub: '3 ta yuridik shaxs boshqaruvda', view_all: 'Barchasi',
+    status_ok: 'Faol', status_due: 'Hisobot muddati', open_workspace: 'Ish joyini ochish', open: 'Ochish',
+    last_activity: 'Soʻnggi faollik', act1: '2 soat oldin', act2: 'Kecha', act3: '4 kun oldin',
+    tax_calendar: 'Soliq kalendari', upcoming_deadlines: 'Yaqin muddatlar', month_year: 'Iyun 2026',
+    d1t: 'QQS hisoboti', d1s: 'Oylik · barcha shaxslar',
+    d2t: 'Foyda soligʻi', d2s: '2-chorak avansi',
+    d3t: 'Ish haqi hisoboti', d3s: 'INPS va ijtimoiy soliq',
+    d4t: 'Elektron hisob-fakturalar', d4s: 'Solishtirish muddati',
+    open_full_calendar: 'Toʻliq kalendarni ochish',
+    companies_sub: 'Sizning boshqaruvingizdagi shaxslar, STIR va muvofiqlik holati.',
+    add_company: 'Kompaniya qoʻshish',
+    st_entities: 'Shaxslar', st_all_active: 'Barchasi faol', st_compliant: 'Muvofiq', st_filing_due: '1 hisobot kerak',
+    st_documents: 'Hujjatlar', st_this_week: 'Shu hafta 12 ta', st_vat: 'Qaytariladigan QQS', st_quarter: 'soʻm · shu chorak',
+    vat_label: 'QQS', vat_registered: 'Roʻyxatda', vat_simplified: 'Soddalashtirilgan',
+    form1: 'MChJ · Umumiy tartib', form2: 'MChJ · Eksportchi', form3: 'MChJ · Aylanma soligʻi',
+    ph_docs_h: 'Hujjatlarni tekshirish', ph_docs_p: 'Shartnoma, hisob-faktura yoki hisobotni yuklang — AI-Buxgalter uni soniyalarda huquqiy va soliq xavflariga tekshiradi.', ph_docs_c: 'Hujjat yuklash',
+    ph_kb_h: 'Bilimlar bazasi', ph_kb_p: 'Oʻzbekiston soliq huquqi, hisob standartlari va tartibga solish boʻyicha qidiruv — barchasi bogʻlangan va doimo dolzarb.', ph_kb_c: 'Bilimlar bazasidan qidirish',
+    ph_learn_h: 'Oʻquv markazi', ph_learn_p: 'Buxgalterlar uchun tizimli kurslar va moslashuv — QQS asoslaridan murakkab transchegaraviy soliqqa qadar.', ph_learn_c: 'Kurslarni koʻrish',
+    ph_notes_h: 'Eslatmalar', ph_notes_p: 'Kuzatuvlar, qoralamalar yozing va AI javoblarini saqlang — kompaniya va loyiha boʻyicha.', ph_notes_c: 'Eslatma yaratish',
+    ph_settings_h: 'Sozlamalar', ph_settings_p: 'Ish maydoni, jamoa kirishi, integratsiyalar va toʻlovlarni boshqaring.', ph_settings_c: 'Sozlamalarni ochish',
+    ph_support_h: 'Yordam', ph_support_p: 'Mutaxassislarimizga murojaat qiling, yordam maqolalarini oʻqing yoki AI-yordamchidan soʻrang.', ph_support_c: 'Yordamga murojaat',
+    learn_title: 'Oʻquv markazi', learn_sub: 'AI-Buxgalterni oʻrganing — platformada ishlash boʻyicha bosqichma-bosqich kurslar.',
+    learn_stat_courses: 'Kurslar', learn_stat_completed: 'Tugatilgan', learn_stat_progress: 'Jarayonda', learn_stat_hours: 'Oʻqish vaqti',
+    learn_continue: 'Oʻqishni davom ettirish', learn_resume: 'Davom etish', learn_start: 'Kursni boshlash', learn_review: 'Takrorlash',
+    learn_cat_all: 'Barcha kurslar', learn_cat_onboarding: 'Moslashuv', learn_cat_core: 'Asosiy funksiyalar', learn_cat_advanced: 'Ilgʻor',
+    learn_lessons: 'dars', learn_min: 'daq', learn_complete: 'bajarildi',
+    lvl_beginner: 'Boshlangʻich', lvl_intermediate: 'Oʻrta', lvl_advanced: 'Ilgʻor',
+    learn_path_title: 'Sizning moslashuv yoʻlingiz', learn_path_sub: 'Sertifikat olish uchun ushbu 3 ta kursni yakunlang',
+    cal_title: 'Kalendar', cal_sub: 'Barcha shaxslaringiz boʻyicha muddatlar, eslatmalar va planyorkalar.',
+    cal_today: 'Bugun', cal_new_event: 'Yangi tadbir', cal_filing: 'Hisobot', cal_meeting: 'Planyorka', cal_note: 'Eslatma',
+    cal_agenda: 'Kun tartibi', cal_notes_panel: 'Eslatmalar', cal_standups: 'Planyorka va uchrashuvlar',
+    cal_mon: 'Du', cal_tue: 'Se', cal_wed: 'Ch', cal_thu: 'Pa', cal_fri: 'Ju', cal_sat: 'Sh', cal_sun: 'Ya',
+    cal_add_note: 'Eslatma qoʻshish', cal_all_day: 'Kun boʻyi',
+    months: ['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentyabr','Oktyabr','Noyabr','Dekabr'],
+  },
+};
+
+/* AI chat reply content, per language */
+function aiReply(q) {
+  const L = window.__LANG || 'EN';
+  const t = q.toLowerCase();
+  let key = 'default';
+  if (t.includes('vat') || t.includes('ндс') || t.includes('qqs') || t.includes('import') || t.includes('импорт') || t.includes('china') || t.includes('кита') || t.includes('xitoy'))
+    key = 'vat';
+  else if (t.includes('contract') || t.includes('догов') || t.includes('supply') || t.includes('постав') || t.includes('agreement') || t.includes('shartnoma'))
+    key = 'contract';
+  return REPLIES[L][key];
 }
 
-// ── Companies ──────────────────────────────────────────────────
-const ICONS = { 'ООО': '🏢', 'ИП (ЯТТШ)': '👤', 'АО': '🏛', 'Частное лицо': '🙋' };
-const TAX_COLORS = { 'УСН 4%': 'badge-green', 'ОСНО + НДС': 'badge-blue', 'Фиксированный налог': 'badge-yellow' };
+const REPLIES = {
+  EN: {
+    vat: { intro: "Here's how VAT applies to goods imported into Uzbekistan from China:",
+      points: ["<strong>Standard VAT rate is 12%</strong>, levied on the customs value plus import duty and excise (where applicable).","VAT is paid at customs clearance — you cannot defer it without authorized economic operator status.","Import VAT is <strong>creditable</strong> against your output VAT once the goods are registered and an electronic invoice (ЭСФ) is issued."],
+      cite: 'Tax Code RUz, Art. 238–240',
+      callout: "For FAMILY BERRIES EXPORT, your last 3 import batches qualify for full input-VAT credit — estimated <b>34.2M UZS</b> recoverable this quarter." },
+    contract: { intro: "I reviewed the supply agreement and flagged the items below by risk level:",
+      points: ["<strong>High — Payment terms:</strong> Clause 4.2 allows 90-day deferral with no late-payment interest.","<strong>Medium — Currency:</strong> Pricing is in USD but settlement in UZS at an unspecified rate. Pin the exchange-rate reference date.","<strong>Low — Force majeure:</strong> Clause 11 is standard and adequately drafted."],
+      cite: 'Civil Code RUz, Art. 355',
+      callout: "I can draft revised language for clauses 4.2 and 7.1 that protects your position while staying enforceable under Uzbek law." },
+    default: { intro: "Here's a clear breakdown based on current Uzbekistan legislation:",
+      points: ["I've cross-referenced your question against the Tax Code and the latest 2026 amendments.","The applicable rules and rates are summarized below, with the relevant statutory references.","Where it affects your entities, I've noted the specific financial impact."],
+      cite: 'Tax Code RUz, 2026 ed.',
+      callout: "Want me to apply this directly to one of your companies, or prepare the supporting documentation?" },
+  },
+  RU: {
+    vat: { intro: "Вот как НДС применяется к товарам, импортируемым в Узбекистан из Китая:",
+      points: ["<strong>Ставка НДС — 12%</strong>, начисляется на таможенную стоимость плюс пошлину и акциз (при наличии).","НДС уплачивается при таможенном оформлении — отсрочка невозможна без статуса уполномоченного экономического оператора.","Импортный НДС <strong>принимается к зачёту</strong> против исходящего НДС после оприходования товара и выставления ЭСФ."],
+      cite: 'НК РУз, ст. 238–240',
+      callout: "Для FAMILY BERRIES EXPORT последние 3 партии импорта дают право на полный зачёт входного НДС — ориентировочно <b>34,2 млн сум</b> к возврату в этом квартале." },
+    contract: { intro: "Я проверил договор поставки и отметил пункты по уровню риска:",
+      points: ["<strong>Высокий — Условия оплаты:</strong> п. 4.2 допускает отсрочку 90 дней без процентов за просрочку.","<strong>Средний — Валюта:</strong> цена в USD, расчёт в сумах по неуказанному курсу. Зафиксируйте дату курса.","<strong>Низкий — Форс-мажор:</strong> п. 11 стандартный и составлен корректно."],
+      cite: 'ГК РУз, ст. 355',
+      callout: "Могу подготовить новую редакцию пунктов 4.2 и 7.1, которая защитит вашу позицию и останется действительной по узбекскому праву." },
+    default: { intro: "Вот чёткий разбор на основе действующего законодательства Узбекистана:",
+      points: ["Я сверил ваш вопрос с Налоговым кодексом и последними поправками 2026 года.","Применимые нормы и ставки приведены ниже со ссылками на статьи.","Где это влияет на ваши компании, я указал конкретный финансовый эффект."],
+      cite: 'НК РУз, ред. 2026',
+      callout: "Применить это к одной из ваших компаний или подготовить подтверждающие документы?" },
+  },
+  UZ: {
+    vat: { intro: "Xitoydan Oʻzbekistonga import qilinadigan tovarlarga QQS quyidagicha qoʻllaniladi:",
+      points: ["<strong>QQS stavkasi — 12%</strong>, bojxona qiymati hamda import boji va aksizga (mavjud boʻlsa) hisoblanadi.","QQS bojxona rasmiylashtiruvida toʻlanadi — vakolatli iqtisodiy operator maqomisiz kechiktirib boʻlmaydi.","Import QQSi tovar roʻyxatga olinib, elektron hisob-faktura (EHF) berilgach, chiqim QQSiga <strong>hisobga olinadi</strong>."],
+      cite: 'OʻzR SK, 238–240-moddalar',
+      callout: "FAMILY BERRIES EXPORT uchun soʻnggi 3 import partiyasi toʻliq kirim QQS hisobiga ega — shu chorakda taxminan <b>34,2 mln soʻm</b> qaytariladi." },
+    contract: { intro: "Yetkazib berish shartnomasini koʻrib chiqib, quyidagilarni xavf darajasi boʻyicha belgiladim:",
+      points: ["<strong>Yuqori — Toʻlov shartlari:</strong> 4.2-band 90 kun kechiktirishga foizsiz ruxsat beradi.","<strong>Oʻrta — Valyuta:</strong> narx USDda, hisob-kitob soʻmda koʻrsatilmagan kurs boʻyicha. Kurs sanasini belgilang.","<strong>Past — Fors-major:</strong> 11-band standart va toʻgʻri tuzilgan."],
+      cite: 'OʻzR FK, 355-modda',
+      callout: "4.2 va 7.1-bandlar uchun pozitsiyangizni himoya qiluvchi va Oʻzbekiston qonuniga muvofiq yangi tahrir tayyorlay olaman." },
+    default: { intro: "Oʻzbekistonning amaldagi qonunchiligi asosida aniq tahlil:",
+      points: ["Savolingizni Soliq kodeksi va 2026-yilgi soʻnggi oʻzgartirishlar bilan solishtirdim.","Tegishli qoidalar va stavkalar quyida modda havolalari bilan keltirilgan.","Kompaniyalaringizga taʼsir qiladigan joylarda aniq moliyaviy taʼsirni koʻrsatdim."],
+      cite: 'OʻzR SK, 2026 tahrir',
+      callout: "Buni kompaniyalaringizdan biriga qoʻllaymi yoki tasdiqlovchi hujjatlarni tayyorlaymi?" },
+  },
+};
 
-function renderCompanies() {
-  const list = document.getElementById('companies-list');
-  if (!state.companies.length) {
-    list.innerHTML = `<div class="empty"><div class="empty-icon">🏢</div><div class="empty-text">Добавьте первую компанию</div></div>`;
-    return;
-  }
-  list.innerHTML = state.companies.map(c => `
-    <div class="card" style="${state.active === c.id ? 'border:2px solid var(--accent)' : ''}">
-      <div class="card-row">
-        <div class="card-icon" style="background:var(--bg)">${ICONS[c.type] || '🏢'}</div>
-        <div class="card-info">
-          <div class="card-row" style="gap:6px">
-            <div class="card-name">${c.name}</div>
-            ${state.active === c.id ? '<div class="active-dot"></div>' : ''}
+Object.assign(window, { t, STR, aiReply });
+</script>
+<!-- ════ CHROME (Sidebar + Header с реальными курсами) ════ -->
+<script type="text/babel">
+const { useState, useRef, useEffect, useCallback } = React;
+
+const NAV = [
+  { id: 'dashboard', icon: 'dashboard', key: 'nav_dashboard' },
+  { id: 'newchat',   icon: 'plus',      key: 'nav_newchat', primary: true },
+  { id: 'companies', icon: 'building',  key: 'nav_companies' },
+  { id: 'docs',      icon: 'doc',       key: 'nav_docs' },
+  { id: 'kb',        icon: 'book',      key: 'nav_kb' },
+  { id: 'learn',     icon: 'cap',       key: 'nav_learn' },
+  { id: 'calendar',  icon: 'calendar',  key: 'nav_calendar' },
+  { id: 'notes',     icon: 'note',      key: 'nav_notes' },
+];
+
+const CHAT_KEYS = ['chat1','chat2','chat3','chat4','chat5','chat6'];
+
+function Sidebar({ view, go, activeChat, openChat }) {
+  return (
+    <aside className="sidebar">
+      <div className="sb-top">
+        <div className="brand">
+          <div className="brand-mark"><Icon n="scale" s={20} sw={2} /></div>
+          <div>
+            <div className="brand-name">AI Accountant</div>
+            <div className="brand-sub">{t('brand_sub')}</div>
           </div>
-          <div style="margin-top:4px;display:flex;gap:4px;flex-wrap:wrap">
-            <span class="badge ${TAX_COLORS[c.tax] || 'badge-blue'}">${c.tax}</span>
-            <span class="badge badge-yellow">${c.turnover}</span>
-          </div>
-        </div>
-        <div class="card-actions">
-          ${state.active !== c.id ? `<button class="btn btn-ghost btn-icon btn-sm" onclick="setActive('${c.id}')" title="Выбрать">✓</button>` : ''}
-          <button class="btn btn-danger btn-icon btn-sm" onclick="deleteCompany('${c.id}')" title="Удалить">✕</button>
         </div>
       </div>
-      ${state.active === c.id ? `<div style="margin-top:10px"><button class="btn btn-primary" onclick="askBot('${c.name}', '${c.tax}', '${c.turnover}')">💬 Задать вопрос по этой компании</button></div>` : ''}
-    </div>
-  `).join('');
+      <div className="sb-scroll">
+        <nav className="nav-group">
+          {NAV.map(item => item.primary ? (
+            <button key={item.id} className="nav-item primary" onClick={() => go('newchat')}>
+              <Icon n={item.icon} s={17} /> {t(item.key)}
+            </button>
+          ) : (
+            <button key={item.id}
+              className={'nav-item' + (view === item.id ? ' active' : '')}
+              onClick={() => go(item.id)}>
+              <Icon n={item.icon} s={17} /> {t(item.key)}
+            </button>
+          ))}
+        </nav>
+        <div className="sb-label">{t('recent_chats')}</div>
+        <nav className="nav-group">
+          {CHAT_KEYS.map((ck, i) => (
+            <button key={i}
+              className={'chat-item' + (view === 'chat' && activeChat === ck ? ' active' : '')}
+              onClick={() => openChat(ck)}>
+              <span className="dot" /><span>{t(ck)}</span>
+            </button>
+          ))}
+          <button className="view-all" onClick={() => go('newchat')}>
+            {t('view_all_chats')} <Icon n="chevright" s={13} />
+          </button>
+        </nav>
+      </div>
+      <div className="sb-bottom">
+        <button className={'nav-item' + (view === 'settings' ? ' active' : '')} onClick={() => go('settings')}>
+          <Icon n="settings" s={17} /> {t('settings')}
+        </button>
+        <button className={'nav-item' + (view === 'support' ? ' active' : '')} onClick={() => go('support')}>
+          <Icon n="help" s={17} /> {t('support')}
+        </button>
+      </div>
+    </aside>
+  );
 }
 
-async function setActive(id) {
-  state.active = id;
-  await fetch(`${API}/api/user/${userId}/active/${id}`, { method: 'POST' });
-  renderCompanies();
+/* ---------- Header с реальными курсами ЦБ РУз ---------- */
+const LANGS = [
+  { code: 'EN', label: 'English' },
+  { code: 'RU', label: 'Русский' },
+  { code: 'UZ', label: "Oʻzbekcha" },
+];
+
+const NOTIFS = [
+  { ic: 'scale',  tint: 'tint-violet', t: 'n1t', s: 'n1s', time: '12m' },
+  { ic: 'clock',  tint: 'tint-amber',  t: 'n2t', s: 'n2s', time: '1h' },
+  { ic: 'check',  tint: 'tint-green',  t: 'n3t', s: 'n3s', time: '3h' },
+  { ic: 'sparkle',tint: 'tint-indigo', t: 'n4t', s: 'n4s', time: '5h' },
+];
+
+// Статичный фоллбэк
+const FX_FALLBACK = [
+  { ccy: 'USD', val: '12 845', d: '+0.3%', dir: 'up' },
+  { ccy: 'EUR', val: '13 910', d: '+0.5%', dir: 'up' },
+  { ccy: 'CNY', val: '1 809',  d: '+0.1%', dir: 'up' },
+  { ccy: 'RUB', val: '142.6',  d: '-0.2%', dir: 'down' },
+];
+
+function Header({ lang, setLang }) {
+  const [open, setOpen] = useState(null);
+  const [fx, setFx] = useState(FX_FALLBACK);
+  const close = () => setOpen(null);
+
+  useEffect(() => {
+    async function loadRates() {
+      try {
+        const res = await fetch(API_BASE + '/api/rates');
+        if (!res.ok) return;
+        const data = await res.json();
+        const order = ['USD','EUR','CNY','RUB'];
+        const mapped = data
+          .filter(r => order.includes(r.code))
+          .sort((a,b) => order.indexOf(a.code) - order.indexOf(b.code))
+          .map(r => {
+            const diff = parseFloat(r.diff || 0);
+            const rate = parseFloat(r.rate);
+            const val = rate >= 1000
+              ? Math.round(rate).toLocaleString('ru-RU')
+              : rate.toFixed(1);
+            return { ccy: r.code, val, d: (diff >= 0 ? '+' : '') + diff.toFixed(1) + '%', dir: diff >= 0 ? 'up' : 'down' };
+          });
+        if (mapped.length) setFx(mapped);
+      } catch(e) { /* фоллбэк уже установлен */ }
+    }
+    loadRates();
+    const timer = setInterval(loadRates, 300000); // каждые 5 мин
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <header className="header">
+      <div className="header-zone left">
+        <div className="fx" title={t('cbu_rate') + ' · UZS'}>
+          <span className="fx-label"><Icon n="scale" s={14} /></span>
+          {fx.map(f => (
+            <button key={f.ccy} className="fx-item" title={f.ccy + '/UZS · ' + f.d}>
+              <span className="fx-ccy">{f.ccy}</span>
+              <span className="fx-val">{f.val}</span>
+              <span className={'fx-delta ' + f.dir}>{f.dir === 'up' ? '▲' : '▼'}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="header-zone center">
+        <div className="search">
+          <Icon n="search" s={17} style={{ color: 'var(--muted)' }} />
+          <input placeholder={t('search_ph')} />
+          <span className="kbd">⌘K</span>
+        </div>
+      </div>
+      <div className="header-zone right">
+        <div className="h-actions">
+          <div style={{ position: 'relative' }}>
+            <button className="lang-btn" onClick={() => setOpen(open === 'lang' ? null : 'lang')}>
+              <Icon n="globe" s={17} /> {lang} <Icon n="chevdown" s={13} />
+            </button>
+            {open === 'lang' && (
+              <><div className="fade-overlay" onClick={close} />
+              <div className="menu" style={{ minWidth: 170 }}>
+                {LANGS.map(l => (
+                  <button key={l.code} className="menu-item lang-row" onClick={() => { setLang(l.code); close(); }}>
+                    <span>{l.label}</span>
+                    {lang === l.code && <span className="check"><Icon n="check" s={15} /></span>}
+                  </button>
+                ))}
+              </div></>
+            )}
+          </div>
+          <div style={{ position: 'relative' }}>
+            <button className="icon-btn" onClick={() => setOpen(open === 'notif' ? null : 'notif')}>
+              <Icon n="bell" s={19} /><span className="badge">4</span>
+            </button>
+            {open === 'notif' && (
+              <><div className="fade-overlay" onClick={close} />
+              <div className="menu" style={{ minWidth: 320, padding: 8 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 8px 10px' }}>
+                  <b style={{ fontSize: 13.5 }}>{t('notifications')}</b>
+                  <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--violet-500)' }}>{t('mark_read')}</span>
+                </div>
+                {NOTIFS.map((n, i) => (
+                  <button key={i} className="menu-item" style={{ alignItems: 'flex-start', padding: 10 }}>
+                    <span className={'qa-ic ' + n.tint} style={{ width: 34, height: 34, borderRadius: 10, flexShrink: 0 }}>
+                      <Icon n={n.ic} s={17} />
+                    </span>
+                    <span style={{ flex: 1 }}>
+                      <span style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
+                        <b style={{ fontSize: 12.5, color: 'var(--ink)' }}>{t(n.t)}</b>
+                        <span style={{ fontSize: 11, color: 'var(--faint)', fontWeight: 600, flexShrink: 0 }}>{n.time}</span>
+                      </span>
+                      <span style={{ display: 'block', fontSize: 12, color: 'var(--muted)', fontWeight: 500, marginTop: 3, whiteSpace: 'normal', lineHeight: 1.4 }}>{t(n.s)}</span>
+                    </span>
+                  </button>
+                ))}
+              </div></>
+            )}
+          </div>
+          <div style={{ position: 'relative' }}>
+            <button className="profile-btn" onClick={() => setOpen(open === 'profile' ? null : 'profile')}>
+              <span className="avatar">DR</span>
+              <span className="profile-meta">
+                <span className="pn">Dilshod R.</span>
+                <span className="pr">{t('role')}</span>
+              </span>
+              <Icon n="chevdown" s={14} style={{ color: 'var(--muted)' }} />
+            </button>
+            {open === 'profile' && (
+              <><div className="fade-overlay" onClick={close} />
+              <div className="menu">
+                <div className="menu-head">
+                  <span className="avatar">DR</span>
+                  <span>
+                    <span style={{ display: 'block', fontSize: 13, fontWeight: 700 }}>Dilshod Rahimov</span>
+                    <span style={{ display: 'block', fontSize: 11.5, color: 'var(--muted)', fontWeight: 500 }}>dilshod@familyberries.uz</span>
+                  </span>
+                </div>
+                <button className="menu-item"><Icon n="user" s={16} /> {t('m_profile')}</button>
+                <button className="menu-item"><Icon n="settings" s={16} /> {t('m_account')}</button>
+                <button className="menu-item"><Icon n="crown" s={16} /> {t('m_subscription')}
+                  <span style={{ marginLeft: 'auto', fontSize: 10.5, fontWeight: 700, color: 'var(--violet-600)', background: 'var(--violet-50)', padding: '2px 7px', borderRadius: 99 }}>PRO</span>
+                </button>
+                <div className="menu-sep" />
+                <button className="menu-item danger"><Icon n="logout" s={16} /> {t('m_logout')}</button>
+              </div></>
+            )}
+          </div>
+        </div>
+      </div>
+    </header>
+  );
 }
 
-async function deleteCompany(id) {
-  tg.showConfirm('Удалить компанию?', async (ok) => {
-    if (!ok) return;
-    state.companies = state.companies.filter(c => c.id !== id);
-    if (state.active === id) state.active = state.companies[0]?.id || null;
-    await fetch(`${API}/api/user/${userId}/company/${id}`, { method: 'DELETE' });
-    renderCompanies();
-  });
-}
+Object.assign(window, { Sidebar, Header, CHAT_KEYS });
+</script>
+<script type="text/babel">
+/* Composer (shared), Dashboard, widgets (i18n via t()) */
+const SUGGESTIONS = [
+  { ic: 'scale',  key: 's1' },
+  { ic: 'calc',   key: 's2' },
+  { ic: 'ship',   key: 's3' },
+  { ic: 'book',   key: 's4' },
+  { ic: 'chart',  key: 's5' },
+  { ic: 'sparkle',key: 's6' },
+];
 
-function openAddModal() { document.getElementById('add-modal').classList.add('open'); }
-function closeAddModal(e) {
-  if (!e || e.target === document.getElementById('add-modal'))
-    document.getElementById('add-modal').classList.remove('open');
-}
+const ATTACH = [
+  { ic: 'paperclip', key: 'a1' },
+  { ic: 'doc',       key: 'a2' },
+  { ic: 'sheet',     key: 'a3' },
+  { ic: 'pdf',       key: 'a4' },
+];
 
-async function saveCompany() {
-  const name = document.getElementById('f-name').value.trim();
-  if (!name) { tg.showAlert('Введите название'); return; }
-  const company = {
-    name, type: document.getElementById('f-type').value,
-    tax: document.getElementById('f-tax').value,
-    turnover: document.getElementById('f-turnover').value,
-    inn: document.getElementById('f-inn').value,
+function Composer({ value, onChange, onSend, autofocus }) {
+  const [attach, setAttach] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => { if (autofocus && ref.current) ref.current.focus(); }, [autofocus]);
+  const grow = (e) => {
+    e.target.style.height = 'auto';
+    e.target.style.height = Math.min(e.target.scrollHeight, 200) + 'px';
+    onChange(e.target.value);
   };
-  const r = await fetch(`${API}/api/user/${userId}/company`, {
-    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(company)
-  });
-  const data = await r.json();
-  state.companies = data.companies;
-  if (!state.active && state.companies.length) state.active = state.companies[0].id;
-  document.getElementById('f-name').value = '';
-  document.getElementById('f-inn').value = '';
-  closeAddModal();
-  renderCompanies();
+  const key = (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); onSend(); } };
+  return (
+    <div className="composer">
+      <textarea ref={ref} className="composer-field" value={value} onChange={grow} onKeyDown={key}
+        placeholder={t('composer_ph')} />
+      <div className="composer-bar">
+        <div style={{ position: 'relative' }}>
+          <button className="tool-btn" onClick={() => setAttach(!attach)}>
+            <Icon n="paperclip" s={16} /> {t('attach')}
+          </button>
+          {attach && (
+            <><div className="fade-overlay" onClick={() => setAttach(false)} />
+            <div className="attach-menu">
+              {ATTACH.map((a, i) => (
+                <button key={i} className="menu-item" onClick={() => setAttach(false)}>
+                  <Icon n={a.ic} s={16} /> {t(a.key)}
+                </button>
+              ))}
+            </div></>
+          )}
+        </div>
+        <button className="tool-icon" title="Excel"><Icon n="sheet" s={17} /></button>
+        <button className="tool-icon" title="PDF"><Icon n="pdf" s={17} /></button>
+        <button className="tool-icon" title="Voice"><Icon n="mic" s={17} /></button>
+        <button className="send-btn" disabled={!value.trim()} onClick={onSend}>
+          <Icon n="send" s={17} sw={2} />
+        </button>
+      </div>
+    </div>
+  );
 }
 
-function askBot(name, tax, turnover) {
-  const text = `Активная компания: ${name}, ${tax}, оборот ${turnover}.`;
-  tg.sendData(text);
-  tg.close();
+/* ---------------- Dashboard ---------------- */
+const QUICK_ACCESS = [
+  { ic: 'doc',     tint: 'tint-violet', h: 'qa1h', p: 'qa1p', c: 'qa1c' },
+  { ic: 'chart',   tint: 'tint-blue',   h: 'qa2h', p: 'qa2p', c: 'qa2c' },
+  { ic: 'book',    tint: 'tint-indigo', h: 'qa3h', p: 'qa3p', c: 'qa3c' },
+  { ic: 'building',tint: 'tint-green',  h: 'qa4h', p: 'qa4p', c: 'qa4c' },
+  { ic: 'cap',     tint: 'tint-amber',  h: 'qa5h', p: 'qa5p', c: 'qa5c' },
+  { ic: 'calendar',tint: 'tint-rose',   h: 'qa6h', p: 'qa6p', c: 'qa6c' },
+];
+
+const COMPANIES = [
+  { name: 'FAMILY BERRIES LLC', tin: '305 781 442', logo: 'FB', grad: 'linear-gradient(145deg,#6D28D9,#4C1D95)', status: 'ok', actKey: 'act1' },
+  { name: 'FAMILY BERRIES EXPORT', tin: '309 114 870', logo: 'FE', grad: 'linear-gradient(145deg,#4F46E5,#3730A3)', status: 'due', actKey: 'act2' },
+  { name: 'FAMILY BERRIES TRADE', tin: '302 559 631', logo: 'FT', grad: 'linear-gradient(145deg,#2563EB,#1E40AF)', status: 'ok', actKey: 'act3' },
+];
+
+const DEADLINES = [
+  { d: '02', mKey: 'mon_jun', t: 'd1t', s: 'd1s', urgent: true },
+  { d: '15', mKey: 'mon_jun', t: 'd2t', s: 'd2s' },
+  { d: '25', mKey: 'mon_jun', t: 'd3t', s: 'd3s' },
+  { d: '30', mKey: 'mon_jun', t: 'd4t', s: 'd4s' },
+];
+
+function Dashboard({ draft, setDraft, onSend, go }) {
+  const moShort = (STR[window.__LANG || 'EN'].months[5]).slice(0, 3);
+  return (
+    <div className="view">
+      <div className="wrap">
+        <div className="hero">
+          <div className="hero-badge"><span className="ring" /> {t('hero_badge')}</div>
+          <h1>{t('hero_a')}<span className="grad">{t('hero_grad')}</span><br />{t('hero_b')}</h1>
+          <p>{t('hero_p')}</p>
+        </div>
+
+        <Composer value={draft} onChange={setDraft} onSend={onSend} autofocus />
+
+        <div className="suggestions">
+          {SUGGESTIONS.map((s, i) => (
+            <button key={i} className="chip" onClick={() => onSend(t(s.key))}>
+              <Icon n={s.ic} s={15} /> {t(s.key)}
+            </button>
+          ))}
+        </div>
+
+        {/* Quick access */}
+        <div className="block">
+          <div className="sec-head">
+            <div className="sec-title">{t('quick_access')}<div className="sub">{t('quick_access_sub')}</div></div>
+          </div>
+          <div className="qa-grid">
+            {QUICK_ACCESS.map((c, i) => (
+              <button key={i} className="qa-card" onClick={() => go(i === 5 ? 'calendar' : i === 4 ? 'learn' : i === 3 ? 'companies' : 'newchat')}>
+                <div className={'qa-ic ' + c.tint}><Icon n={c.ic} s={21} /></div>
+                <div>
+                  <h4>{t(c.h)}</h4>
+                  <p>{t(c.p)}</p>
+                </div>
+                <div className="qa-foot">{t(c.c)} <Icon n="arrowright" s={14} /></div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Companies + Calendar */}
+        <div className="block">
+          <div className="split">
+            <div>
+              <div className="sec-head">
+                <div className="sec-title">{t('my_companies')}<div className="sub">{t('entities_sub')}</div></div>
+                <button className="sec-link" onClick={() => go('companies')}>{t('view_all')} <Icon n="arrowright" s={14} /></button>
+              </div>
+              <div className="co-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+                {COMPANIES.slice(0, 2).map((c, i) => <CompanyCard key={i} c={c} go={go} />)}
+              </div>
+              <div style={{ marginTop: 14 }}>
+                <CompanyCardWide c={COMPANIES[2]} go={go} />
+              </div>
+            </div>
+
+            <div>
+              <div className="sec-head"><div className="sec-title">{t('tax_calendar')}</div></div>
+              <TaxCalendar go={go} moShort={moShort} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-// ── Calculators ────────────────────────────────────────────────
-function fmt(n) { return Math.round(n).toLocaleString('ru') + ' сум'; }
-
-function showResult(id, rows) {
-  const el = document.getElementById(id);
-  el.innerHTML = rows.map((r, i) =>
-    `<div class="calc-row"><span>${r[0]}</span><span class="calc-val">${r[1]}</span></div>`
-  ).join('');
-  el.classList.add('show');
+function CompanyCard({ c, go }) {
+  return (
+    <div className="co-card">
+      <div className="co-top">
+        <div className="co-logo" style={{ background: c.grad }}>{c.logo}</div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div className="co-name">{c.name}</div>
+          <div className="co-tin">TIN {c.tin}</div>
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: -4, marginBottom: 4 }}>
+        <span className={'badge ' + c.status}><span className="bd" /> {c.status === 'ok' ? t('status_ok') : t('status_due')}</span>
+        <span style={{ fontSize: 11.5, color: 'var(--muted)', fontWeight: 600 }}>{t(c.actKey)}</span>
+      </div>
+      <div style={{ height: 1, background: 'var(--line-soft)', margin: '12px 0' }} />
+      <button className="co-btn" onClick={() => go('companies')}>{t('open_workspace')} <Icon n="arrowright" s={14} /></button>
+    </div>
+  );
 }
 
-function calcNDS() {
-  const amount = parseFloat(document.getElementById('nds-amount').value);
-  if (!amount) return;
-  const type = document.getElementById('nds-type').value;
-  if (type === 'on') {
-    const nds = amount * 0.12, total = amount + nds;
-    showResult('nds-result', [['Сумма без НДС', fmt(amount)], ['НДС 12%', fmt(nds)], ['Итого с НДС', fmt(total)]]);
-  } else {
-    const nds = amount * 12 / 112, base = amount - nds;
-    showResult('nds-result', [['Сумма с НДС', fmt(amount)], ['НДС (12/112)', fmt(nds)], ['Без НДС', fmt(base)]]);
-  }
+function CompanyCardWide({ c, go }) {
+  return (
+    <div className="co-card" style={{ flexDirection: 'row', alignItems: 'center', gap: 18 }}>
+      <div className="co-logo" style={{ background: c.grad, width: 48, height: 48 }}>{c.logo}</div>
+      <div style={{ flex: 1 }}>
+        <div className="co-name">{c.name}</div>
+        <div className="co-tin">TIN {c.tin}</div>
+      </div>
+      <span className={'badge ' + c.status}><span className="bd" /> {c.status === 'ok' ? t('status_ok') : t('status_due')}</span>
+      <div style={{ borderLeft: '1px solid var(--line-soft)', paddingLeft: 18 }}>
+        <div style={{ fontSize: 11, color: 'var(--faint)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '.04em' }}>{t('last_activity')}</div>
+        <div style={{ fontSize: 12.5, color: 'var(--ink-soft)', fontWeight: 600, marginTop: 3 }}>{t(c.actKey)}</div>
+      </div>
+      <button className="co-btn" style={{ width: 'auto', padding: '0 18px' }} onClick={() => go('companies')}>{t('open')} <Icon n="arrowright" s={14} /></button>
+    </div>
+  );
 }
 
-function calcSalary() {
-  const g = parseFloat(document.getElementById('sal-amount').value);
-  if (!g) return;
-  const ndfl = g * 0.12, net = g - ndfl, social = g * 0.12, total = g + social;
-  showResult('sal-result', [
-    ['Gross (начислено)', fmt(g)], ['НДФЛ 12% (удержан)', fmt(ndfl)], ['На руки (net)', fmt(net)],
-    ['──────────────', ''], ['Соцналог 12%', fmt(social)], ['Итого расходов', fmt(total)]
+function TaxCalendar({ go, moShort }) {
+  return (
+    <div className="cal">
+      <div className="cal-head">
+        <div><h4>{t('upcoming_deadlines')}</h4><div className="mo">{t('month_year')}</div></div>
+        <Icon n="calendar" s={20} />
+      </div>
+      <div className="cal-list">
+        {DEADLINES.map((d, i) => (
+          <div key={i} className="cal-item" onClick={() => go('calendar')} style={{ cursor: 'pointer' }}>
+            <div className={'cal-date' + (d.urgent ? ' urgent' : '')}>
+              <div className="d">{d.d}</div><div className="m">{moShort}</div>
+            </div>
+            <div className="cal-info">
+              <div className="t">{t(d.t)}</div>
+              <div className="s">{t(d.s)}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="cal-foot"><button onClick={() => go('calendar')}>{t('open_full_calendar')}</button></div>
+    </div>
+  );
+}
+
+Object.assign(window, { Composer, Dashboard, SUGGESTIONS });
+</script>
+<script type="text/babel">
+/* ============================================================
+   Full Calendar view — filings, standups (планёрки) & notes
+   ============================================================ */
+const tx = (o) => o[window.__LANG] || o.EN;
+
+const CAL_EVENTS = [
+  { d: 2,  type: 'filing',  time: null,    title: { EN: 'VAT Reporting', RU: 'Отчёт по НДС', UZ: 'QQS hisoboti' }, who: { EN: 'All entities', RU: 'Все юр. лица', UZ: 'Barcha shaxslar' } },
+  { d: 3,  type: 'meeting', time: '09:30', title: { EN: 'Morning standup', RU: 'Утренняя планёрка', UZ: 'Ertalabki planyorka' }, who: { EN: 'Accounting team', RU: 'Бухгалтерия', UZ: 'Buxgalteriya' } },
+  { d: 5,  type: 'note',    time: null,    title: { EN: 'Reconcile FB Trade invoices', RU: 'Сверить счета FB Trade', UZ: 'FB Trade hisob-fakturalari' }, who: { EN: 'FAMILY BERRIES TRADE', RU: 'FAMILY BERRIES TRADE', UZ: 'FAMILY BERRIES TRADE' } },
+  { d: 9,  type: 'meeting', time: '10:00', title: { EN: 'Weekly planning', RU: 'Еженедельная планёрка', UZ: 'Haftalik planyorka' }, who: { EN: 'Finance & management', RU: 'Финансы и руководство', UZ: 'Moliya va rahbariyat' } },
+  { d: 15, type: 'filing',  time: null,    title: { EN: 'Corporate Income Tax', RU: 'Налог на прибыль', UZ: 'Foyda soligʻi' }, who: { EN: 'Q2 advance', RU: 'Аванс 2 кв.', UZ: '2-chorak avansi' } },
+  { d: 17, type: 'meeting', time: '09:30', title: { EN: 'Team standup', RU: 'Командная планёрка', UZ: 'Jamoa planyorkasi' }, who: { EN: 'Accounting team', RU: 'Бухгалтерия', UZ: 'Buxgalteriya' } },
+  { d: 18, type: 'note',    time: null,    title: { EN: 'Call external auditor', RU: 'Позвонить аудитору', UZ: 'Auditorga qoʻngʻiroq' }, who: { EN: 'Annual review', RU: 'Годовой аудит', UZ: 'Yillik audit' } },
+  { d: 24, type: 'meeting', time: '10:00', title: { EN: 'Weekly planning', RU: 'Еженедельная планёрка', UZ: 'Haftalik planyorka' }, who: { EN: 'Finance & management', RU: 'Финансы и руководство', UZ: 'Moliya va rahbariyat' } },
+  { d: 25, type: 'filing',  time: null,    title: { EN: 'Payroll Reporting', RU: 'Зарплатная отчётность', UZ: 'Ish haqi hisoboti' }, who: { EN: 'INPS & social tax', RU: 'ИНПС и соцналог', UZ: 'INPS va ijtimoiy soliq' } },
+  { d: 30, type: 'filing',  time: null,    title: { EN: 'Electronic Invoices', RU: 'Электронные счета-фактуры', UZ: 'Elektron hisob-fakturalar' }, who: { EN: 'Reconciliation', RU: 'Сверка', UZ: 'Solishtirish' } },
+];
+
+const TYPE_LABEL = { filing: 'cal_filing', meeting: 'cal_meeting', note: 'cal_note' };
+const TYPE_ICON = { filing: 'scale', meeting: 'user', note: 'note' };
+
+function CalendarView() {
+  const YEAR = 2026, MONTH = 5; // June 2026
+  const TODAY = 9;
+  const [sel, setSel] = useState(TODAY);
+  const [notes, setNotes] = useState([
+    { c: { EN: 'Check new VAT rule for digital services', RU: 'Проверить новое правило НДС для цифровых услуг', UZ: 'Raqamli xizmatlar uchun yangi QQS qoidasini tekshirish' }, tint: 'tint-violet' },
+    { c: { EN: 'Prepare export docs — Kazakhstan batch', RU: 'Подготовить экспортные документы — Казахстан', UZ: 'Eksport hujjatlari — Qozogʻiston partiyasi' }, tint: 'tint-blue' },
+    { c: { EN: 'Dividend tax memo for Q2', RU: 'Записка по налогу на дивиденды за 2 кв.', UZ: '2-chorak dividend soligʻi eslatmasi' }, tint: 'tint-amber' },
   ]);
+  const [noteDraft, setNoteDraft] = useState('');
+
+  const first = new Date(YEAR, MONTH, 1);
+  const startDow = (first.getDay() + 6) % 7;       // Monday = 0
+  const daysInMonth = new Date(YEAR, MONTH + 1, 0).getDate();
+  const weekdays = ['cal_mon','cal_tue','cal_wed','cal_thu','cal_fri','cal_sat','cal_sun'];
+
+  const cells = [];
+  for (let i = 0; i < startDow; i++) cells.push(null);
+  for (let d = 1; d <= daysInMonth; d++) cells.push(d);
+  while (cells.length % 7 !== 0) cells.push(null);
+
+  const evFor = (d) => CAL_EVENTS.filter(e => e.d === d);
+  const selEvents = evFor(sel);
+  const meetings = CAL_EVENTS.filter(e => e.type === 'meeting');
+
+  const addNote = () => {
+    const v = noteDraft.trim();
+    if (!v) return;
+    setNotes(n => [{ c: { EN: v, RU: v, UZ: v }, tint: 'tint-green' }, ...n]);
+    setNoteDraft('');
+  };
+
+  const monthName = STR[window.__LANG || 'EN'].months[MONTH];
+
+  return (
+    <div className="view"><div className="wrap" style={{ maxWidth: 1200 }}>
+      <div className="cal-page-head">
+        <div>
+          <h1>{t('cal_title')}</h1>
+          <p>{t('cal_sub')}</p>
+        </div>
+        <div className="cal-toolbar">
+          <button className="cal-today-btn" onClick={() => setSel(TODAY)}>{t('cal_today')}</button>
+          <div className="cal-month-nav">
+            <button><Icon n="chevright" s={16} style={{ transform: 'rotate(180deg)' }} /></button>
+            <span>{monthName} {YEAR}</span>
+            <button><Icon n="chevright" s={16} /></button>
+          </div>
+          <button className="cal-new-btn"><Icon n="plus" s={15} /> {t('cal_new_event')}</button>
+        </div>
+      </div>
+
+      {/* legend */}
+      <div className="cal-legend">
+        <span className="leg"><span className="leg-dot ev-filing" /> {t('cal_filing')}</span>
+        <span className="leg"><span className="leg-dot ev-meeting" /> {t('cal_meeting')}</span>
+        <span className="leg"><span className="leg-dot ev-note" /> {t('cal_note')}</span>
+      </div>
+
+      <div className="cal-layout">
+        {/* Month grid */}
+        <div className="cal-grid-card">
+          <div className="cal-weekdays">
+            {weekdays.map(w => <div key={w} className="cal-wd">{t(w)}</div>)}
+          </div>
+          <div className="cal-grid">
+            {cells.map((d, i) => {
+              if (d === null) return <div key={i} className="cal-cell empty" />;
+              const evs = evFor(d);
+              return (
+                <button key={i}
+                  className={'cal-cell' + (d === sel ? ' selected' : '') + (d === TODAY ? ' today' : '')}
+                  onClick={() => setSel(d)}>
+                  <span className="cal-daynum">{d}</span>
+                  <span className="cal-cell-evs">
+                    {evs.slice(0, 3).map((e, j) => (
+                      <span key={j} className={'cal-ev ' + 'ev-' + e.type}>
+                        {e.time && <b>{e.time}</b>}{tx(e.title)}
+                      </span>
+                    ))}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Side panels */}
+        <div className="cal-side">
+          {/* Agenda for selected day */}
+          <div className="cal-panel">
+            <div className="cal-panel-head">
+              <span className="cal-panel-title">{t('cal_agenda')}</span>
+              <span className="cal-panel-date">{sel} {monthName}</span>
+            </div>
+            <div className="cal-panel-body">
+              {selEvents.length === 0 && <div className="cal-empty">—</div>}
+              {selEvents.map((e, i) => (
+                <div key={i} className="agenda-item">
+                  <span className={'agenda-ic ev-' + e.type}><Icon n={TYPE_ICON[e.type]} s={15} /></span>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span className="agenda-t">{tx(e.title)}</span>
+                    <span className="agenda-s">{tx(e.who)}</span>
+                  </span>
+                  <span className="agenda-time">{e.time || t('cal_all_day')}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Standups & meetings */}
+          <div className="cal-panel">
+            <div className="cal-panel-head">
+              <span className="cal-panel-title">{t('cal_standups')}</span>
+              <span className="cal-pill">{meetings.length}</span>
+            </div>
+            <div className="cal-panel-body">
+              {meetings.map((e, i) => (
+                <button key={i} className="agenda-item" onClick={() => setSel(e.d)}>
+                  <span className="meet-date">
+                    <b>{e.d}</b><span>{monthName.slice(0, 3)}</span>
+                  </span>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span className="agenda-t">{tx(e.title)}</span>
+                    <span className="agenda-s">{tx(e.who)}</span>
+                  </span>
+                  <span className="agenda-time">{e.time}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Notes */}
+          <div className="cal-panel">
+            <div className="cal-panel-head">
+              <span className="cal-panel-title">{t('cal_notes_panel')}</span>
+            </div>
+            <div className="cal-panel-body">
+              <div className="note-add">
+                <input value={noteDraft} onChange={e => setNoteDraft(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') addNote(); }}
+                  placeholder={t('cal_add_note') + '…'} />
+                <button onClick={addNote}><Icon n="plus" s={16} /></button>
+              </div>
+              {notes.map((n, i) => (
+                <div key={i} className={'note-chip ' + n.tint}>
+                  <span className="note-bar" />
+                  <span>{tx(n.c)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  );
 }
 
-document.getElementById('tax-system').addEventListener('change', function() {
-  document.getElementById('expenses-row').style.display = this.value === 'profit' ? 'block' : 'none';
-});
+Object.assign(window, { CalendarView });
+</script>
+<script type="text/babel">
+/* ============================================================
+   Learning Center — courses on operating the AI platform
+   ============================================================ */
+const lx = (o) => o[window.__LANG] || o.EN;
 
-function calcTax() {
-  const rev = parseFloat(document.getElementById('tax-revenue').value);
-  if (!rev) return;
-  const sys = document.getElementById('tax-system').value;
-  if (sys === 'usn') {
-    const tax = rev * 0.04;
-    showResult('tax-result', [['Выручка', fmt(rev)], ['Налог 4%', fmt(tax)], ['После налога', fmt(rev - tax)]]);
-  } else {
-    const exp = parseFloat(document.getElementById('tax-expenses').value) || 0;
-    const profit = rev - exp, tax = Math.max(0, profit * 0.15);
-    showResult('tax-result', [
-      ['Выручка', fmt(rev)], ['Расходы', fmt(exp)], ['Прибыль', fmt(profit)],
-      ['Налог 15%', fmt(tax)], ['Чистая прибыль', fmt(profit - tax)]
-    ]);
+const COURSES = [
+  { id: 1, ic: 'cap', tint: 'tint-violet', cat: 'onboarding', lvl: 'beginner', lessons: 6, min: 35, prog: 100,
+    title: { EN: 'Getting Started with AI Accountant', RU: 'Начало работы с ИИ-Бухгалтером', UZ: 'AI-Buxgalter bilan ishni boshlash' },
+    desc:  { EN: 'Tour the workspace, sidebar and your first AI conversation.', RU: 'Обзор рабочего пространства, меню и первый диалог с ИИ.', UZ: 'Ish maydoni, menyu va birinchi AI suhbati bilan tanishuv.' } },
+  { id: 2, ic: 'sparkle', tint: 'tint-indigo', cat: 'onboarding', lvl: 'beginner', lessons: 8, min: 50, prog: 60,
+    title: { EN: 'Chatting with Your AI Copilot', RU: 'Диалог с ИИ-помощником', UZ: 'AI-yordamchi bilan suhbat' },
+    desc:  { EN: 'Write precise prompts and get reliable, sourced answers.', RU: 'Точные запросы и достоверные ответы со ссылками на закон.', UZ: 'Aniq soʻrovlar va qonunga havolali ishonchli javoblar.' } },
+  { id: 3, ic: 'doc', tint: 'tint-blue', cat: 'core', lvl: 'intermediate', lessons: 7, min: 45, prog: 25,
+    title: { EN: 'Smart Document Review', RU: 'Умная проверка документов', UZ: 'Aqlli hujjat tahlili' },
+    desc:  { EN: 'Upload contracts & reports and read AI risk analysis.', RU: 'Загрузка договоров и отчётов, разбор рисков от ИИ.', UZ: 'Shartnoma va hisobotlarni yuklash, AI xavf tahlili.' } },
+  { id: 4, ic: 'building', tint: 'tint-green', cat: 'core', lvl: 'beginner', lessons: 5, min: 30, prog: 0,
+    title: { EN: 'Managing Companies & Tax IDs', RU: 'Управление компаниями и ИНН', UZ: 'Kompaniyalar va STIR boshqaruvi' },
+    desc:  { EN: 'Add entities, track filings and switch workspaces.', RU: 'Добавление юр. лиц, отслеживание отчётов и переключение.', UZ: 'Shaxslar qoʻshish, hisobotlarni kuzatish va almashish.' } },
+  { id: 5, ic: 'calendar', tint: 'tint-rose', cat: 'core', lvl: 'beginner', lessons: 4, min: 20, prog: 0,
+    title: { EN: 'Mastering the Tax Calendar', RU: 'Работа с налоговым календарём', UZ: 'Soliq kalendarini oʻzlashtirish' },
+    desc:  { EN: 'Track deadlines, standups and notes in one view.', RU: 'Сроки, планёрки и заметки в одном окне.', UZ: 'Muddatlar, planyorka va eslatmalar bir oynada.' } },
+  { id: 6, ic: 'book', tint: 'tint-amber', cat: 'core', lvl: 'intermediate', lessons: 6, min: 40, prog: 0,
+    title: { EN: 'Legislation Search & Citations', RU: 'Поиск по законам и ссылки', UZ: 'Qonun qidiruvi va havolalar' },
+    desc:  { EN: 'Find the right article and verify every AI citation.', RU: 'Находите нужную статью и проверяйте ссылки ИИ.', UZ: 'Kerakli moddani toping va AI havolalarini tekshiring.' } },
+  { id: 7, ic: 'mic', tint: 'tint-blue', cat: 'core', lvl: 'beginner', lessons: 5, min: 25, prog: 0,
+    title: { EN: 'Uploads, Excel & Voice Input', RU: 'Загрузки, Excel и голосовой ввод', UZ: 'Yuklamalar, Excel va ovozli kiritish' },
+    desc:  { EN: 'Feed the AI files, spreadsheets and spoken questions.', RU: 'Передавайте ИИ файлы, таблицы и голосовые вопросы.', UZ: 'AIga fayllar, jadvallar va ovozli savollar bering.' } },
+  { id: 8, ic: 'bolt', tint: 'tint-violet', cat: 'advanced', lvl: 'advanced', lessons: 9, min: 65, prog: 0,
+    title: { EN: 'Automating Workflows with AI', RU: 'Автоматизация процессов с ИИ', UZ: 'AI bilan jarayonlarni avtomatlashtirish' },
+    desc:  { EN: 'Chain tasks, templates and recurring reports end-to-end.', RU: 'Связывайте задачи, шаблоны и регулярные отчёты.', UZ: 'Vazifalar, shablonlar va muntazam hisobotlarni bogʻlang.' } },
+];
+
+const CATS = ['all', 'onboarding', 'core', 'advanced'];
+
+function LearningView() {
+  const [cat, setCat] = useState('all');
+  const featured = COURSES[1]; // 60% in progress
+  const list = cat === 'all' ? COURSES : COURSES.filter(c => c.cat === cat);
+  const done = COURSES.filter(c => c.prog === 100).length;
+  const inProg = COURSES.filter(c => c.prog > 0 && c.prog < 100).length;
+
+  return (
+    <div className="view"><div className="wrap" style={{ maxWidth: 1120 }}>
+      <div className="page-head"><h1>{t('learn_title')}</h1><p>{t('learn_sub')}</p></div>
+
+      <div className="stat-row">
+        <div className="stat"><div className="sl"><Icon n="cap" s={15} /> {t('learn_stat_courses')}</div><div className="sv">{COURSES.length}</div><div className="sd">{t('learn_cat_all')}</div></div>
+        <div className="stat"><div className="sl"><Icon n="check" s={15} /> {t('learn_stat_completed')}</div><div className="sv">{done}</div><div className="sd up"><Icon n="trend" s={13} /> +1</div></div>
+        <div className="stat"><div className="sl"><Icon n="bolt" s={15} /> {t('learn_stat_progress')}</div><div className="sv">{inProg}</div><div className="sd">{t('learn_continue')}</div></div>
+        <div className="stat"><div className="sl"><Icon n="clock" s={15} /> {t('learn_stat_hours')}</div><div className="sv">5.2h</div><div className="sd">{t('learn_cat_onboarding')}</div></div>
+      </div>
+
+      {/* Featured / continue */}
+      <div className="learn-featured">
+        <div className="lf-left">
+          <span className="lf-tag"><Icon n="bolt" s={13} /> {t('learn_continue')}</span>
+          <h3>{lx(featured.title)}</h3>
+          <p>{lx(featured.desc)}</p>
+          <div className="lf-meta">
+            <span><Icon n="cap" s={14} /> {featured.lessons} {t('learn_lessons')}</span>
+            <span><Icon n="clock" s={14} /> {featured.min} {t('learn_min')}</span>
+            <span><Icon n="trophy" s={14} /> {t('lvl_' + featured.lvl)}</span>
+          </div>
+          <div className="lf-prog">
+            <div className="lf-bar"><span style={{ width: featured.prog + '%' }} /></div>
+            <span className="lf-pct">{featured.prog}% {t('learn_complete')}</span>
+          </div>
+          <button className="lf-btn">{t('learn_resume')} <Icon n="arrowright" s={15} /></button>
+        </div>
+        <div className="lf-art">
+          <div className="lf-art-ic"><Icon n="sparkle" s={40} /></div>
+        </div>
+      </div>
+
+      {/* category tabs */}
+      <div className="learn-tabs">
+        {CATS.map(c => (
+          <button key={c} className={'learn-tab' + (cat === c ? ' active' : '')} onClick={() => setCat(c)}>
+            {t('learn_cat_' + c)}
+          </button>
+        ))}
+      </div>
+
+      {/* course grid */}
+      <div className="learn-grid">
+        {list.map(c => (
+          <div key={c.id} className="course-card">
+            <div className="course-top">
+              <div className={'qa-ic ' + c.tint}><Icon n={c.ic} s={21} /></div>
+              {c.prog === 100
+                ? <span className="course-done"><Icon n="check" s={13} /> 100%</span>
+                : <span className={'course-lvl lvl-' + c.lvl}>{t('lvl_' + c.lvl)}</span>}
+            </div>
+            <h4>{lx(c.title)}</h4>
+            <p>{lx(c.desc)}</p>
+            <div className="course-meta">
+              <span><Icon n="cap" s={13} /> {c.lessons} {t('learn_lessons')}</span>
+              <span><Icon n="clock" s={13} /> {c.min} {t('learn_min')}</span>
+            </div>
+            <div className="course-bar"><span style={{ width: c.prog + '%' }} /></div>
+            <button className={'course-btn' + (c.prog === 100 ? ' ghost' : '')}>
+              {c.prog === 100 ? t('learn_review') : c.prog > 0 ? t('learn_resume') : t('learn_start')}
+              <Icon n="arrowright" s={14} />
+            </button>
+          </div>
+        ))}
+      </div>
+    </div></div>
+  );
+}
+
+Object.assign(window, { LearningView });
+</script>
+<!-- ════ CONVERSATION + COMPANIES (реальное API) ════ -->
+<script type="text/babel">
+
+/* ---------- ChatView — рендерит и структурированные и текстовые ответы ---------- */
+function ChatView({ messages, draft, setDraft, onSend, typing }) {
+  const endRef = useRef(null);
+  useEffect(() => { if (endRef.current) endRef.current.scrollTop = endRef.current.scrollHeight; }, [messages, typing]);
+
+  function renderAiContent(m) {
+    if (m.data) {
+      // Структурированный формат (локальные моки из истории)
+      return (
+        <>
+          <p>{m.data.intro}</p>
+          <ul>{m.data.points.map((p, j) => <li key={j} dangerouslySetInnerHTML={{ __html: p }} />)}</ul>
+          <p style={{ marginBottom: 8 }}>
+            <span className="cite"><Icon n="scale" s={12} /> {m.data.cite}</span>
+          </p>
+          <div className="ai-callout">
+            <span className="co-ic"><Icon n="sparkle" s={18} /></span>
+            <span className="t" dangerouslySetInnerHTML={{ __html: m.data.callout }} />
+          </div>
+        </>
+      );
+    }
+    // Текстовый формат — реальный ответ из API
+    const lines = (m.text || '').split('\n');
+    return lines.map((line, i) => {
+      if (!line.trim()) return <br key={i} />;
+      // Базовый markdown
+      const html = line
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`(.*?)`/g, '<code style="background:var(--violet-50);padding:1px 5px;border-radius:4px;font-size:13px;color:var(--violet-700)">$1</code>');
+      if (line.startsWith('• ') || line.startsWith('- ')) {
+        return <li key={i} dangerouslySetInnerHTML={{ __html: html.replace(/^[•\-] /, '') }} />;
+      }
+      return <p key={i} dangerouslySetInnerHTML={{ __html: html }} />;
+    });
   }
+
+  return (
+    <div className="view" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <div className="content" ref={endRef} style={{ flex: 1 }}>
+        <div className="chat-wrap">
+          {messages.map((m, i) => m.role === 'user' ? (
+            <div className="msg" key={i}>
+              <div className="msg-av user">DR</div>
+              <div className="msg-body">
+                <div className="msg-name">{t('you')}</div>
+                <div className="msg-text"><p>{m.text}</p></div>
+              </div>
+            </div>
+          ) : (
+            <div className="msg" key={i}>
+              <div className="msg-av ai"><Icon n="scale" s={16} sw={2} /></div>
+              <div className="msg-body">
+                <div className="msg-name">{t('ai_name')}</div>
+                <div className="msg-text">{renderAiContent(m)}</div>
+                <div className="msg-actions">
+                  <button title="Copy" onClick={() => navigator.clipboard.writeText(m.text || m.data?.intro || '')}>
+                    <Icon n="copy" s={15} />
+                  </button>
+                  <button title="Good response"><Icon n="thumbup" s={15} /></button>
+                  <button title="Regenerate"><Icon n="refresh" s={15} /></button>
+                </div>
+              </div>
+            </div>
+          ))}
+          {typing && (
+            <div className="msg">
+              <div className="msg-av ai"><Icon n="scale" s={16} sw={2} /></div>
+              <div className="msg-body"><div className="typing"><span /><span /><span /></div></div>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="chat-footer">
+        <div style={{ maxWidth: 760, margin: '0 auto' }}>
+          <Composer value={draft} onChange={setDraft} onSend={onSend} autofocus />
+          <div className="chat-disclaimer">{t('disclaimer')}</div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-// ── Profile ────────────────────────────────────────────────────
-function renderProfile() {
-  const left = state.requests_left ?? 10;
-  document.getElementById('requests-left').textContent = left;
-  document.getElementById('progress-fill').style.width = (left / 10 * 100) + '%';
+/* ---------- Companies с реальным API ---------- */
+function CompaniesView({ go }) {
+  const [companies, setCompanies] = useState([]);
+  const [activeId, setActiveId] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [form, setForm] = useState({ name: '', tin: '', tax_type: 'УСН', activity: '' });
+  const [saving, setSaving] = useState(false);
+
+  const GRADS = [
+    'linear-gradient(145deg,#6D28D9,#4C1D95)',
+    'linear-gradient(145deg,#4F46E5,#3730A3)',
+    'linear-gradient(145deg,#2563EB,#1E40AF)',
+    'linear-gradient(145deg,#0F766E,#134E4A)',
+    'linear-gradient(145deg,#B45309,#92400E)',
+  ];
+
+  async function load() {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/user/${USER_ID}`);
+      if (res.ok) {
+        const d = await res.json();
+        setCompanies(d.companies || []);
+        setActiveId(d.active_company || null);
+      }
+    } catch(e) {}
+    setLoading(false);
+  }
+
+  useEffect(() => { load(); }, []);
+
+  async function addCompany() {
+    if (!form.name.trim()) return;
+    setSaving(true);
+    try {
+      await fetch(`${API_BASE}/api/user/${USER_ID}/company`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
+      setShowModal(false);
+      setForm({ name: '', tin: '', tax_type: 'УСН', activity: '' });
+      await load();
+    } catch(e) {}
+    setSaving(false);
+  }
+
+  async function deleteCompany(id) {
+    if (!confirm('Удалить компанию?')) return;
+    try {
+      await fetch(`${API_BASE}/api/user/${USER_ID}/company/${id}`, { method: 'DELETE' });
+      await load();
+    } catch(e) {}
+  }
+
+  async function setActive(id) {
+    try {
+      await fetch(`${API_BASE}/api/user/${USER_ID}/active/${id}`, { method: 'POST' });
+      setActiveId(id);
+      await load();
+    } catch(e) {}
+  }
+
+  // Если нет компаний от API — показываем демо-данные
+  const displayList = companies.length > 0 ? companies : [
+    { id: 'demo1', name: 'FAMILY BERRIES LLC', tin: '305 781 442', logo: 'FB', grad: GRADS[0], status: 'ok', tax_type: 'ОСН', activity: 'Export', act: '2 hours ago', vat: true },
+    { id: 'demo2', name: 'FAMILY BERRIES EXPORT', tin: '309 114 870', logo: 'FE', grad: GRADS[1], status: 'due', tax_type: 'ОСН', activity: 'Trade', act: 'Yesterday', vat: true },
+    { id: 'demo3', name: 'FAMILY BERRIES TRADE', tin: '302 559 631', logo: 'FT', grad: GRADS[2], status: 'ok', tax_type: 'УСН', activity: 'Retail', act: '4 days ago', vat: false },
+  ];
+
+  return (
+    <div className="view"><div className="wrap">
+      <div className="page-head" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+        <div><h1>{t('my_companies')}</h1><p>{t('companies_sub')}</p></div>
+        <button onClick={() => setShowModal(true)}
+          style={{ height: 42, padding: '0 18px', borderRadius: 14, background: 'var(--ink)', color: '#fff', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <Icon n="plus" s={16} /> {t('add_company')}
+        </button>
+      </div>
+
+      <div className="stat-row">
+        <div className="stat"><div className="sl"><Icon n="building" s={15} /> {t('st_entities')}</div><div className="sv">{displayList.length}</div><div className="sd">{t('st_all_active')}</div></div>
+        <div className="stat"><div className="sl"><Icon n="shield" s={15} /> {t('st_compliant')}</div><div className="sv">{displayList.filter(c=>c.status==='ok').length}/{displayList.length}</div><div className="sd" style={{ color: 'var(--amber)' }}>{t('st_filing_due')}</div></div>
+        <div className="stat"><div className="sl"><Icon n="doc" s={15} /> {t('st_documents')}</div><div className="sv">148</div><div className="sd up"><Icon n="trend" s={13} /> {t('st_this_week')}</div></div>
+        <div className="stat"><div className="sl"><Icon n="calc" s={15} /> {t('st_vat')}</div><div className="sv">34.2M</div><div className="sd">{t('st_quarter')}</div></div>
+      </div>
+
+      {loading ? (
+        <div style={{ padding: 40, textAlign: 'center', color: 'var(--muted)' }}>Загрузка...</div>
+      ) : (
+        <div className="co-grid" style={{ gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))' }}>
+          {displayList.map((c, i) => {
+            const initials = c.logo || c.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+            const grad = c.grad || GRADS[i % GRADS.length];
+            const isActive = c.id === activeId;
+            return (
+              <div className="co-card" key={c.id}
+                style={isActive ? { border: '2px solid var(--violet-400)', boxShadow: 'var(--sh-glow)' } : {}}
+                onClick={() => setActive(c.id)}>
+                <div className="co-top">
+                  <div className="co-logo" style={{ background: grad }}>{initials}</div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div className="co-name">{c.name}</div>
+                    <div className="co-tin">{c.tin ? 'TIN ' + c.tin : c.tax_type || ''}</div>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 6, marginBottom: 14, flexWrap: 'wrap' }}>
+                  <span className={'badge ' + (c.status || 'ok')}>
+                    <span className="bd" />
+                    {(c.status || 'ok') === 'ok' ? t('status_ok') : t('status_due')}
+                  </span>
+                  {(c.vat || c.tax_type === 'НДС') && (
+                    <span className="badge" style={{ background: 'var(--green-bg)', color: 'var(--green)' }}>
+                      {t('vat_label')}: {t('vat_registered')}
+                    </span>
+                  )}
+                  {isActive && (
+                    <span className="badge" style={{ background: 'var(--violet-100)', color: 'var(--violet-700)' }}>
+                      ● Активная
+                    </span>
+                  )}
+                </div>
+                <div style={{ fontSize: 12.5, color: 'var(--muted)', fontWeight: 600, paddingBottom: 14 }}>
+                  {c.activity || c.tax_type || ''}
+                </div>
+                <div className="co-meta">
+                  <div>
+                    <div className="lbl">{t('last_activity')}</div>
+                    <div className="val">{c.act || c.actKey && t(c.actKey) || '—'}</div>
+                  </div>
+                  <button onClick={(e) => { e.stopPropagation(); deleteCompany(c.id); }}
+                    style={{ color: 'var(--red)', padding: '4px 8px', borderRadius: 8 }}
+                    title="Удалить">
+                    <Icon n="trash" s={15} />
+                  </button>
+                </div>
+                <button className="co-btn" onClick={(e) => { e.stopPropagation(); go('newchat'); }}>
+                  {t('open_workspace')} <Icon n="arrowright" s={14} />
+                </button>
+              </div>
+            );
+          })}
+          {/* Кнопка добавления */}
+          <div className="co-card" style={{ border: '1.5px dashed var(--line)', cursor: 'pointer', alignItems: 'center', justifyContent: 'center', minHeight: 200 }}
+            onClick={() => setShowModal(true)}>
+            <div style={{ textAlign: 'center', color: 'var(--muted)' }}>
+              <Icon n="plus" s={28} style={{ marginBottom: 8 }} />
+              <div style={{ fontSize: 13, fontWeight: 600 }}>{t('add_company')}</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Модал добавления компании */}
+      {showModal && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          onClick={() => setShowModal(false)}>
+          <div style={{ background: 'var(--surface)', borderRadius: 20, padding: 28, width: 440, maxWidth: '90vw', boxShadow: 'var(--sh-lg)' }}
+            onClick={e => e.stopPropagation()}>
+            <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 20 }}>🏢 {t('add_company')}</h3>
+            {[
+              { label: 'Название компании', key: 'name', ph: 'ООО «Компания»' },
+              { label: 'ИНН / TIN', key: 'tin', ph: '123456789' },
+              { label: 'Сфера деятельности', key: 'activity', ph: 'Торговля, IT, Услуги...' },
+            ].map(f => (
+              <div key={f.key} style={{ marginBottom: 14 }}>
+                <div style={{ fontSize: 12, color: 'var(--muted)', fontWeight: 600, marginBottom: 5 }}>{f.label}</div>
+                <input value={form[f.key]} onChange={e => setForm(p => ({...p, [f.key]: e.target.value}))}
+                  placeholder={f.ph}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid var(--line)', fontSize: 14, outline: 'none', fontFamily: 'inherit' }} />
+              </div>
+            ))}
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ fontSize: 12, color: 'var(--muted)', fontWeight: 600, marginBottom: 5 }}>Тип налогообложения</div>
+              <select value={form.tax_type} onChange={e => setForm(p => ({...p, tax_type: e.target.value}))}
+                style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid var(--line)', fontSize: 14, fontFamily: 'inherit' }}>
+                <option>УСН</option><option>ОСН</option><option>НДС</option><option>ИП</option>
+              </select>
+            </div>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
+              <button onClick={() => setShowModal(false)}
+                style={{ padding: '10px 20px', borderRadius: 10, border: '1px solid var(--line)', fontSize: 13, fontWeight: 600, color: 'var(--ink-soft)' }}>
+                Отмена
+              </button>
+              <button onClick={addCompany} disabled={saving}
+                style={{ padding: '10px 20px', borderRadius: 10, background: 'var(--ink)', color: '#fff', fontSize: 13, fontWeight: 700, opacity: saving ? 0.6 : 1 }}>
+                {saving ? 'Сохраняю...' : 'Добавить'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div></div>
+  );
 }
 
-function setLang(lang) {
-  state.lang = lang;
-  document.getElementById('btn-ru').style.background = lang === 'ru' ? 'var(--accent)' : '';
-  document.getElementById('btn-ru').style.color = lang === 'ru' ? 'white' : '';
-  document.getElementById('btn-uz').style.background = lang === 'uz' ? 'var(--accent)' : '';
-  document.getElementById('btn-uz').style.color = lang === 'uz' ? 'white' : '';
-  tg.sendData(JSON.stringify({action: 'set_lang', lang}));
+/* ---------- Placeholder ---------- */
+const PH_META = {
+  docs: { ic: 'doc' }, kb: { ic: 'book' }, learn: { ic: 'cap' },
+  notes: { ic: 'note' }, settings: { ic: 'settings' }, support: { ic: 'help' },
+};
+function Placeholder({ view, go }) {
+  const m = PH_META[view] || PH_META.notes;
+  return (
+    <div className="view"><div className="ph">
+      <div className="ph-ic"><Icon n={m.ic} s={28} /></div>
+      <h2>{t('ph_' + view + '_h')}</h2>
+      <p>{t('ph_' + view + '_p')}</p>
+      <button onClick={() => go('newchat')}>{t('ph_' + view + '_c')}</button>
+    </div></div>
+  );
 }
 
-// ── Init ───────────────────────────────────────────────────────
-loadUser();
+Object.assign(window, { ChatView, CompaniesView, Placeholder });
+</script>
+<!-- ════ APP ROOT — реальный API чат ════ -->
+<script type="text/babel">
+
+function App() {
+  const [view, setView] = useState('dashboard');
+  const [lang, setLangState] = useState(() => localStorage.getItem('aiacc_lang') || 'RU');
+  const [draft, setDraft] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [typing, setTyping] = useState(false);
+  const [activeChat, setActiveChat] = useState(null);
+
+  window.__LANG = lang;
+  const setLang = (l) => { window.__LANG = l; localStorage.setItem('aiacc_lang', l); setLangState(l); };
+
+  const go = (v) => {
+    if (v === 'newchat') { setMessages([]); setActiveChat(null); setView('chat'); setDraft(''); }
+    else setView(v);
+  };
+
+  // Открыть историческую беседу (моки для демо)
+  const openChat = (chatKey) => {
+    setActiveChat(chatKey);
+    setView('chat');
+    setTyping(false);
+    const title = t(chatKey);
+    setMessages([{ role: 'user', text: title }]);
+    setTimeout(() => setMessages(m => [...m, { role: 'ai', data: aiReply(title) }]), 50);
+  };
+
+  // Реальный API-запрос к бэкенду
+  const send = async (preset) => {
+    const text = (typeof preset === 'string' ? preset : draft).trim();
+    if (!text) return;
+    setView('chat');
+    setDraft('');
+    setActiveChat(null);
+    setMessages(m => [...m, { role: 'user', text }]);
+    setTyping(true);
+
+    try {
+      const res = await fetch(`${API_BASE}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: USER_ID, message: text })
+      });
+      setTyping(false);
+      if (res.ok) {
+        const data = await res.json();
+        setMessages(m => [...m, { role: 'ai', text: data.response || '' }]);
+      } else {
+        // Фоллбэк — используем локальный aiReply при ошибке API
+        setMessages(m => [...m, { role: 'ai', data: aiReply(text) }]);
+      }
+    } catch(e) {
+      setTyping(false);
+      // Нет интернета / сервер недоступен → локальный ответ
+      setMessages(m => [...m, { role: 'ai', data: aiReply(text) }]);
+    }
+  };
+
+  return (
+    <div className="app">
+      <Sidebar view={view} go={go} activeChat={activeChat} openChat={openChat} />
+      <div className="main">
+        <Header lang={lang} setLang={setLang} />
+        {view === 'chat'
+          ? <ChatView messages={messages} draft={draft} setDraft={setDraft} onSend={send} typing={typing} />
+          : <div className="content">
+              {view === 'dashboard' && <Dashboard draft={draft} setDraft={setDraft} onSend={send} go={go} />}
+              {view === 'companies' && <CompaniesView go={go} />}
+              {view === 'calendar' && <CalendarView />}
+              {view === 'learn' && <LearningView />}
+              {['docs','kb','notes','settings','support'].includes(view) && <Placeholder view={view} go={go} />}
+            </div>}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
 </body>
 </html>
