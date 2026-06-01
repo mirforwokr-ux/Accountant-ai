@@ -2087,7 +2087,109 @@ function Placeholder({ view, go }) {
 
 Object.assign(window, { ChatView, CompaniesView, Placeholder });
 </script>
-<!-- ════ APP ROOT — реальный API чат ════ -->
+<!-- ════ AUTH LAYER — логин, JWT, защита ════ -->
+<script type="text/babel">
+
+// ── Утилиты авторизации ──────────────────────────────────
+const AUTH = {
+  getToken: () => localStorage.getItem('bux_token'),
+  setToken: (t) => localStorage.setItem('bux_token', t),
+  clearToken: () => localStorage.removeItem('bux_token'),
+  getUser: () => { try { return JSON.parse(localStorage.getItem('bux_user') || 'null'); } catch { return null; } },
+  setUser: (u) => localStorage.setItem('bux_user', JSON.stringify(u)),
+  clearUser: () => localStorage.removeItem('bux_user'),
+  authHeaders: () => ({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${AUTH.getToken()}` }),
+  logout: () => { AUTH.clearToken(); AUTH.clearUser(); window.location.href = '/'; },
+};
+
+// При загрузке — проверяем token в URL (после redirect от Google)
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token');
+  const error = params.get('error');
+  if (token) {
+    AUTH.setToken(token);
+    window.history.replaceState({}, '', '/');
+  }
+  if (error) {
+    console.error('Auth error:', error);
+    window.history.replaceState({}, '', '/');
+  }
+})();
+
+// ── Экран входа ──────────────────────────────────────────
+function LoginScreen({ onLogin }) {
+  const [loading, setLoading] = React.useState(false);
+  const [err, setErr] = React.useState('');
+
+  const loginGoogle = () => {
+    window.location.href = API_BASE + "/auth/github";
+  };
+
+  return (
+    <div style={{
+      minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      background: 'linear-gradient(135deg, #F6F5F9 0%, #EDE6FB 100%)',
+    }}>
+      <div style={{
+        background: '#fff', borderRadius: 24, padding: '48px 40px',
+        boxShadow: '0 24px 80px -16px rgba(45,20,90,.18)',
+        width: 420, maxWidth: '90vw', textAlign: 'center',
+      }}>
+        {/* Logo */}
+        <div style={{ width: 60, height: 60, borderRadius: 18, background: 'linear-gradient(150deg,#7C3AED,#4C1D95)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', boxShadow: '0 10px 30px -8px rgba(109,40,217,.4)' }}>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+
+        <h1 style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-.03em', marginBottom: 8 }}>
+          AI Бухгалтер
+        </h1>
+        <p style={{ fontSize: 15, color: '#847E92', marginBottom: 8, fontWeight: 500 }}>Узбекистан</p>
+        <p style={{ fontSize: 13.5, color: '#4A4458', marginBottom: 32, lineHeight: 1.6 }}>
+          Ваш ИИ-помощник по бухгалтерии,<br />налогам и законодательству РУз
+        </p>
+
+        {/* Google кнопка */}
+        <button onClick={loginGoogle} style={{
+          width: '100%', height: 50, border: '1.5px solid #ECE9F1',
+          borderRadius: 14, background: '#fff', display: 'flex',
+          alignItems: 'center', justifyContent: 'center', gap: 12,
+          fontSize: 14.5, fontWeight: 700, color: '#1A1426', cursor: 'pointer',
+          boxShadow: '0 2px 8px rgba(26,20,38,.06)',
+          transition: 'box-shadow .15s, transform .12s',
+          fontFamily: 'inherit',
+        }}
+          onMouseEnter={e => { e.currentTarget.style.boxShadow='0 6px 20px rgba(26,20,38,.12)'; e.currentTarget.style.transform='translateY(-1px)'; }}
+          onMouseLeave={e => { e.currentTarget.style.boxShadow='0 2px 8px rgba(26,20,38,.06)'; e.currentTarget.style.transform='none'; }}
+        >
+          {/* GitHub SVG */}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          Войти через GitHub
+        </button>
+
+        {err && (
+          <div style={{ marginTop: 16, padding: '10px 14px', background: '#FBE9E9', borderRadius: 10, color: '#DC4A4A', fontSize: 13 }}>
+            {err}
+          </div>
+        )}
+
+        <div style={{ marginTop: 28, fontSize: 11.5, color: '#ABA6B6', lineHeight: 1.6 }}>
+          Бесплатно: 20 запросов/день<br />
+          Нажимая «Войти», вы принимаете условия использования
+        </div>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { AUTH, LoginScreen });
+</script>
+
+<!-- ════ APP ROOT — с авторизацией ════ -->
 <script type="text/babel">
 
 function App() {
@@ -2097,66 +2199,117 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [typing, setTyping] = useState(false);
   const [activeChat, setActiveChat] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [sessionId, setSessionId] = useState(() => 'sess_' + Date.now());
+  const [requestsRemaining, setRequestsRemaining] = useState(20);
 
   window.__LANG = lang;
   const setLang = (l) => { window.__LANG = l; localStorage.setItem('aiacc_lang', l); setLangState(l); };
 
+  // Проверка авторизации при загрузке
+  useEffect(() => {
+    async function checkAuth() {
+      const token = AUTH.getToken();
+      if (!token) { setAuthLoading(false); return; }
+      // Проверяем сохранённого пользователя
+      const cached = AUTH.getUser();
+      if (cached) { setCurrentUser(cached); setAuthLoading(false); return; }
+      try {
+        const res = await fetch(API_BASE + '/auth/me', { headers: AUTH.authHeaders() });
+        if (res.ok) {
+          const user = await res.json();
+          AUTH.setUser(user);
+          setCurrentUser(user);
+        } else {
+          AUTH.clearToken();
+        }
+      } catch(e) {}
+      setAuthLoading(false);
+    }
+    checkAuth();
+  }, []);
+
   const go = (v) => {
-    if (v === 'newchat') { setMessages([]); setActiveChat(null); setView('chat'); setDraft(''); }
-    else setView(v);
+    if (v === 'newchat') {
+      setMessages([]); setActiveChat(null); setView('chat'); setDraft('');
+      setSessionId('sess_' + Date.now());
+    } else setView(v);
   };
 
-  // Открыть историческую беседу (моки для демо)
   const openChat = (chatKey) => {
-    setActiveChat(chatKey);
-    setView('chat');
-    setTyping(false);
+    setActiveChat(chatKey); setView('chat'); setTyping(false);
     const title = t(chatKey);
     setMessages([{ role: 'user', text: title }]);
     setTimeout(() => setMessages(m => [...m, { role: 'ai', data: aiReply(title) }]), 50);
   };
 
-  // Реальный API-запрос к бэкенду
+  // Отправка с авторизацией → /api/chat/v2 (если залогинен) или /api/chat (гость)
   const send = async (preset) => {
     const text = (typeof preset === 'string' ? preset : draft).trim();
     if (!text) return;
-    setView('chat');
-    setDraft('');
-    setActiveChat(null);
+    setView('chat'); setDraft(''); setActiveChat(null);
     setMessages(m => [...m, { role: 'user', text }]);
     setTyping(true);
 
     try {
-      const res = await fetch(`${API_BASE}/api/chat`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: USER_ID, message: text })
-      });
+      const endpoint = currentUser ? '/api/chat/v2' : '/api/chat';
+      const headers = currentUser ? AUTH.authHeaders() : { 'Content-Type': 'application/json' };
+      const body = currentUser
+        ? JSON.stringify({ message: text, session_id: sessionId })
+        : JSON.stringify({ user_id: USER_ID, message: text });
+
+      const res = await fetch(API_BASE + endpoint, { method: 'POST', headers, body });
       setTyping(false);
+
+      if (res.status === 429) {
+        const d = await res.json();
+        setMessages(m => [...m, { role: 'ai', text: '⚠️ ' + d.error }]);
+        return;
+      }
       if (res.ok) {
         const data = await res.json();
         setMessages(m => [...m, { role: 'ai', text: data.response || '' }]);
+        if (data.requests_remaining !== undefined) setRequestsRemaining(data.requests_remaining);
       } else {
-        // Фоллбэк — используем локальный aiReply при ошибке API
         setMessages(m => [...m, { role: 'ai', data: aiReply(text) }]);
       }
     } catch(e) {
       setTyping(false);
-      // Нет интернета / сервер недоступен → локальный ответ
       setMessages(m => [...m, { role: 'ai', data: aiReply(text) }]);
     }
   };
 
+  // Показываем лоадер пока проверяем auth
+  if (authLoading) {
+    return (
+      <div style={{ height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'#F6F5F9' }}>
+        <div style={{ textAlign:'center' }}>
+          <div style={{ width:48, height:48, borderRadius:14, background:'linear-gradient(150deg,#7C3AED,#4C1D95)', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 16px', boxShadow:'0 10px 30px -8px rgba(109,40,217,.4)' }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div style={{ fontSize:13, color:'#847E92', fontWeight:600 }}>Загрузка...</div>
+        </div>
+      </div>
+    );
+  }
+
+  // Показываем экран входа если не авторизован
+  if (!currentUser) {
+    return <LoginScreen />;
+  }
+
   return (
     <div className="app">
-      <Sidebar view={view} go={go} activeChat={activeChat} openChat={openChat} />
+      <Sidebar view={view} go={go} activeChat={activeChat} openChat={openChat}
+        currentUser={currentUser} requestsRemaining={requestsRemaining} />
       <div className="main">
-        <Header lang={lang} setLang={setLang} />
+        <Header lang={lang} setLang={setLang} currentUser={currentUser} />
         {view === 'chat'
           ? <ChatView messages={messages} draft={draft} setDraft={setDraft} onSend={send} typing={typing} />
           : <div className="content">
               {view === 'dashboard' && <Dashboard draft={draft} setDraft={setDraft} onSend={send} go={go} />}
-              {view === 'companies' && <CompaniesView go={go} />}
+              {view === 'companies' && <CompaniesView go={go} currentUser={currentUser} />}
               {view === 'calendar' && <CalendarView />}
               {view === 'learn' && <LearningView />}
               {['docs','kb','notes','settings','support'].includes(view) && <Placeholder view={view} go={go} />}

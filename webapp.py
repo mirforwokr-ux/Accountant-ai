@@ -158,3 +158,137 @@ async def get_history(user_id: str):
 async def clear_history(user_id: str):
     _web_history.pop(user_id, None)
     return JSONResponse({"ok": True})
+
+
+# ============================================================
+
+# ============================================================
+# AUTH ROUTES — GitHub OAuth2
+# ============================================================
+from auth import (
+    init_db, get_current_user, get_github_auth_url, exchange_github_code,
+    get_or_create_user, create_token, get_user_companies, add_company,
+    delete_company, set_active_company, get_user_sessions, get_session_history,
+    create_session, save_message as save_msg_db, check_and_increment_requests,
+    WEBAPP_URL
+)
+from fastapi import Depends
+from fastapi.responses import RedirectResponse
+
+@app.on_event("startup")
+async def startup():
+    await init_db()
+
+@app.get("/auth/github")
+async def auth_github():
+    return RedirectResponse(get_github_auth_url())
+
+# Обратная совместимость — старый Google редирект теперь идёт на GitHub
+@app.get("/auth/google")
+async def auth_google_compat():
+    return RedirectResponse(get_github_auth_url())
+
+@app.get("/auth/callback")
+async def auth_callback(code: str = ""):
+    if not code:
+        return RedirectResponse("/?error=no_code")
+    try:
+        gh_user = await exchange_github_code(code)
+        user = await get_or_create_user(
+            github_id=gh_user["id"],
+            email=gh_user.get("email", ""),
+            name=gh_user.get("name", ""),
+            avatar=gh_user.get("avatar", ""),
+        )
+        token = create_token(user["id"])
+        return RedirectResponse(f"/?token={token}")
+    except Exception as e:
+        return RedirectResponse(f"/?error={str(e)[:60]}")
+
+@app.get("/auth/me")
+async def auth_me(user: dict = Depends(get_current_user)):
+    return JSONResponse({
+        "id": user["id"],
+        "name": user["name"],
+        "email": user.get("email", ""),
+        "avatar": user.get("avatar", ""),
+        "plan": user.get("plan", "free"),
+    })
+
+@app.post("/auth/logout")
+async def auth_logout():
+    return JSONResponse({"ok": True})
+
+
+# ============================================================
+# /api/chat/v2 — с авторизацией и историей в БД
+# ============================================================
+@app.post("/api/chat/v2")
+async def chat_v2(request: Request, user: dict = Depends(get_current_user)):
+    try:
+        data = await request.json()
+        message = data.get("message", "").strip()
+        session_id = data.get("session_id", user["id"] + "_default")
+        if not message:
+            return JSONResponse({"error": "Пустое сообщение"}, status_code=400)
+
+        allowed, remaining = await check_and_increment_requests(user["id"])
+        if not allowed:
+            return JSONResponse({
+                "error": "Дневной лимит 20 запросов исчерпан. Перейдите на PRO.",
+                "limit_reached": True
+            }, status_code=429)
+
+        await save_msg_db(user["id"], session_id, "user", message)
+        history = await get_session_history(user["id"], session_id)
+
+        response = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: ask_buxgalter(message, history[:-1])
+        )
+
+        await save_msg_db(user["id"], session_id, "assistant", response)
+        await create_session(user["id"], session_id, message[:60])
+
+        return JSONResponse({
+            "response": response,
+            "session_id": session_id,
+            "requests_remaining": remaining,
+        })
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.get("/api/chat/sessions")
+async def get_sessions(user: dict = Depends(get_current_user)):
+    return JSONResponse({"sessions": await get_user_sessions(user["id"])})
+
+@app.get("/api/chat/history/{session_id}")
+async def get_history_v2(session_id: str, user: dict = Depends(get_current_user)):
+    return JSONResponse({"history": await get_session_history(user["id"], session_id)})
+
+
+# ============================================================
+# /api/user/me — компании с привязкой к аккаунту
+# ============================================================
+@app.get("/api/user/me/companies")
+async def user_companies(user: dict = Depends(get_current_user)):
+    companies = await get_user_companies(user["id"])
+    active = next((c["id"] for c in companies if c.get("is_active")), None)
+    return JSONResponse({"companies": companies, "active_company": active})
+
+@app.post("/api/user/me/company")
+async def user_add_company(request: Request, user: dict = Depends(get_current_user)):
+    data = await request.json()
+    co = await add_company(user["id"], data.get("name",""), data.get("tin",""),
+                           data.get("tax_type","УСН"), data.get("activity",""))
+    return JSONResponse({"ok": True, "company": co})
+
+@app.delete("/api/user/me/company/{company_id}")
+async def user_delete_company(company_id: str, user: dict = Depends(get_current_user)):
+    await delete_company(user["id"], company_id)
+    return JSONResponse({"ok": True})
+
+@app.post("/api/user/me/active/{company_id}")
+async def user_set_active(company_id: str, user: dict = Depends(get_current_user)):
+    await set_active_company(user["id"], company_id)
+    return JSONResponse({"ok": True})
