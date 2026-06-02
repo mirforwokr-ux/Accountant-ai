@@ -1,0 +1,72 @@
+{
+  "civil_code_1": {
+    "status": "done",
+    "added": 894,
+    "extracted": 894,
+    "timestamp": "2026-06-03T01:43:53.236334"
+  },
+  "civil_code_2": {
+    "status": "done",
+    "added": 387,
+    "extracted": 387,
+    "timestamp": "2026-06-03T01:44:24.686768"
+  },
+  "labor_code": {
+    "status": "done",
+    "added": 667,
+    "extracted": 667,
+    "timestamp": "2026-06-03T01:45:00.520164"
+  },
+  "customs_code": {
+    "status": "done",
+    "added": 474,
+    "extracted": 474,
+    "timestamp": "2026-06-03T01:45:49.431916"
+  },
+  "law_ooo": {
+    "status": "done",
+    "added": 53,
+    "extracted": 53,
+    "timestamp": "2026-06-03T01:45:54.301111"
+  },
+  "law_ao": {
+    "status": "done",
+    "added": 128,
+    "extracted": 128,
+    "timestamp": "2026-06-03T01:46:14.075599"
+  },
+  "law_accounting": {
+    "status": "done",
+    "added": 32,
+    "extracted": 32,
+    "timestamp": "2026-06-03T01:46:25.017970"
+  },
+  "law_currency": {
+    "status": "done",
+    "added": 38,
+    "extracted": 38,
+    "timestamp": "2026-06-03T01:46:36.622139"
+  },
+  "president_tax_decrees": {
+    "status": "done",
+    "added": 16,
+    "extracted": 16,
+    "timestamp": "2026-06-03T01:46:47.469887"
+  },
+  "law_esf": {
+    "status": "done",
+    "added": 0,
+    "extracted": 2,
+    "timestamp": "2026-06-03T02:01:13.984721"
+  },
+  "cbu_regulations": {
+    "status": "empty",
+    "added": 0
+  },
+  "gnk_explanations": {
+    "status": "done",
+    "added": 0,
+    "extracted": 11,
+    "timestamp": "2026-06-03T02:01:21.227885"
+  }
+}

@@ -1,0 +1,413 @@
+2026-06-03 02:48:48,303 [INFO] ============================================================
+2026-06-03 02:48:48,304 [INFO] Buxgalter AI — Парсер norma.uz
+2026-06-03 02:48:48,476 [INFO] База до: 4080 записей
+2026-06-03 02:48:48,476 [INFO] Лимит на категорию: 10
+2026-06-03 02:48:48,476 [INFO] ============================================================
+2026-06-03 02:48:48,477 [INFO] 
+── Группа: TAXES ──
+2026-06-03 02:48:48,477 [INFO] 
+📂 НМ Налоги → https://www.norma.uz/nalogooblozhenie
+2026-06-03 02:49:11,010 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /nalogooblozhenie (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7a7ee40>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:49:32,681 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 02:49:32,690 [INFO]   Ссылок: 10
+2026-06-03 02:49:55,204 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/utverjdena_pyatiletnyaya_programma_ekologicheskogo_monitoringa (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7a5f4d0>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:50:18,716 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/utverjdena_pyatiletnyaya_programma_ekologicheskogo_monitoringa (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7a5f110>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:50:43,226 [WARNING]   Попытка 3: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/utverjdena_pyatiletnyaya_programma_ekologicheskogo_monitoringa (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7a5ed50>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:51:09,744 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/msb_podderjat_novymi_finansovymi_uslugami (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7a5de50>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:51:33,269 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/msb_podderjat_novymi_finansovymi_uslugami (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7a5dbd0>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:51:57,780 [WARNING]   Попытка 3: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/msb_podderjat_novymi_finansovymi_uslugami (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7c88690>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:52:24,295 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/povyshen_porog_obyazatelnogo_perehoda_na_obshchie_nalogi (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7c88910>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:52:47,816 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/povyshen_porog_obyazatelnogo_perehoda_na_obshchie_nalogi (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7c88b90>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:53:47,029 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/vnedryaetsya_novaya_sistema_podgotovki_nauchnyh_kadrov (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7c88e10>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:54:10,550 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/vnedryaetsya_novaya_sistema_podgotovki_nauchnyh_kadrov (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7c891d0>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:54:35,072 [WARNING]   Попытка 3: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/vnedryaetsya_novaya_sistema_podgotovki_nauchnyh_kadrov (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7c88f50>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:54:39,075 [INFO]   [5/10] собрано 2
+2026-06-03 02:55:01,585 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/vnedryaetsya_programma_kachestvennoe_gosudarstvennoe_upravlenie (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7c88b90>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:55:25,102 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/vnedryaetsya_programma_kachestvennoe_gosudarstvennoe_upravlenie (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7c88910>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:55:49,627 [WARNING]   Попытка 3: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/vnedryaetsya_programma_kachestvennoe_gosudarstvennoe_upravlenie (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7c88690>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:56:16,144 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/kak_inostrancam_poluchit_specialnyy_nalogovyy_rejim (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7c88550>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:56:45,942 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/nashi_obzori/chto_izmenitsya_s_1_iyunya5 (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7c89810>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:57:09,457 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/nashi_obzori/chto_izmenitsya_s_1_iyunya5 (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7c88550>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:58:00,896 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /ru/novoe_v_zakonodatelstve/v_kurban_hayit_pomogut_detyam_-_sirotam_i_bolnym (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7c887d0>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:58:08,930 [INFO]   [10/10] собрано 6
+2026-06-03 02:58:10,049 [INFO]   ✅ +6 записей | База: 4086
+2026-06-03 02:58:10,049 [INFO] 
+📂 НМ НДС → https://www.norma.uz/nalogooblozhenie/nds
+2026-06-03 02:58:47,986 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 02:58:47,995 [INFO]   Ссылок: 10
+2026-06-03 02:58:47,996 [WARNING]   Статьи пусты или закрыты
+2026-06-03 02:58:47,997 [INFO] 
+📂 НМ Прибыль → https://www.norma.uz/nalogooblozhenie/nalog-na-pribyl
+2026-06-03 02:59:10,520 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /nalogooblozhenie/nalog-na-pribyl (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a7c89310>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 02:59:34,034 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /nalogooblozhenie/nalog-na-pribyl (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a8099e50>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:00:08,939 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:00:08,947 [INFO]   Ссылок: 10
+2026-06-03 03:00:08,948 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:00:08,949 [INFO] 
+📂 НМ НДФЛ → https://www.norma.uz/nalogooblozhenie/ndfl
+2026-06-03 03:00:31,458 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /nalogooblozhenie/ndfl (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809a0d0>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:00:54,973 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /nalogooblozhenie/ndfl (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809a5d0>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:01:19,489 [WARNING]   Попытка 3: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /nalogooblozhenie/ndfl (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809a850>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:01:23,493 [INFO]   Ссылок: 0
+2026-06-03 03:01:23,494 [WARNING]   Нет ссылок — категория закрыта или пуста
+2026-06-03 03:01:23,499 [INFO] 
+📂 НМ УСН → https://www.norma.uz/nalogooblozhenie/nalog-s-oborota
+2026-06-03 03:01:46,020 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /nalogooblozhenie/nalog-s-oborota (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809aad0>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:02:15,058 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:02:15,067 [INFO]   Ссылок: 10
+2026-06-03 03:02:15,068 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:02:15,069 [INFO] 
+📂 НМ Акциз → https://www.norma.uz/nalogooblozhenie/aktsiznyj-nalog
+2026-06-03 03:02:37,583 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /nalogooblozhenie/aktsiznyj-nalog (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809ad50>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:03:01,098 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /nalogooblozhenie/aktsiznyj-nalog (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809a5d0>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:03:25,622 [WARNING]   Попытка 3: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /nalogooblozhenie/aktsiznyj-nalog (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809a0d0>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:03:29,625 [INFO]   Ссылок: 0
+2026-06-03 03:03:29,627 [WARNING]   Нет ссылок — категория закрыта или пуста
+2026-06-03 03:03:29,631 [INFO] 
+── Группа: ACCOUNTING ──
+2026-06-03 03:03:29,633 [INFO] 
+📂 НМ Бухучёт → https://www.norma.uz/zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta
+2026-06-03 03:03:52,141 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809a5d0>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:04:15,654 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809ad50>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:04:46,229 [WARNING]   Попытка 3: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809b250>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:04:50,233 [INFO]   Ссылок: 0
+2026-06-03 03:04:50,235 [WARNING]   Нет ссылок — категория закрыта или пуста
+2026-06-03 03:04:50,241 [INFO] 
+📂 НМ НСБУ → https://www.norma.uz/zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta/nсбу
+2026-06-03 03:05:12,755 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta/n%D1%81%D0%B1%D1%83 (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809b4d0>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:05:36,270 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta/n%D1%81%D0%B1%D1%83 (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809b750>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:05:59,075 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:05:59,084 [INFO]   Ссылок: 10
+2026-06-03 03:05:59,084 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:05:59,086 [INFO] 
+📂 НМ Отчёт → https://www.norma.uz/zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta/finansovaya-otchetnost
+2026-06-03 03:06:21,597 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta/finansovaya-otchetnost (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809b9d0>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:06:45,114 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta/finansovaya-otchetnost (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809ad50>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:07:09,629 [WARNING]   Попытка 3: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta/finansovaya-otchetnost (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809a5d0>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:07:13,632 [INFO]   Ссылок: 0
+2026-06-03 03:07:13,634 [WARNING]   Нет ссылок — категория закрыта или пуста
+2026-06-03 03:07:13,638 [INFO] 
+── Группа: LABOR ──
+2026-06-03 03:07:13,642 [INFO] 
+📂 НМ Труд → https://www.norma.uz/trudovoe_pravo
+2026-06-03 03:07:36,161 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /trudovoe_pravo (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809bc50>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:07:59,672 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /trudovoe_pravo (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179a809bed0>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:08:24,187 [WARNING]   Попытка 3: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /trudovoe_pravo (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179aa8c0190>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:08:28,189 [INFO]   Ссылок: 0
+2026-06-03 03:08:28,190 [WARNING]   Нет ссылок — категория закрыта или пуста
+2026-06-03 03:08:28,191 [INFO] 
+📂 НМ Зарплата → https://www.norma.uz/trudovoe_pravo/zarplata
+2026-06-03 03:08:50,702 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /trudovoe_pravo/zarplata (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179aa8c0410>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:09:14,214 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /trudovoe_pravo/zarplata (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179aa8c0690>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:09:44,789 [WARNING]   Попытка 3: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179aa8c0910>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:09:48,793 [INFO]   Ссылок: 0
+2026-06-03 03:09:48,795 [WARNING]   Нет ссылок — категория закрыта или пуста
+2026-06-03 03:09:48,800 [INFO] 
+📂 НМ Отпуск → https://www.norma.uz/trudovoe_pravo/otpusk
+2026-06-03 03:10:11,312 [WARNING]   Попытка 1: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /trudovoe_pravo/otpusk (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179aa8c0b90>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:10:34,824 [WARNING]   Попытка 2: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /trudovoe_pravo/otpusk (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179aa8c0e10>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:10:59,338 [WARNING]   Попытка 3: HTTPSConnectionPool(host='www.norma.uz', port=443): Max retries exceeded with url: /trudovoe_pravo/otpusk (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.norma.uz', port=443) at 0x179aa8c1090>, 'Connection to www.norma.uz timed out. (connect timeout=20)'))
+2026-06-03 03:11:03,341 [INFO]   Ссылок: 0
+2026-06-03 03:11:03,343 [WARNING]   Нет ссылок — категория закрыта или пуста
+2026-06-03 03:11:03,347 [INFO] 
+── Группа: BUSINESS ──
+2026-06-03 03:11:03,352 [INFO] 
+📂 НМ Бизнес → https://www.norma.uz/predprinimatelstvo
+2026-06-03 03:11:07,243 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:11:07,251 [INFO]   Ссылок: 10
+2026-06-03 03:11:07,251 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:11:07,253 [INFO] 
+📂 НМ ООО → https://www.norma.uz/predprinimatelstvo/ooo
+2026-06-03 03:11:11,112 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:11:11,120 [INFO]   Ссылок: 10
+2026-06-03 03:11:11,121 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:11:11,122 [INFO] 
+📂 НМ ИП → https://www.norma.uz/predprinimatelstvo/ip
+2026-06-03 03:11:14,998 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:11:15,006 [INFO]   Ссылок: 10
+2026-06-03 03:11:15,007 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:11:15,008 [INFO] 
+📂 НМ Регистр. → https://www.norma.uz/predprinimatelstvo/registratsiya
+2026-06-03 03:11:18,872 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:11:18,880 [INFO]   Ссылок: 10
+2026-06-03 03:11:18,880 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:11:18,882 [INFO] 
+── Группа: TRADE ──
+2026-06-03 03:11:18,883 [INFO] 
+📂 НМ ВЭД → https://www.norma.uz/vneshneekonomicheskaya_deyatelnost
+2026-06-03 03:11:22,769 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:11:22,777 [INFO]   Ссылок: 10
+2026-06-03 03:11:22,778 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:11:22,779 [INFO] 
+📂 НМ Таможня → https://www.norma.uz/tamozhennoe_regulirovanie
+2026-06-03 03:11:26,691 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:11:26,700 [INFO]   Ссылок: 10
+2026-06-03 03:11:26,700 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:11:26,701 [INFO] 
+📂 НМ Валюта → https://www.norma.uz/valyutnoe-regulirovanie
+2026-06-03 03:11:30,588 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:11:30,596 [INFO]   Ссылок: 10
+2026-06-03 03:11:30,597 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:11:30,598 [INFO] 
+── Группа: LAW ──
+2026-06-03 03:11:30,601 [INFO] 
+📂 НМ Законы → https://www.norma.uz/novosti_zakonodatelstva
+2026-06-03 03:11:34,539 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:11:34,547 [INFO]   Ссылок: 10
+2026-06-03 03:11:34,548 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:11:34,550 [INFO] 
+📂 НМ Суд → https://www.norma.uz/sudebnaya_praktika
+2026-06-03 03:11:38,693 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:11:38,703 [INFO]   Ссылок: 10
+2026-06-03 03:11:38,704 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:11:38,705 [INFO] 
+📂 НМ IT → https://www.norma.uz/tsifrovizatsiya
+2026-06-03 03:11:42,464 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:11:42,469 [INFO]   Ссылок: 10
+2026-06-03 03:11:42,470 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:11:42,471 [INFO] 
+📂 НМ Недвиж. → https://www.norma.uz/nedvizhimost
+2026-06-03 03:11:46,363 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:11:46,371 [INFO]   Ссылок: 10
+2026-06-03 03:11:46,371 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:11:46,372 [INFO] 
+============================================================
+2026-06-03 03:11:46,374 [INFO] ✅ Готово! Добавлено: 6 записей
+2026-06-03 03:11:46,385 [INFO] ИТОГО В БАЗЕ: 4086 записей
+2026-06-03 03:11:46,386 [INFO] ============================================================
+2026-06-03 03:11:48,652 [INFO] ============================================================
+2026-06-03 03:11:48,652 [INFO] Buxgalter AI — Парсер norma.uz
+2026-06-03 03:11:48,830 [INFO] База до: 4086 записей
+2026-06-03 03:11:48,830 [INFO] Лимит на категорию: 40
+2026-06-03 03:11:48,832 [INFO] ============================================================
+2026-06-03 03:11:48,834 [INFO] 
+── Группа: TAXES ──
+2026-06-03 03:11:48,835 [INFO] 
+📂 НМ Налоги → https://www.norma.uz/nalogooblozhenie
+2026-06-03 03:11:52,762 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:11:52,771 [INFO]   Ссылок: 40
+2026-06-03 03:12:09,200 [INFO]   [5/40] собрано 5
+2026-06-03 03:12:25,520 [INFO]   [10/40] собрано 10
+2026-06-03 03:12:41,914 [INFO]   [15/40] собрано 15
+2026-06-03 03:12:58,312 [INFO]   [20/40] собрано 20
+2026-06-03 03:13:14,617 [INFO]   [25/40] собрано 25
+2026-06-03 03:13:30,730 [INFO]   [30/40] собрано 30
+2026-06-03 03:13:47,048 [INFO]   [35/40] собрано 35
+2026-06-03 03:14:03,468 [INFO]   [40/40] собрано 40
+2026-06-03 03:14:05,813 [INFO]   ✅ +34 записей | База: 4120
+2026-06-03 03:14:05,813 [INFO] 
+📂 НМ НДС → https://www.norma.uz/nalogooblozhenie/nds
+2026-06-03 03:14:09,989 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:14:09,997 [INFO]   Ссылок: 40
+2026-06-03 03:14:09,998 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:14:09,998 [INFO] 
+📂 НМ Прибыль → https://www.norma.uz/nalogooblozhenie/nalog-na-pribyl
+2026-06-03 03:14:13,868 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:14:13,876 [INFO]   Ссылок: 40
+2026-06-03 03:14:13,877 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:14:13,878 [INFO] 
+📂 НМ НДФЛ → https://www.norma.uz/nalogooblozhenie/ndfl
+2026-06-03 03:14:17,780 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:14:17,789 [INFO]   Ссылок: 40
+2026-06-03 03:14:17,790 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:14:17,791 [INFO] 
+📂 НМ УСН → https://www.norma.uz/nalogooblozhenie/nalog-s-oborota
+2026-06-03 03:14:21,654 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:14:21,662 [INFO]   Ссылок: 40
+2026-06-03 03:14:21,663 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:14:21,664 [INFO] 
+📂 НМ Акциз → https://www.norma.uz/nalogooblozhenie/aktsiznyj-nalog
+2026-06-03 03:14:25,535 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:14:25,544 [INFO]   Ссылок: 40
+2026-06-03 03:14:25,544 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:14:25,545 [INFO] 
+── Группа: ACCOUNTING ──
+2026-06-03 03:14:25,547 [INFO] 
+📂 НМ Бухучёт → https://www.norma.uz/zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta
+2026-06-03 03:14:29,431 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:14:29,439 [INFO]   Ссылок: 40
+2026-06-03 03:14:29,440 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:14:29,440 [INFO] 
+📂 НМ НСБУ → https://www.norma.uz/zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta/nсбу
+2026-06-03 03:14:33,325 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:14:33,334 [INFO]   Ссылок: 40
+2026-06-03 03:14:33,334 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:14:33,335 [INFO] 
+📂 НМ Отчёт → https://www.norma.uz/zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta/finansovaya-otchetnost
+2026-06-03 03:14:37,196 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:14:37,205 [INFO]   Ссылок: 40
+2026-06-03 03:14:37,205 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:14:37,206 [INFO] 
+── Группа: LABOR ──
+2026-06-03 03:14:37,209 [INFO] 
+📂 НМ Труд → https://www.norma.uz/trudovoe_pravo
+2026-06-03 03:14:41,075 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:14:41,084 [INFO]   Ссылок: 40
+2026-06-03 03:14:41,084 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:14:41,085 [INFO] 
+📂 НМ Зарплата → https://www.norma.uz/trudovoe_pravo/zarplata
+2026-06-03 03:14:44,952 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:14:44,961 [INFO]   Ссылок: 40
+2026-06-03 03:14:44,961 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:14:44,962 [INFO] 
+📂 НМ Отпуск → https://www.norma.uz/trudovoe_pravo/otpusk
+2026-06-03 03:14:48,863 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:14:48,872 [INFO]   Ссылок: 40
+2026-06-03 03:14:48,873 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:14:48,874 [INFO] 
+── Группа: BUSINESS ──
+2026-06-03 03:14:48,875 [INFO] 
+📂 НМ Бизнес → https://www.norma.uz/predprinimatelstvo
+2026-06-03 03:14:52,792 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:14:52,801 [INFO]   Ссылок: 40
+2026-06-03 03:14:52,802 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:14:52,803 [INFO] 
+📂 НМ ООО → https://www.norma.uz/predprinimatelstvo/ooo
+2026-06-03 03:14:56,688 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:14:56,696 [INFO]   Ссылок: 40
+2026-06-03 03:14:56,697 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:14:56,698 [INFO] 
+📂 НМ ИП → https://www.norma.uz/predprinimatelstvo/ip
+2026-06-03 03:15:00,612 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:15:00,621 [INFO]   Ссылок: 40
+2026-06-03 03:15:00,621 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:15:00,622 [INFO] 
+📂 НМ Регистр. → https://www.norma.uz/predprinimatelstvo/registratsiya
+2026-06-03 03:15:04,527 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:15:04,536 [INFO]   Ссылок: 40
+2026-06-03 03:15:04,537 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:15:04,538 [INFO] 
+── Группа: TRADE ──
+2026-06-03 03:15:04,539 [INFO] 
+📂 НМ ВЭД → https://www.norma.uz/vneshneekonomicheskaya_deyatelnost
+2026-06-03 03:15:08,441 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:15:08,450 [INFO]   Ссылок: 40
+2026-06-03 03:15:08,451 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:15:08,452 [INFO] 
+📂 НМ Таможня → https://www.norma.uz/tamozhennoe_regulirovanie
+2026-06-03 03:15:12,826 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:15:12,835 [INFO]   Ссылок: 40
+2026-06-03 03:15:12,835 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:15:12,837 [INFO] 
+📂 НМ Валюта → https://www.norma.uz/valyutnoe-regulirovanie
+2026-06-03 03:15:16,748 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:15:16,757 [INFO]   Ссылок: 40
+2026-06-03 03:15:16,757 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:15:16,758 [INFO] 
+── Группа: LAW ──
+2026-06-03 03:15:16,759 [INFO] 
+📂 НМ Законы → https://www.norma.uz/novosti_zakonodatelstva
+2026-06-03 03:15:20,621 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:15:20,630 [INFO]   Ссылок: 40
+2026-06-03 03:15:20,631 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:15:20,632 [INFO] 
+📂 НМ Суд → https://www.norma.uz/sudebnaya_praktika
+2026-06-03 03:15:24,511 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:15:24,520 [INFO]   Ссылок: 40
+2026-06-03 03:15:24,521 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:15:24,522 [INFO] 
+📂 НМ IT → https://www.norma.uz/tsifrovizatsiya
+2026-06-03 03:15:28,491 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:15:28,499 [INFO]   Ссылок: 40
+2026-06-03 03:15:28,500 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:15:28,501 [INFO] 
+📂 НМ Недвиж. → https://www.norma.uz/nedvizhimost
+2026-06-03 03:15:32,379 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:15:32,388 [INFO]   Ссылок: 40
+2026-06-03 03:15:32,388 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:15:32,389 [INFO] 
+============================================================
+2026-06-03 03:15:32,390 [INFO] ✅ Готово! Добавлено: 34 записей
+2026-06-03 03:15:32,395 [INFO] ИТОГО В БАЗЕ: 4120 записей
+2026-06-03 03:15:32,396 [INFO] ============================================================
+2026-06-03 03:15:34,737 [INFO] ============================================================
+2026-06-03 03:15:34,737 [INFO] Buxgalter AI — Парсер norma.uz
+2026-06-03 03:15:34,943 [INFO] База до: 4120 записей
+2026-06-03 03:15:34,943 [INFO] Лимит на категорию: 50
+2026-06-03 03:15:34,945 [INFO] ============================================================
+2026-06-03 03:15:34,947 [INFO] 
+── Группа: TAXES ──
+2026-06-03 03:15:34,948 [INFO] 
+📂 НМ Налоги → https://www.norma.uz/nalogooblozhenie
+2026-06-03 03:15:38,841 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:15:42,708 [INFO]   Стр.2: ссылки не найдены — останавливаемся
+2026-06-03 03:15:42,709 [INFO]   Ссылок: 42
+2026-06-03 03:15:59,044 [INFO]   [5/42] собрано 5
+2026-06-03 03:16:15,415 [INFO]   [10/42] собрано 10
+2026-06-03 03:16:31,691 [INFO]   [15/42] собрано 15
+2026-06-03 03:16:48,123 [INFO]   [20/42] собрано 20
+2026-06-03 03:17:04,597 [INFO]   [25/42] собрано 25
+2026-06-03 03:17:21,162 [INFO]   [30/42] собрано 30
+2026-06-03 03:17:37,288 [INFO]   [35/42] собрано 35
+2026-06-03 03:17:53,574 [INFO]   [40/42] собрано 40
+2026-06-03 03:18:02,599 [INFO]   ✅ +2 записей | База: 4122
+2026-06-03 03:18:02,599 [INFO] 
+📂 НМ НДС → https://www.norma.uz/nalogooblozhenie/nds
+2026-06-03 03:18:06,502 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:18:10,373 [INFO]   Стр.2: ссылки не найдены — останавливаемся
+2026-06-03 03:18:10,374 [INFO]   Ссылок: 42
+2026-06-03 03:18:10,377 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:18:10,379 [INFO] 
+📂 НМ Прибыль → https://www.norma.uz/nalogooblozhenie/nalog-na-pribyl
+2026-06-03 03:18:14,225 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:18:18,106 [INFO]   Стр.2: ссылки не найдены — останавливаемся
+2026-06-03 03:18:18,106 [INFO]   Ссылок: 42
+2026-06-03 03:18:18,109 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:18:18,112 [INFO] 
+📂 НМ НДФЛ → https://www.norma.uz/nalogooblozhenie/ndfl
+2026-06-03 03:18:21,391 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:18:25,280 [INFO]   Стр.2: ссылки не найдены — останавливаемся
+2026-06-03 03:18:25,280 [INFO]   Ссылок: 42
+2026-06-03 03:18:25,283 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:18:25,285 [INFO] 
+📂 НМ УСН → https://www.norma.uz/nalogooblozhenie/nalog-s-oborota
+2026-06-03 03:18:29,150 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:18:33,021 [INFO]   Стр.2: ссылки не найдены — останавливаемся
+2026-06-03 03:18:33,022 [INFO]   Ссылок: 42
+2026-06-03 03:18:33,024 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:18:33,027 [INFO] 
+📂 НМ Акциз → https://www.norma.uz/nalogooblozhenie/aktsiznyj-nalog
+2026-06-03 03:18:36,889 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:18:40,754 [INFO]   Стр.2: ссылки не найдены — останавливаемся
+2026-06-03 03:18:40,754 [INFO]   Ссылок: 42
+2026-06-03 03:18:40,757 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:18:40,760 [INFO] 
+============================================================
+2026-06-03 03:18:40,761 [INFO] ✅ Готово! Добавлено: 2 записей
+2026-06-03 03:18:40,765 [INFO] ИТОГО В БАЗЕ: 4122 записей
+2026-06-03 03:18:40,766 [INFO] ============================================================
+2026-06-03 03:18:43,262 [INFO] ============================================================
+2026-06-03 03:18:43,262 [INFO] Buxgalter AI — Парсер norma.uz
+2026-06-03 03:18:43,467 [INFO] База до: 4122 записей
+2026-06-03 03:18:43,467 [INFO] Лимит на категорию: 40
+2026-06-03 03:18:43,468 [INFO] ============================================================
+2026-06-03 03:18:43,469 [INFO] 
+── Группа: ACCOUNTING ──
+2026-06-03 03:18:43,472 [INFO] 
+📂 НМ Бухучёт → https://www.norma.uz/zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta
+2026-06-03 03:18:47,406 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:18:47,415 [INFO]   Ссылок: 40
+2026-06-03 03:19:04,010 [INFO]   [5/40] собрано 5
+2026-06-03 03:19:20,429 [INFO]   [10/40] собрано 10
+2026-06-03 03:19:36,695 [INFO]   [15/40] собрано 15
+2026-06-03 03:19:53,057 [INFO]   [20/40] собрано 20
+2026-06-03 03:20:09,463 [INFO]   [25/40] собрано 25
+2026-06-03 03:20:25,784 [INFO]   [30/40] собрано 30
+2026-06-03 03:20:42,097 [INFO]   [35/40] собрано 35
+2026-06-03 03:20:58,545 [INFO]   [40/40] собрано 40
+2026-06-03 03:21:07,436 [INFO]   ✅ +40 записей | База: 4162
+2026-06-03 03:21:07,436 [INFO] 
+📂 НМ НСБУ → https://www.norma.uz/zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta/nсбу
+2026-06-03 03:21:11,316 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:21:11,324 [INFO]   Ссылок: 40
+2026-06-03 03:21:11,325 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:21:11,326 [INFO] 
+📂 НМ Отчёт → https://www.norma.uz/zakonodatelstvo_v_sfere_bukhgalterskogo_ucheta/finansovaya-otchetnost
+2026-06-03 03:21:16,104 [INFO]   Стр.1: +42 ссылок (итого 42)
+2026-06-03 03:21:16,112 [INFO]   Ссылок: 40
+2026-06-03 03:21:16,113 [WARNING]   Статьи пусты или закрыты
+2026-06-03 03:21:16,114 [INFO] 
+============================================================
+2026-06-03 03:21:16,115 [INFO] ✅ Готово! Добавлено: 40 записей
+2026-06-03 03:21:16,118 [INFO] ИТОГО В БАЗЕ: 4162 записей
+2026-06-03 03:21:16,119 [INFO] ============================================================
