@@ -295,3 +295,229 @@ async def user_delete_company(company_id: str, user: dict = Depends(get_current_
 async def user_set_active(company_id: str, user: dict = Depends(get_current_user)):
     await set_active_company(user["id"], company_id)
     return JSONResponse({"ok": True})
+
+
+# ============================================================
+# PAYMENTS — Payme, Click, Uzum Bank
+# ============================================================
+from payments import (
+    init_payments_db, create_payment_record, get_user_subscription,
+    payme_generate_link, payme_handle_webhook, payme_verify_webhook,
+    click_generate_link, click_handle_prepare, click_handle_complete,
+    uzum_create_payment, uzum_handle_webhook,
+    PLANS, confirm_payment
+)
+
+@app.on_event("startup")
+async def startup_payments():
+    await init_payments_db()
+
+
+# ── Тарифы ──────────────────────────────────────────────────
+
+@app.get("/api/plans")
+async def get_plans():
+    """Возвращает доступные тарифные планы."""
+    return JSONResponse({
+        "plans": [
+            {
+                "id":       plan_id,
+                "name":     plan["name"],
+                "price":    plan["price_som"],
+                "currency": "UZS",
+                "duration": plan["duration"],
+                "requests": "Безлимит" if plan["requests"] == -1 else plan["requests"],
+            }
+            for plan_id, plan in PLANS.items()
+        ]
+    })
+
+
+@app.get("/api/subscription")
+async def get_subscription(user: dict = Depends(get_current_user)):
+    """Статус подписки текущего пользователя."""
+    sub = await get_user_subscription(user["id"])
+    return JSONResponse({
+        "plan":       user.get("plan", "free"),
+        "active":     sub is not None,
+        "expires_at": sub["expires_at"] if sub else None,
+        "days_left":  sub["days_left"] if sub else 0,
+    })
+
+
+# ── Создание платежа ─────────────────────────────────────────
+
+@app.post("/api/payment/create")
+async def create_payment(request: Request, user: dict = Depends(get_current_user)):
+    """
+    Создаёт платёж и возвращает URL для перенаправления.
+    Body: { "plan_id": "pro_monthly", "provider": "payme"|"click"|"uzum" }
+    """
+    data = await request.json()
+    plan_id  = str(data.get("plan_id", "pro_monthly"))
+    provider = str(data.get("provider", "payme")).lower()
+
+    if plan_id not in PLANS:
+        raise HTTPException(status_code=400, detail="Неверный тариф")
+    if provider not in ("payme", "click", "uzum"):
+        raise HTTPException(status_code=400, detail="Неверный провайдер")
+
+    plan = PLANS[plan_id]
+
+    # Создаём запись платежа в БД
+    payment_id = await create_payment_record(
+        user_id=user["id"],
+        plan_id=plan_id,
+        amount=plan["price_uzs"],
+        provider=provider
+    )
+
+    # Генерируем ссылку на оплату
+    if provider == "payme":
+        url = payme_generate_link(
+            payment_id=payment_id,
+            amount_uzs=plan["price_uzs"],
+            description=plan["name"],
+            user_email=user.get("email", "")
+        )
+        return JSONResponse({"url": url, "payment_id": payment_id, "provider": "payme"})
+
+    elif provider == "click":
+        url = click_generate_link(
+            payment_id=payment_id,
+            amount_som=plan["price_som"],
+            description=plan["name"]
+        )
+        return JSONResponse({"url": url, "payment_id": payment_id, "provider": "click"})
+
+    elif provider == "uzum":
+        result = await uzum_create_payment(
+            payment_id=payment_id,
+            amount_som=plan["price_som"],
+            description=plan["name"]
+        )
+        if "error" in result:
+            raise HTTPException(status_code=502, detail=result["error"])
+        return JSONResponse({"url": result["url"], "payment_id": payment_id, "provider": "uzum"})
+
+
+# ── Webhooks (уведомления от платёжных систем) ───────────────
+
+@app.post("/payment/payme/notify")
+async def payme_notify(request: Request):
+    """Webhook от Payme — подтверждение оплаты."""
+    auth = request.headers.get("Authorization", "")
+    if not payme_verify_webhook({}, auth):
+        raise HTTPException(status_code=401)
+    data = await request.json()
+    result = await payme_handle_webhook(data)
+    return JSONResponse(result)
+
+
+@app.post("/payment/click/prepare")
+async def click_prepare(request: Request):
+    """Click Prepare запрос."""
+    data = await request.json()
+    result = await click_handle_prepare(data)
+    return JSONResponse(result)
+
+
+@app.post("/payment/click/complete")
+async def click_complete(request: Request):
+    """Click Complete запрос — подтверждение оплаты."""
+    data = await request.json()
+    result = await click_handle_complete(data)
+    return JSONResponse(result)
+
+
+@app.post("/payment/uzum/notify")
+async def uzum_notify(request: Request):
+    """Webhook от Uzum Bank."""
+    data = await request.json()
+    result = await uzum_handle_webhook(data)
+    return JSONResponse(result)
+
+
+# ── Статус платежа ───────────────────────────────────────────
+
+@app.get("/payment/success")
+async def payment_success():
+    """Пользователь вернулся после успешной оплаты."""
+    html = """<html><head><meta http-equiv="refresh" content="2;url=/"></head>
+    <body style="display:flex;align-items:center;justify-content:center;height:100vh;
+    font-family:sans-serif;background:#F6F5F9">
+    <div style="text-align:center">
+        <div style="font-size:64px">✅</div>
+        <h2 style="color:#6D28D9">Оплата прошла успешно!</h2>
+        <p style="color:#847E92">Перенаправляем вас на платформу...</p>
+    </div></body></html>"""
+    return HTMLResponse(html)
+
+
+@app.get("/payment/cancel")
+async def payment_cancel():
+    """Пользователь отменил оплату."""
+    html = """<html><head><meta http-equiv="refresh" content="3;url=/"></head>
+    <body style="display:flex;align-items:center;justify-content:center;height:100vh;
+    font-family:sans-serif;background:#F6F5F9">
+    <div style="text-align:center">
+        <div style="font-size:64px">❌</div>
+        <h2 style="color:#DC4A4A">Оплата отменена</h2>
+        <p style="color:#847E92">Возвращаем вас назад...</p>
+    </div></body></html>"""
+    return HTMLResponse(html)
+
+
+# ── GDPR / Личные данные ─────────────────────────────────────
+
+@app.delete("/api/user/me/delete")
+async def delete_account(user: dict = Depends(get_current_user)):
+    """
+    Полное удаление аккаунта и всех данных пользователя.
+    Требование GDPR и Закона РУз о персональных данных.
+    """
+    import aiosqlite as _aio
+    async with _aio.connect("users.db") as db:
+        uid = user["id"]
+        await db.execute("DELETE FROM chat_messages WHERE user_id=?", (uid,))
+        await db.execute("DELETE FROM chat_sessions WHERE user_id=?", (uid,))
+        await db.execute("DELETE FROM companies WHERE user_id=?", (uid,))
+        await db.execute("DELETE FROM subscriptions WHERE user_id=?", (uid,))
+        await db.execute("DELETE FROM payments WHERE user_id=?", (uid,))
+        await db.execute("DELETE FROM users WHERE id=?", (uid,))
+        await db.commit()
+    return JSONResponse({"ok": True, "message": "Аккаунт и все данные удалены"})
+
+
+@app.get("/api/user/me/data-export")
+async def export_user_data(user: dict = Depends(get_current_user)):
+    """
+    Экспорт всех данных пользователя (право на переносимость данных).
+    """
+    import aiosqlite as _aio
+    async with _aio.connect("users.db") as db:
+        db.row_factory = _aio.Row
+        uid = user["id"]
+        msgs = await (await db.execute(
+            "SELECT role,content,created_at FROM chat_messages WHERE user_id=? ORDER BY created_at",
+            (uid,))).fetchall()
+        companies = await (await db.execute(
+            "SELECT name,tin,tax_type,activity FROM companies WHERE user_id=?",
+            (uid,))).fetchall()
+        payments_list = await (await db.execute(
+            "SELECT plan_id,amount,provider,status,created_at,paid_at FROM payments WHERE user_id=?",
+            (uid,))).fetchall()
+
+    return JSONResponse({
+        "user": {
+            "id":         user["id"],
+            "email":      user.get("email"),
+            "name":       user.get("name"),
+            "plan":       user.get("plan"),
+            "created_at": user.get("created_at"),
+        },
+        "companies":  [dict(r) for r in companies],
+        "payments":   [dict(r) for r in payments_list],
+        "chat_count": len(msgs),
+        "export_date": time.time(),
+    })
