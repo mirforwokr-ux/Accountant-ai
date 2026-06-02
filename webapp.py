@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-FastAPI server — serves Telegram Mini App
+FastAPI server — Buxgalter AI Web Platform
 """
 import os
 import json
@@ -9,15 +9,19 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from security import SecurityMiddleware, get_cors_config, validate_chat_message, validate_company_data
 
-app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+app = FastAPI(
+    title="Buxgalter AI",
+    docs_url=None,   # Отключаем /docs в продакшне
+    redoc_url=None,  # Отключаем /redoc
 )
+
+# Security middleware — первым
+app.add_middleware(SecurityMiddleware)
+
+# CORS — ограниченный список источников
+app.add_middleware(CORSMiddleware, **get_cors_config())
 
 # In-memory storage (upgrade to DB later)
 USER_DATA: dict = {}
@@ -102,10 +106,10 @@ def _save(uid: str, role: str, content: str):
 async def chat_endpoint(request: Request):
     try:
         data = await request.json()
-        message = data.get("message", "").strip()
+        message = validate_chat_message(data.get("message", ""))
         user_id = data.get("user_id") or str(uuid.uuid4())
-        if not message:
-            return JSONResponse({"error": "Пустое сообщение"}, status_code=400)
+        # Ограничиваем длину user_id
+        user_id = str(user_id)[:64]
 
         _save(user_id, "user", message)
         history = _get_history(user_id)
@@ -227,10 +231,8 @@ async def auth_logout():
 async def chat_v2(request: Request, user: dict = Depends(get_current_user)):
     try:
         data = await request.json()
-        message = data.get("message", "").strip()
-        session_id = data.get("session_id", user["id"] + "_default")
-        if not message:
-            return JSONResponse({"error": "Пустое сообщение"}, status_code=400)
+        message    = validate_chat_message(data.get("message", ""))
+        session_id = str(data.get("session_id", user["id"] + "_default"))[:64]
 
         allowed, remaining = await check_and_increment_requests(user["id"])
         if not allowed:
@@ -279,8 +281,9 @@ async def user_companies(user: dict = Depends(get_current_user)):
 @app.post("/api/user/me/company")
 async def user_add_company(request: Request, user: dict = Depends(get_current_user)):
     data = await request.json()
-    co = await add_company(user["id"], data.get("name",""), data.get("tin",""),
-                           data.get("tax_type","УСН"), data.get("activity",""))
+    validated = validate_company_data(data)
+    co = await add_company(user["id"], validated["name"], validated["tin"],
+                           validated["tax_type"], validated["activity"])
     return JSONResponse({"ok": True, "company": co})
 
 @app.delete("/api/user/me/company/{company_id}")
