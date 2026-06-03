@@ -228,8 +228,14 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             "https://cbu.uz https://github.com https://api.github.com;"
         )
         # Убираем лишнюю информацию о сервере
-        response.headers.pop("server", None)
-        response.headers.pop("x-powered-by", None)
+        try:
+            del response.headers["server"]
+        except (KeyError, Exception):
+            pass
+        try:
+            del response.headers["x-powered-by"]
+        except (KeyError, Exception):
+            pass
 
         return response
 
