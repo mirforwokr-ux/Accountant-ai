@@ -521,3 +521,118 @@ async def export_user_data(user: dict = Depends(get_current_user)):
         "chat_count": len(msgs),
         "export_date": time.time(),
     })
+
+
+# ============================================================
+# NOTIFICATIONS — Email, SMS, Push, Calendar
+# ============================================================
+import time as _time
+from notifications import (
+    init_notifications_db, get_notification_settings, save_notification_settings,
+    save_push_subscription, send_web_push, add_calendar_event,
+    get_user_events, delete_calendar_event, get_upcoming_deadlines,
+    run_daily_notifications, start_scheduler, VAPID_PUBLIC
+)
+
+@app.on_event("startup")
+async def startup_notifications():
+    await init_notifications_db()
+    # Запускаем планировщик в фоне
+    asyncio.create_task(start_scheduler())
+
+
+# ── Настройки уведомлений ────────────────────────────────────
+
+@app.get("/api/notifications/settings")
+async def get_notif_settings(user: dict = Depends(get_current_user)):
+    settings = await get_notification_settings(user["id"])
+    return JSONResponse(settings)
+
+@app.post("/api/notifications/settings")
+async def update_notif_settings(request: Request, user: dict = Depends(get_current_user)):
+    data = await request.json()
+    # Валидация телефона
+    phone = str(data.get("phone", "")).strip()
+    if phone and not any(c.isdigit() for c in phone):
+        raise HTTPException(400, "Некорректный номер телефона")
+    await save_notification_settings(user["id"], data)
+    return JSONResponse({"ok": True})
+
+
+# ── Web Push ──────────────────────────────────────────────────
+
+@app.get("/api/notifications/vapid-key")
+async def get_vapid_key():
+    """Возвращает публичный VAPID ключ для браузерного Push."""
+    return JSONResponse({"publicKey": VAPID_PUBLIC})
+
+@app.post("/api/notifications/subscribe")
+async def push_subscribe(request: Request, user: dict = Depends(get_current_user)):
+    """Сохраняет Push подписку браузера."""
+    subscription = await request.json()
+    ok = await save_push_subscription(user["id"], subscription)
+    return JSONResponse({"ok": ok})
+
+@app.post("/api/notifications/test-push")
+async def test_push(user: dict = Depends(get_current_user)):
+    """Отправляет тестовое Push уведомление."""
+    sent = await send_web_push(
+        user["id"],
+        title="✅ Buxgalter AI",
+        body="Push уведомления работают! Вы будете получать напоминания о сроках.",
+    )
+    return JSONResponse({"ok": sent > 0, "sent": sent})
+
+
+# ── Налоговый календарь ───────────────────────────────────────
+
+@app.get("/api/calendar/deadlines")
+async def get_deadlines(days: int = 30, user: dict = Depends(get_current_user)):
+    """Возвращает ближайшие налоговые дедлайны."""
+    deadlines = get_upcoming_deadlines(days_ahead=min(days, 90))
+    return JSONResponse({"deadlines": deadlines})
+
+@app.get("/api/calendar/events")
+async def get_events(user: dict = Depends(get_current_user)):
+    """Пользовательские события + налоговые дедлайны на 60 дней."""
+    user_events = await get_user_events(user["id"])
+    tax_deadlines = get_upcoming_deadlines(days_ahead=60)
+    return JSONResponse({
+        "user_events": user_events,
+        "tax_deadlines": tax_deadlines,
+    })
+
+@app.post("/api/calendar/events")
+async def create_event(request: Request, user: dict = Depends(get_current_user)):
+    """Создаёт пользовательское событие."""
+    data = await request.json()
+    title = str(data.get("title", "")).strip()[:200]
+    date  = str(data.get("date", "")).strip()
+    desc  = str(data.get("description", "")).strip()[:500]
+    if not title or not date:
+        raise HTTPException(400, "Название и дата обязательны")
+    event_id = await add_calendar_event(user["id"], title, date, desc)
+    return JSONResponse({"ok": True, "event_id": event_id})
+
+@app.delete("/api/calendar/events/{event_id}")
+async def remove_event(event_id: str, user: dict = Depends(get_current_user)):
+    await delete_calendar_event(user["id"], event_id)
+    return JSONResponse({"ok": True})
+
+
+# ── Ручной запуск уведомлений (для тестирования) ─────────────
+
+@app.post("/api/notifications/send-now")
+async def send_notifications_now(user: dict = Depends(get_current_user)):
+    """Немедленно отправляет уведомления текущему пользователю (для теста)."""
+    from notifications import _send_notifications_for_user
+    settings  = await get_notification_settings(user["id"])
+    deadlines = get_upcoming_deadlines(days_ahead=30)
+    if deadlines:
+        await _send_notifications_for_user(user, settings, deadlines[:5])
+    return JSONResponse({
+        "ok":       True,
+        "sent_to":  [ch for ch in ["email","sms","push","telegram"]
+                     if settings.get(f"{ch}_enabled")],
+        "deadlines": len(deadlines),
+    })

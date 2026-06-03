@@ -7,3 +7,4 @@ uvicorn[standard]
 httpx
 python-jose[cryptography]
 aiosqlite
+pywebpush
