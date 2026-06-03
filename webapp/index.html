@@ -2068,10 +2068,186 @@ function CompaniesView({ go }) {
   );
 }
 
-/* ---------- Placeholder ---------- */
+/* ---------- Support Page ---------- */
+function SupportView({ go, currentUser }) {
+  const [form, setForm] = React.useState({ name: currentUser?.name || '', message: '' });
+  const [sent, setSent] = React.useState(false);
+  const [sending, setSending] = React.useState(false);
+  const [openFaq, setOpenFaq] = React.useState(null);
+
+  const PHONE = '+998 (90) 810-85-21';
+  const TG_USERNAME = 'mirforwokr'; // Telegram username
+
+  const FAQ = [
+    { q: 'Сколько запросов в день на бесплатном тарифе?', a: '20 запросов в день. После перехода на PRO — безлимитно.' },
+    { q: 'Какие документы покрывает база знаний?', a: 'Налоговый кодекс, Гражданский кодекс, Трудовой кодекс, Таможенный кодекс, Конституция РУз, законы об ООО, АО, бухучёте, ЭСФ, ЭДО и другие. Всего более 4000 статей.' },
+    { q: 'ИИ-ответы юридически обязательны?', a: 'Нет. ИИ-Бухгалтер предоставляет справочную информацию. Для официальных решений проконсультируйтесь с лицензированным специалистом.' },
+    { q: 'Как оплатить подписку PRO?', a: 'Принимаем Payme, Click и Uzum Bank. Поддерживаются карты Uzcard, Humo, Visa и Mastercard.' },
+    { q: 'Мои данные в безопасности?', a: 'Да. Данные хранятся на защищённых серверах. Карточные данные никогда не проходят через наш сервер. Вы можете удалить все данные в любой момент.' },
+    { q: 'Работает ли платформа на узбекском языке?', a: 'Да, интерфейс и ответы ИИ доступны на русском и узбекском языках. Переключайте язык в правом верхнем углу.' },
+    { q: 'Как связаться с живым специалистом?', a: 'Напишите нам в Telegram или позвоните по телефону. Время ответа: в рабочие дни с 9:00 до 18:00.' },
+  ];
+
+  const sendForm = async () => {
+    if (!form.message.trim()) return;
+    setSending(true);
+    try {
+      // Отправляем через Telegram Bot API (уведомление себе)
+      const text = encodeURIComponent(
+        `📩 Обращение в поддержку
+
+От: ${form.name || 'Аноним'}
+
+Сообщение:
+${form.message}`
+      );
+      // Для надёжности — открываем Telegram с предзаполненным сообщением
+      window.open(`https://t.me/${TG_USERNAME}?text=${text}`, '_blank');
+      setSent(true);
+      setForm(p => ({ ...p, message: '' }));
+    } catch(e) {}
+    setSending(false);
+  };
+
+  return (
+    <div className="view"><div className="wrap" style={{ maxWidth: 760 }}>
+      <div className="page-head">
+        <h1>Поддержка</h1>
+        <p>Мы здесь, чтобы помочь. Свяжитесь с нами удобным способом.</p>
+      </div>
+
+      {/* Контакты */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 28 }}>
+        <a href={`https://t.me/${TG_USERNAME}`} target="_blank" rel="noreferrer"
+          style={{ background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 16,
+                   padding: 20, display: 'flex', alignItems: 'center', gap: 14,
+                   textDecoration: 'none', color: 'inherit', boxShadow: 'var(--sh-xs)',
+                   transition: 'transform .12s, box-shadow .15s' }}
+          onMouseEnter={e => { e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='var(--sh-md)'; }}
+          onMouseLeave={e => { e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow='var(--sh-xs)'; }}>
+          <div style={{ width: 48, height: 48, borderRadius: 14, background: 'linear-gradient(145deg,#2AABEE,#229ED9)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.829.941z"/>
+            </svg>
+          </div>
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 700 }}>Telegram</div>
+            <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 2 }}>@{TG_USERNAME}</div>
+            <div style={{ fontSize: 11, color: 'var(--green)', fontWeight: 600, marginTop: 4 }}>● Онлайн · обычно отвечаем за 1-2 ч</div>
+          </div>
+        </a>
+
+        <a href={`tel:${PHONE.replace(/\s|\(|\)|-/g,'')}`}
+          style={{ background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 16,
+                   padding: 20, display: 'flex', alignItems: 'center', gap: 14,
+                   textDecoration: 'none', color: 'inherit', boxShadow: 'var(--sh-xs)',
+                   transition: 'transform .12s, box-shadow .15s' }}
+          onMouseEnter={e => { e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='var(--sh-md)'; }}
+          onMouseLeave={e => { e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow='var(--sh-xs)'; }}>
+          <div style={{ width: 48, height: 48, borderRadius: 14, background: 'linear-gradient(145deg,var(--violet-400),var(--violet-700))',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.87a16 16 0 0 0 5.22 5.22l1.67-1.84a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 14.5z"/>
+            </svg>
+          </div>
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 700 }}>Телефон</div>
+            <div style={{ fontSize: 13, color: 'var(--violet-600)', fontWeight: 600, marginTop: 2 }}>{PHONE}</div>
+            <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4 }}>Пн–Пт · 9:00 – 18:00</div>
+          </div>
+        </a>
+      </div>
+
+      {/* Форма обращения */}
+      <div style={{ background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 18, padding: 24, marginBottom: 28, boxShadow: 'var(--sh-sm)' }}>
+        <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 16 }}>✉️ Написать обращение</div>
+        {sent ? (
+          <div style={{ textAlign: 'center', padding: '20px 0' }}>
+            <div style={{ fontSize: 40, marginBottom: 10 }}>✅</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--green)' }}>Сообщение отправлено!</div>
+            <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 6 }}>Мы ответим вам в Telegram в ближайшее время.</div>
+            <button onClick={() => setSent(false)}
+              style={{ marginTop: 16, padding: '8px 20px', borderRadius: 10, background: 'var(--violet-50)',
+                       color: 'var(--violet-700)', fontWeight: 600, fontSize: 13, border: 'none', cursor: 'pointer' }}>
+              Написать ещё
+            </button>
+          </div>
+        ) : (
+          <>
+            <div style={{ marginBottom: 14 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--muted)', marginBottom: 5 }}>Ваше имя</div>
+              <input value={form.name} onChange={e => setForm(p => ({...p, name: e.target.value}))}
+                placeholder="Как вас зовут?"
+                style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid var(--line)',
+                         fontSize: 14, outline: 'none', fontFamily: 'inherit', background: 'var(--rail)' }} />
+            </div>
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--muted)', marginBottom: 5 }}>Ваш вопрос или проблема</div>
+              <textarea value={form.message} onChange={e => setForm(p => ({...p, message: e.target.value}))}
+                placeholder="Опишите вашу ситуацию или задайте вопрос..."
+                rows={4}
+                style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid var(--line)',
+                         fontSize: 14, outline: 'none', fontFamily: 'inherit', resize: 'vertical',
+                         background: 'var(--rail)', lineHeight: 1.5 }} />
+            </div>
+            <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+              <button onClick={sendForm} disabled={!form.message.trim() || sending}
+                style={{ padding: '10px 24px', borderRadius: 10, background: 'var(--ink)', color: '#fff',
+                         fontWeight: 700, fontSize: 13, border: 'none', cursor: 'pointer',
+                         opacity: (!form.message.trim() || sending) ? 0.5 : 1 }}>
+                {sending ? 'Отправка...' : 'Отправить в Telegram'}
+              </button>
+              <span style={{ fontSize: 12, color: 'var(--muted)' }}>Откроется Telegram с готовым сообщением</span>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* FAQ */}
+      <div style={{ background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 18, padding: 24, boxShadow: 'var(--sh-sm)' }}>
+        <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 16 }}>❓ Частые вопросы</div>
+        {FAQ.map((item, i) => (
+          <div key={i} style={{ borderBottom: i < FAQ.length-1 ? '1px solid var(--line-soft)' : 'none' }}>
+            <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
+              style={{ width: '100%', textAlign: 'left', padding: '14px 0', background: 'none', border: 'none',
+                       cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                       gap: 12, fontFamily: 'inherit' }}>
+              <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>{item.q}</span>
+              <span style={{ flexShrink: 0, fontSize: 18, color: 'var(--violet-500)',
+                             transform: openFaq === i ? 'rotate(45deg)' : 'none', transition: 'transform .2s' }}>+</span>
+            </button>
+            {openFaq === i && (
+              <div style={{ paddingBottom: 14, paddingRight: 28, fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.6 }}>
+                {item.a}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Быстрый вопрос ИИ */}
+      <div style={{ marginTop: 20, background: 'var(--violet-50)', border: '1px solid var(--violet-100)',
+                    borderRadius: 14, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
+        <div style={{ fontSize: 28 }}>⚖️</div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--violet-700)' }}>Быстрый вопрос ИИ-Бухгалтеру</div>
+          <div style={{ fontSize: 12.5, color: 'var(--violet-600)', marginTop: 3 }}>Получите ответ прямо сейчас — без ожидания</div>
+        </div>
+        <button onClick={() => go('newchat')}
+          style={{ padding: '9px 18px', borderRadius: 10, background: 'var(--violet-500)', color: '#fff',
+                   fontWeight: 700, fontSize: 13, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}>
+          Спросить ИИ →
+        </button>
+      </div>
+    </div></div>
+  );
+}
+
+/* ---------- Placeholder (для остальных страниц) ---------- */
 const PH_META = {
   docs: { ic: 'doc' }, kb: { ic: 'book' }, learn: { ic: 'cap' },
-  notes: { ic: 'note' }, settings: { ic: 'settings' }, support: { ic: 'help' },
+  notes: { ic: 'note' }, settings: { ic: 'settings' },
 };
 function Placeholder({ view, go }) {
   const m = PH_META[view] || PH_META.notes;
@@ -2312,7 +2488,8 @@ function App() {
               {view === 'companies' && <CompaniesView go={go} currentUser={currentUser} />}
               {view === 'calendar' && <CalendarView />}
               {view === 'learn' && <LearningView />}
-              {['docs','kb','notes','settings','support'].includes(view) && <Placeholder view={view} go={go} />}
+              {['docs','kb','notes','settings'].includes(view) && <Placeholder view={view} go={go} />}
+              {view === 'support' && <SupportView go={go} currentUser={currentUser} />}
             </div>}
       </div>
     </div>
