@@ -11,6 +11,27 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from security import SecurityMiddleware, get_cors_config, validate_chat_message, validate_company_data
 
+# ── Sentry — мониторинг ошибок продакшна ────────────────────
+import sentry_sdk
+from sentry_sdk.integrations.fastapi import FastApiIntegration
+from sentry_sdk.integrations.starlette import StarletteIntegration
+
+SENTRY_DSN = os.getenv("SENTRY_DSN", "")
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[
+            StarletteIntegration(transaction_style="endpoint"),
+            FastApiIntegration(transaction_style="endpoint"),
+        ],
+        traces_sample_rate=0.2,   # 20% запросов трейсим
+        profiles_sample_rate=0.1,
+        environment=os.getenv("RAILWAY_ENVIRONMENT", "production"),
+        release=os.getenv("RAILWAY_GIT_COMMIT_SHA", "unknown"),
+        send_default_pii=False,   # не отправляем личные данные
+    )
+# ────────────────────────────────────────────────────────────
+
 app = FastAPI(
     title="Buxgalter AI",
     docs_url=None,   # Отключаем /docs в продакшне

@@ -8,6 +8,16 @@ if sys.platform == "win32":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
+# Sentry — мониторинг ошибок бота
+try:
+    import sentry_sdk
+    _dsn = os.getenv("SENTRY_DSN", "")
+    if _dsn:
+        sentry_sdk.init(dsn=_dsn, traces_sample_rate=0.1,
+                        environment=os.getenv("RAILWAY_ENVIRONMENT", "production"))
+except ImportError:
+    pass
+
 from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from dotenv import load_dotenv
